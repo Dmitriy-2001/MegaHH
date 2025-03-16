@@ -9,7 +9,9 @@ val dataModule = module {
 
     single {
         Room.databaseBuilder(
-            androidContext(), AppDatabase::class.java, "database.megaHH"
+            androidContext(),
+            AppDatabase::class.java,
+            "database.megaHH"
         ).fallbackToDestructiveMigration().build()
     }
 
