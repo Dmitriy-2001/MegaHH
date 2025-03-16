@@ -23,23 +23,15 @@ class RetrofitNetworkClient(private val vacancyService: HHApi) : NetworkClient {
 
             // Обертываем успешный ответ в Resource.Success
             emit(Resource.Success(response as T))
-
-        } catch (e: Throwable) {
-            // Обрабатываем ошибку и оборачиваем в Resource.Error
-            when (e) {
-                is IOException -> {
-                    // Обработка ошибок ввода/вывода
-                    emit(Resource.Error(e))
-                }
-                is HttpException -> {
-                    // Обработка ошибок HTTP
-                    emit(Resource.Error(e))
-                }
-                else -> {
-                    // Общая ошибка
-                    emit(Resource.Error(e))
-                }
-            }
+        } catch (e: IOException) {
+            // Обработка ошибок ввода/вывода, например проблемы с сетью
+            emit(Resource.Error(e))
+        } catch (e: HttpException) {
+            // Обработка ошибок HTTP, например неправильный код состояния
+            emit(Resource.Error(e))
+        } catch (e: Exception) {
+            // Обработка других исключений
+            emit(Resource.Error(e))
         }
     }
 }
