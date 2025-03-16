@@ -11,7 +11,6 @@ val dataModule = module {
     single<NetworkClient> {
         RetrofitNetworkClient(get())
     }
-
     single<HHApi>  {
         Retrofit.Builder()
             .baseUrl("https://api.hh.ru/")
