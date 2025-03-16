@@ -2,6 +2,7 @@ package ru.practicum.android.diploma.data.network
 
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
+import retrofit2.HttpException
 import ru.practicum.android.diploma.data.search.dto.SearchRequest
 
 class RetrofitNetworkClient(private val vacancyService: HHApi) : NetworkClient {
@@ -21,7 +22,7 @@ class RetrofitNetworkClient(private val vacancyService: HHApi) : NetworkClient {
 
             // Обертываем успешный ответ в Resource.Success
             emit(Resource.Success(response as T))
-        } catch (e: Exception) {
+        } catch (e: HttpException) {
             // Обработка других исключений
             emit(Resource.Error(e))
         }
