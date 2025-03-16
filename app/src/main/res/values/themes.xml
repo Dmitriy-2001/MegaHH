@@ -12,5 +12,7 @@
 
         <!-- Цвет курсора -->
         <item name="android:textCursorDrawable">@drawable/edit_text_cursor</item>
+
+
     </style>
 </resources>

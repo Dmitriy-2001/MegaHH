@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        style="@style/TextBold32"
+        app:contentInsetStartWithNavigation="0dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:tint="?attr/colorOnPrimary"
+        app:title="@string/workplace_option"
+        app:titleTextColor="?attr/colorOnPrimary"
+        app:navigationIcon="@drawable/ic_arrow_back"/>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/country"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:hint="@string/workplace"
+        app:hintTextColor="@color/black"
+        app:layout_constraintTop_toBottomOf="@+id/toolbar">
+
+        <ImageButton
+            android:id="@+id/country_arrow"
+            android:layout_width="wrap_content"
+            android:layout_height="64dp"
+            android:backgroundTint="@color/white"
+            android:src="@drawable/ic_arrow_forward"
+            app:layout_constraintEnd_toEndOf="@id/workplace"
+            tools:ignore="MissingConstraints,SpeakableTextPresentCheck" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/region"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:hint="@string/industry"
+        app:hintTextColor="@color/black"
+        app:layout_constraintTop_toBottomOf="@+id/country">
+
+        <ImageButton
+            android:id="@+id/region_arrow"
+            android:layout_width="wrap_content"
+            android:layout_height="64dp"
+            android:backgroundTint="@color/white"
+            android:src="@drawable/ic_arrow_forward"
+            app:layout_constraintEnd_toEndOf="@id/industry"
+            tools:ignore="MissingConstraints,SpeakableTextPresentCheck" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
