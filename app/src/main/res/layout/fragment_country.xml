@@ -16,7 +16,7 @@
         app:tint="?attr/colorOnPrimary"
         app:title="@string/country_option"
         app:titleTextColor="?attr/colorOnPrimary"
-        app:navigationIcon="@drawable/ic_arrow_back"/>
+        app:navigationIcon="@drawable/ic_arrow_back" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

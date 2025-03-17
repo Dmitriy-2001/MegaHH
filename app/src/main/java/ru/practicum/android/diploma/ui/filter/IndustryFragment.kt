@@ -8,12 +8,11 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import ru.practicum.android.diploma.databinding.FragmentIndustryBinding
 
-class IndustryFragment:Fragment() {
+class IndustryFragment : Fragment() {
 
-    private var _binding: FragmentIndustryBinding?= null
-    private  val binding:FragmentIndustryBinding
-
-        get()= requireNotNull(_binding) { "Binding is null" }
+    private var _binding: FragmentIndustryBinding? = null
+    private val binding: FragmentIndustryBinding
+        get() = requireNotNull(_binding) { "Binding is null" }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -26,18 +25,16 @@ class IndustryFragment:Fragment() {
 
     override fun onDestroyView() {
         super.onDestroyView()
-        _binding=null
+        _binding = null
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        binding.toolbar.setOnClickListener{
+        binding.toolbar.setOnClickListener {
             findNavController().navigateUp()
         }
     }
-
-
 
 
 }

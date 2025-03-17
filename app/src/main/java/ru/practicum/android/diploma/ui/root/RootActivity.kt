@@ -14,6 +14,7 @@ class RootActivity : AppCompatActivity() {
     val binding by lazy {
         ActivityRootBinding.inflate(layoutInflater)
     }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 

@@ -8,9 +8,9 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import ru.practicum.android.diploma.databinding.FragmentRegionBinding
 
-class RegionFragment:Fragment() {
-    private var _binding: FragmentRegionBinding?=null
-    private val binding:FragmentRegionBinding
+class RegionFragment : Fragment() {
+    private var _binding: FragmentRegionBinding? = null
+    private val binding: FragmentRegionBinding
         get() = requireNotNull(_binding) { "Binding is null" }
 
     override fun onCreateView(
@@ -24,7 +24,7 @@ class RegionFragment:Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        binding.toolbar.setOnClickListener{
+        binding.toolbar.setOnClickListener {
             findNavController().navigateUp()
         }
     }

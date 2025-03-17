@@ -9,10 +9,10 @@ import androidx.navigation.fragment.findNavController
 import ru.practicum.android.diploma.databinding.FragmentVacancyBinding
 import ru.practicum.android.diploma.databinding.FragmentWorkplaceBinding
 
-class WorkplaceFragment:Fragment() {
+class WorkplaceFragment : Fragment() {
 
-    private var _binding:FragmentWorkplaceBinding?=null
-    private val binding:FragmentWorkplaceBinding
+    private var _binding: FragmentWorkplaceBinding? = null
+    private val binding: FragmentWorkplaceBinding
         get() = requireNotNull(_binding) { "Binding is null" }
 
 
@@ -28,16 +28,16 @@ class WorkplaceFragment:Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        binding.toolbar.setOnClickListener{
+        binding.toolbar.setOnClickListener {
             findNavController().navigateUp()
         }
 
-        binding.countryArrow.setOnClickListener{
+        binding.countryArrow.setOnClickListener {
             val directions = WorkplaceFragmentDirections.actionWorkplaceFragmentToCountryFragment()
             findNavController().navigate(directions)
         }
-        binding.regionArrow.setOnClickListener{
-            val directions= WorkplaceFragmentDirections.actionWorkplaceFragmentToRegionFragment()
+        binding.regionArrow.setOnClickListener {
+            val directions = WorkplaceFragmentDirections.actionWorkplaceFragmentToRegionFragment()
             findNavController().navigate(directions)
         }
     }
@@ -46,8 +46,6 @@ class WorkplaceFragment:Fragment() {
         super.onDestroyView()
         _binding = null
     }
-
-
 
 
 }

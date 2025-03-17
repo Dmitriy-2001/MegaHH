@@ -8,7 +8,7 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import ru.practicum.android.diploma.databinding.FragmentVacancySearchBinding
 
-class SearchVacancyFragment:Fragment() {
+class SearchVacancyFragment : Fragment() {
 
     private var _binding: FragmentVacancySearchBinding? = null
     private val binding: FragmentVacancySearchBinding
@@ -30,13 +30,13 @@ class SearchVacancyFragment:Fragment() {
             val directions = SearchVacancyFragmentDirections.actionVacancySearchFragmentToFilterFragment()
             findNavController().navigate(directions)
         }
-        binding.search.setOnClickListener{
+        binding.search.setOnClickListener {
             val directions = SearchVacancyFragmentDirections.actionVacancySearchFragmentToVacancyFragment()
             findNavController().navigate(directions)
         }
 
 
-}
+    }
 
     override fun onDestroyView() {
         super.onDestroyView()

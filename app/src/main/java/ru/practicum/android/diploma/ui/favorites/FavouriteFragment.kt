@@ -8,11 +8,11 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import ru.practicum.android.diploma.databinding.FragmentFavouriteBinding
 
-class FavouriteFragment:Fragment() {
+class FavouriteFragment : Fragment() {
 
-    private var _binding: FragmentFavouriteBinding?=null
-    private val binding:FragmentFavouriteBinding
-        get() = requireNotNull(_binding){ "Binding is null" }
+    private var _binding: FragmentFavouriteBinding? = null
+    private val binding: FragmentFavouriteBinding
+        get() = requireNotNull(_binding) { "Binding is null" }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -32,11 +32,12 @@ class FavouriteFragment:Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
 
-        binding.vacancyArrow.setOnClickListener{
+        binding.vacancyArrow.setOnClickListener {
             val directions = FavouriteFragmentDirections.actionFavouriteFragmentToVacancyFragment()
             findNavController().navigate(directions)
         }
 
 
-    }}
+    }
+}
 

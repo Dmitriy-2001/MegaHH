@@ -8,11 +8,10 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import ru.practicum.android.diploma.databinding.FragmentVacancyBinding
 
-class VacancyFragment:Fragment() {
+class VacancyFragment : Fragment() {
     private var _binding: FragmentVacancyBinding? = null
     private val binding: FragmentVacancyBinding
         get() = requireNotNull(_binding) { "Binding is null" }
-
 
 
     override fun onCreateView(
@@ -27,10 +26,10 @@ class VacancyFragment:Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        binding.toolbar.setOnClickListener{
+        binding.toolbar.setOnClickListener {
             findNavController().navigateUp()
         }
-}
+    }
 
     override fun onDestroyView() {
         super.onDestroyView()

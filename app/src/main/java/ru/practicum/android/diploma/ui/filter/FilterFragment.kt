@@ -8,9 +8,9 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import ru.practicum.android.diploma.databinding.FragmentFilterBinding
 
-class FilterFragment:Fragment() {
+class FilterFragment : Fragment() {
 
-    private var _binding:FragmentFilterBinding?=null
+    private var _binding: FragmentFilterBinding? = null
     private val binding: FragmentFilterBinding
         get() = requireNotNull(_binding) { "Binding is null" }
 
@@ -31,14 +31,14 @@ class FilterFragment:Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        binding.toolbar.setOnClickListener{
+        binding.toolbar.setOnClickListener {
             findNavController().navigateUp()
         }
-        binding.industryArrow.setOnClickListener{
+        binding.industryArrow.setOnClickListener {
             val directions = FilterFragmentDirections.actionFilterFragmentToIndustryFragment()
             findNavController().navigate(directions)
         }
-        binding.workplaceArrow.setOnClickListener{
+        binding.workplaceArrow.setOnClickListener {
             val directions = FilterFragmentDirections.actionFilterFragmentToPlaceOfWorkFragment()
             findNavController().navigate(directions)
         }
