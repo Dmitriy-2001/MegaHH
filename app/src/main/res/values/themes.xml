@@ -9,8 +9,5 @@
 
         <item name="colorSurface">@color/light_gray</item>
         <item name="colorOnSurface">@color/gray</item>
-
-        <!-- Цвет курсора -->
-        <item name="android:textCursorDrawable">@drawable/edit_text_cursor</item>
     </style>
 </resources>

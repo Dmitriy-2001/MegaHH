@@ -6,12 +6,12 @@
     <dimen name="title">32sp</dimen>
 
     <dimen name="two">2dp</dimen>
-    <dimen name="small_padding">4dp</dimen>
-    <dimen name="medium_padding">8dp</dimen>
+    <dimen name="four">4dp</dimen>
+    <dimen name="eight">8dp</dimen>
     <dimen name="nine">9dp</dimen>
     <dimen name="radius">12dp</dimen>
     <dimen name="fifteen">15dp</dimen>
-    <dimen name="big_padding">16dp</dimen>
+    <dimen name="sixteen">16dp</dimen>
     <dimen name="twenty">20dp</dimen>
     <dimen name="twenty_four">24dp</dimen>
 </resources>
