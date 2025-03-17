@@ -26,7 +26,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/twenty_four"
-        android:paddingHorizontal="@dimen/big_padding"
+        android:paddingHorizontal="@dimen/sixteen"
         tools:ignore="MissingConstraints">
 
         <TextView
@@ -43,56 +43,56 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:paddingStart="@dimen/big_padding"
+        android:paddingStart="@dimen/sixteen"
         android:paddingTop="32dp"
-        android:paddingEnd="@dimen/big_padding">
+        android:paddingEnd="@dimen/sixteen">
 
         <TextView
             style="@style/TextMedium16"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="@dimen/medium_padding"
-            android:layout_marginBottom="@dimen/big_padding"
+            android:layout_marginEnd="@dimen/eight"
+            android:layout_marginBottom="@dimen/sixteen"
             android:text="Дмитрий Баранюк" />
 
         <TextView
             style="@style/TextMedium16"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="@dimen/medium_padding"
-            android:layout_marginBottom="@dimen/big_padding"
+            android:layout_marginEnd="@dimen/eight"
+            android:layout_marginBottom="@dimen/sixteen"
             android:text="Селин Эглендже" />
 
         <TextView
             style="@style/TextMedium16"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="@dimen/medium_padding"
-            android:layout_marginBottom="@dimen/big_padding"
+            android:layout_marginEnd="@dimen/eight"
+            android:layout_marginBottom="@dimen/sixteen"
             android:text="Михаил Тресцов" />
 
         <TextView
             style="@style/TextMedium16"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="@dimen/medium_padding"
-            android:layout_marginBottom="@dimen/big_padding"
+            android:layout_marginEnd="@dimen/eight"
+            android:layout_marginBottom="@dimen/sixteen"
             android:text="Катерина Скорова" />
 
         <TextView
             style="@style/TextMedium16"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="@dimen/medium_padding"
-            android:layout_marginBottom="@dimen/big_padding"
+            android:layout_marginEnd="@dimen/eight"
+            android:layout_marginBottom="@dimen/sixteen"
             android:text="Анна Киритцева" />
 
         <TextView
             style="@style/TextMedium16"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="@dimen/medium_padding"
-            android:layout_marginBottom="@dimen/big_padding"
+            android:layout_marginEnd="@dimen/eight"
+            android:layout_marginBottom="@dimen/sixteen"
             android:text="Алдун Сардарлы" />
 
     </LinearLayout>
