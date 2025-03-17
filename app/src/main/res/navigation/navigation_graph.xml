@@ -40,12 +40,12 @@
     </fragment>
 
     <fragment
-        android:id="@+id/favouriteFragment"
-        android:name="ru.practicum.android.diploma.ui.favorites.FavouriteFragment"
-        android:label="fragment_favourites"
-        tools:layout="@layout/fragment_favourite">
+        android:id="@+id/favoriteFragment"
+        android:name="ru.practicum.android.diploma.ui.favorites.FavoriteFragment"
+        android:label="fragment_favorites"
+        tools:layout="@layout/fragment_favorite">
         <action
-            android:id="@+id/action_favouriteFragment_to_vacancyFragment"
+            android:id="@+id/action_FavoriteFragment_to_vacancyFragment"
             app:destination="@id/vacancyFragment" />
     </fragment>
 

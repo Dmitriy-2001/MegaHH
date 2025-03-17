@@ -6,12 +6,12 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
-import ru.practicum.android.diploma.databinding.FragmentFavouriteBinding
+import ru.practicum.android.diploma.databinding.FragmentFavoriteBinding
 
-class FavouriteFragment : Fragment() {
+class FavoriteFragment : Fragment() {
 
-    private var _binding: FragmentFavouriteBinding? = null
-    private val binding: FragmentFavouriteBinding
+    private var _binding: FragmentFavoriteBinding? = null
+    private val binding: FragmentFavoriteBinding
         get() = requireNotNull(_binding) { "Binding is null" }
 
     override fun onCreateView(
@@ -19,7 +19,7 @@ class FavouriteFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        _binding = FragmentFavouriteBinding.inflate(inflater, container, false)
+        _binding = FragmentFavoriteBinding.inflate(inflater, container, false)
         return binding.root
     }
 
@@ -35,7 +35,7 @@ class FavouriteFragment : Fragment() {
 
     private fun openVacancy() {
         binding.vacancyArrow.setOnClickListener {
-            val directions = FavouriteFragmentDirections.actionFavouriteFragmentToVacancyFragment()
+            val directions = FavoriteFragmentDirections.actionFavoriteFragmentToVacancyFragment()
             findNavController().navigate(directions)
         }
     }
