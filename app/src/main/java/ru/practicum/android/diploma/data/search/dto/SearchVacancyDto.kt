@@ -8,7 +8,7 @@ data class SearchVacancyDto(
     val area: String?,
     val salaryFrom: Int?,
     val salaryTo: Int?,
-    val currency: String?,
+    val salaryCurrency: String?,
     val experience: String?,
     val employment: String?,
     val description: String?,

@@ -14,7 +14,7 @@ class RetrofitNetworkClient(private val vacancyService: HHApi) : NetworkClient {
         try {
             val response = when (dto) {
                 is SearchRequest -> {
-                    vacancyService.searchVacancy(dto.query)
+                    vacancyService.searchVacancy(dto.page, dto.perPage, dto.text)
                 }
 
                 else -> throw IllegalArgumentException("Unknown request type")
@@ -23,8 +23,13 @@ class RetrofitNetworkClient(private val vacancyService: HHApi) : NetworkClient {
             // Обертываем успешный ответ в Resource.Success
             emit(Resource.Success(response as T))
         } catch (e: HttpException) {
-            // Обработка других исключений
-            emit(Resource.Error(e))
+            // Выводим сообщение, если ошибка HTTP (например, 500 серверная ошибка)
+            val message = if (e.code() == 500) {
+                "Ошибка сервера"
+            } else {
+                "Неизвестная ошибка"
+            }
+            emit(Resource.Error(message))
         }
     }
 }
