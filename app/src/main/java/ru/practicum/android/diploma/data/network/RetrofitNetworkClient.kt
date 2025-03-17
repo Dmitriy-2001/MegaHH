@@ -23,13 +23,7 @@ class RetrofitNetworkClient(private val vacancyService: HHApi) : NetworkClient {
             // Обертываем успешный ответ в Resource.Success
             emit(Resource.Success(response as T))
         } catch (e: HttpException) {
-            // Выводим сообщение, если ошибка HTTP (например, 500 серверная ошибка)
-            val message = if (e.code() == 500) {
-                "Ошибка сервера"
-            } else {
-                "Неизвестная ошибка"
-            }
-            emit(Resource.Error(message))
+            emit(Resource.Error("Ошибка с кодом: ${e.code()}"))
         }
     }
 }
