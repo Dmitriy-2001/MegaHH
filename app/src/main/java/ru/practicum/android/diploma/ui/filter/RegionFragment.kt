@@ -24,13 +24,17 @@ class RegionFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        binding.toolbar.setOnClickListener {
-            findNavController().navigateUp()
-        }
+        navigateUp()
     }
 
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
+    }
+
+    private fun navigateUp() {
+        binding.toolbar.setOnClickListener {
+            findNavController().navigateUp()
+        }
     }
 }

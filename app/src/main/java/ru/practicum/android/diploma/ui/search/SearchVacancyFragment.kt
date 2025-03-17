@@ -25,19 +25,28 @@ class SearchVacancyFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        openFilter()
+        openVacancy()
 
-        binding.parameters.setOnClickListener {
-            val directions = SearchVacancyFragmentDirections.actionVacancySearchFragmentToFilterFragment()
-            findNavController().navigate(directions)
-        }
-        binding.search.setOnClickListener {
-            val directions = SearchVacancyFragmentDirections.actionVacancySearchFragmentToVacancyFragment()
-            findNavController().navigate(directions)
-        }
     }
 
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
     }
+
+    private fun openFilter() {
+        binding.parameters.setOnClickListener {
+            val directions = SearchVacancyFragmentDirections.actionVacancySearchFragmentToFilterFragment()
+            findNavController().navigate(directions)
+        }
+    }
+
+    private fun openVacancy() {
+        binding.search.setOnClickListener {
+            val directions = SearchVacancyFragmentDirections.actionVacancySearchFragmentToVacancyFragment()
+            findNavController().navigate(directions)
+        }
+    }
+
 }

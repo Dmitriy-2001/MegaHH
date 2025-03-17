@@ -25,23 +25,34 @@ class WorkplaceFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        navigateUp()
+        openCountry()
+        openRegion()
 
-        binding.toolbar.setOnClickListener {
-            findNavController().navigateUp()
-        }
-
-        binding.countryArrow.setOnClickListener {
-            val directions = WorkplaceFragmentDirections.actionWorkplaceFragmentToCountryFragment()
-            findNavController().navigate(directions)
-        }
-        binding.regionArrow.setOnClickListener {
-            val directions = WorkplaceFragmentDirections.actionWorkplaceFragmentToRegionFragment()
-            findNavController().navigate(directions)
-        }
     }
 
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
+    }
+
+    private fun navigateUp() {
+        binding.toolbar.setOnClickListener {
+            findNavController().navigateUp()
+        }
+    }
+
+    private fun openCountry() {
+        binding.countryArrow.setOnClickListener {
+            val directions = WorkplaceFragmentDirections.actionWorkplaceFragmentToCountryFragment()
+            findNavController().navigate(directions)
+        }
+    }
+
+    private fun openRegion() {
+        binding.regionArrow.setOnClickListener {
+            val directions = WorkplaceFragmentDirections.actionWorkplaceFragmentToRegionFragment()
+            findNavController().navigate(directions)
+        }
     }
 }

@@ -10,7 +10,7 @@
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        style="@style/TextBold32"
+        app:titleTextAppearance="@style/TitleMedium22"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
@@ -21,7 +21,7 @@
     <ImageButton
         android:id="@+id/search"
         android:layout_width="wrap_content"
-        android:layout_height="64dp"
+        android:layout_height="@dimen/sixty_four"
         android:backgroundTint="@color/white"
         android:src="@drawable/ic_search"
         app:layout_constraintEnd_toEndOf="parent"
@@ -31,7 +31,7 @@
     <ImageButton
         android:id="@+id/parameters"
         android:layout_width="wrap_content"
-        android:layout_height="64dp"
+        android:layout_height="@dimen/sixty_four"
         android:backgroundTint="@color/white"
         android:src="@drawable/ic_parameters"
         app:layout_constraintEnd_toEndOf="@id/toolbar"

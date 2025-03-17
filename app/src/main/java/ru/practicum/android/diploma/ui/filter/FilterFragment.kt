@@ -30,13 +30,25 @@ class FilterFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        navigateUp()
+        openIndustry()
+        openWorkplace()
+    }
+
+    private fun navigateUp() {
         binding.toolbar.setOnClickListener {
             findNavController().navigateUp()
         }
+    }
+
+    private fun openIndustry() {
         binding.industryArrow.setOnClickListener {
             val directions = FilterFragmentDirections.actionFilterFragmentToIndustryFragment()
             findNavController().navigate(directions)
         }
+    }
+
+    private fun openWorkplace() {
         binding.workplaceArrow.setOnClickListener {
             val directions = FilterFragmentDirections.actionFilterFragmentToPlaceOfWorkFragment()
             findNavController().navigate(directions)

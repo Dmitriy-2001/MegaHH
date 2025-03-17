@@ -7,7 +7,7 @@
 
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/toolbar"
-        style="@style/TextBold32"
+        app:titleTextAppearance="@style/TitleMedium22"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:contentInsetStartWithNavigation="0dp"
@@ -31,7 +31,7 @@
         <ImageButton
             android:id="@+id/country_arrow"
             android:layout_width="wrap_content"
-            android:layout_height="64dp"
+            android:layout_height="@dimen/sixty_four"
             android:backgroundTint="@color/white"
             android:src="@drawable/ic_arrow_forward"
             app:layout_constraintEnd_toEndOf="@id/workplace"
@@ -50,7 +50,7 @@
         <ImageButton
             android:id="@+id/region_arrow"
             android:layout_width="wrap_content"
-            android:layout_height="64dp"
+            android:layout_height="@dimen/sixty_four"
             android:backgroundTint="@color/white"
             android:src="@drawable/ic_arrow_forward"
             app:layout_constraintEnd_toEndOf="@id/industry"

@@ -24,15 +24,20 @@ class VacancyFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        navigateUp()
 
-        binding.toolbar.setOnClickListener {
-            findNavController().navigateUp()
-        }
+
     }
 
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
+    }
+
+    private fun navigateUp() {
+        binding.toolbar.setOnClickListener {
+            findNavController().navigateUp()
+        }
     }
 
 }

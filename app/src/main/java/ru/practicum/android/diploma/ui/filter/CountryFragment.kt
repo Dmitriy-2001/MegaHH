@@ -26,6 +26,10 @@ class CountryFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        navigateUp()
+    }
+
+    private fun navigateUp() {
         binding.toolbar.setOnClickListener {
             findNavController().navigateUp()
         }
