@@ -3,7 +3,7 @@
 
     <style name="TextBold32">
         <item name="android:fontFamily">@font/ys_medium</item>
-        <item name="android:textSize">@dimen/title</item>
+        <item name="android:textSize">@dimen/vacancy_title</item>
         <item name="android:textStyle">bold</item>
     </style>
 
