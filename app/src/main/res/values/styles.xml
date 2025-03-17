@@ -31,8 +31,6 @@
         <item name="itemIconSize">@dimen/twenty_four</item>
         <item name="android:fontFamily">@font/ys_regular</item>
         <item name="android:textSize">@dimen/small_text</item>
-        <item name="itemPaddingTop">@dimen/medium_padding</item>
-        <item name="itemPaddingBottom">@dimen/medium_padding</item>
     </style>
 
     <style name="Widget.Diploma.TextField" parent="Widget.Material3.TextInputLayout.OutlinedBox">
