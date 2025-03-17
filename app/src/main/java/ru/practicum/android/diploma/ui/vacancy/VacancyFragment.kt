@@ -13,7 +13,6 @@ class VacancyFragment : Fragment() {
     private val binding: FragmentVacancyBinding
         get() = requireNotNull(_binding) { "Binding is null" }
 
-
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,

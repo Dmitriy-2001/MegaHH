@@ -6,7 +6,6 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
-import ru.practicum.android.diploma.databinding.FragmentVacancyBinding
 import ru.practicum.android.diploma.databinding.FragmentWorkplaceBinding
 
 class WorkplaceFragment : Fragment() {
@@ -14,7 +13,6 @@ class WorkplaceFragment : Fragment() {
     private var _binding: FragmentWorkplaceBinding? = null
     private val binding: FragmentWorkplaceBinding
         get() = requireNotNull(_binding) { "Binding is null" }
-
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -46,6 +44,4 @@ class WorkplaceFragment : Fragment() {
         super.onDestroyView()
         _binding = null
     }
-
-
 }

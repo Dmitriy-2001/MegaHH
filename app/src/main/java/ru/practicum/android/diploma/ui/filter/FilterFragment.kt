@@ -14,7 +14,6 @@ class FilterFragment : Fragment() {
     private val binding: FragmentFilterBinding
         get() = requireNotNull(_binding) { "Binding is null" }
 
-
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -43,5 +42,4 @@ class FilterFragment : Fragment() {
             findNavController().navigate(directions)
         }
     }
-
 }

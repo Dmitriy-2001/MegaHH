@@ -34,8 +34,6 @@ class SearchVacancyFragment : Fragment() {
             val directions = SearchVacancyFragmentDirections.actionVacancySearchFragmentToVacancyFragment()
             findNavController().navigate(directions)
         }
-
-
     }
 
     override fun onDestroyView() {

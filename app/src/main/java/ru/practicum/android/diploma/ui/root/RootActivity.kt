@@ -41,19 +41,10 @@ class RootActivity : AppCompatActivity() {
                 }
             }
         }
-
-
-        // Пример использования access token для HeadHunter API
-        networkRequestExample(accessToken = BuildConfig.HH_ACCESS_TOKEN)
     }
 
     private fun changeBottomNavigationViewVisibility(isVisible: Boolean) {
         binding.bottomNavigationView.isVisible = isVisible
         binding.bottomNavDivider.isVisible = isVisible
     }
-
-    private fun networkRequestExample(accessToken: String) {
-        // ...
-    }
-
 }

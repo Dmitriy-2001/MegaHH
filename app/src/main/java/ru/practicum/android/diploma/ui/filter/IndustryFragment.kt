@@ -35,6 +35,4 @@ class IndustryFragment : Fragment() {
             findNavController().navigateUp()
         }
     }
-
-
 }

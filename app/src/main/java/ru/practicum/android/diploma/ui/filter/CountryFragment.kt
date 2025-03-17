@@ -30,5 +30,4 @@ class CountryFragment : Fragment() {
             findNavController().navigateUp()
         }
     }
-
 }
