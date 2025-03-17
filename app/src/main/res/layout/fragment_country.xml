@@ -19,5 +19,4 @@
         app:titleTextColor="?attr/colorOnPrimary"
         app:navigationIcon="@drawable/ic_arrow_back" />
 
-
 </androidx.constraintlayout.widget.ConstraintLayout>

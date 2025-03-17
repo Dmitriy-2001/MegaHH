@@ -57,5 +57,4 @@
             tools:ignore="MissingConstraints,SpeakableTextPresentCheck" />
     </com.google.android.material.textfield.TextInputLayout>
 
-
 </androidx.constraintlayout.widget.ConstraintLayout>

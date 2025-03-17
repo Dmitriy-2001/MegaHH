@@ -54,7 +54,7 @@
             android:layout_height="wrap_content"
             android:layout_marginEnd="@dimen/eight"
             android:layout_marginBottom="@dimen/sixteen"
-            android:text="Дмитрий Баранюк" />
+            android:text="@string/dev_1" />
 
         <TextView
             style="@style/TextMedium16"
@@ -62,7 +62,7 @@
             android:layout_height="wrap_content"
             android:layout_marginEnd="@dimen/eight"
             android:layout_marginBottom="@dimen/sixteen"
-            android:text="Селин Эглендже" />
+            android:text="@string/dev_2" />
 
         <TextView
             style="@style/TextMedium16"
@@ -70,7 +70,7 @@
             android:layout_height="wrap_content"
             android:layout_marginEnd="@dimen/eight"
             android:layout_marginBottom="@dimen/sixteen"
-            android:text="Михаил Тресцов" />
+            android:text="@string/dev_3" />
 
         <TextView
             style="@style/TextMedium16"
@@ -78,7 +78,7 @@
             android:layout_height="wrap_content"
             android:layout_marginEnd="@dimen/eight"
             android:layout_marginBottom="@dimen/sixteen"
-            android:text="Катерина Скорова" />
+            android:text="@string/dev_4" />
 
         <TextView
             style="@style/TextMedium16"
@@ -86,7 +86,7 @@
             android:layout_height="wrap_content"
             android:layout_marginEnd="@dimen/eight"
             android:layout_marginBottom="@dimen/sixteen"
-            android:text="Анна Киритцева" />
+            android:text="@string/dev_5" />
 
         <TextView
             style="@style/TextMedium16"
@@ -94,9 +94,8 @@
             android:layout_height="wrap_content"
             android:layout_marginEnd="@dimen/eight"
             android:layout_marginBottom="@dimen/sixteen"
-            android:text="Алдун Сардарлы" />
+            android:text="@string/dev_6" />
 
     </LinearLayout>
-
 
 </LinearLayout>

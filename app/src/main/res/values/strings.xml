@@ -13,7 +13,10 @@
     <string name="region_option">Выбор региона</string>
     <string name="country_option">Выбор страны</string>
     <string name="team_title">Над приложением работали</string>
-
-
-
+    <string name="dev_1">Дмитрий Баранюк</string>
+    <string name="dev_2">Селин Эглендже</string>
+    <string name="dev_3">Михаил Тресцов</string>
+    <string name="dev_4">Катерина Скорова</string>
+    <string name="dev_5">Анна Киритцева</string>
+    <string name="dev_6">Алдун Сардарлы</string>
 </resources>
