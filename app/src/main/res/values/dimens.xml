@@ -3,7 +3,7 @@
     <dimen name="small_text">12sp</dimen>
     <dimen name="medium_text">16sp</dimen>
     <dimen name="big_text">22sp</dimen>
-    <dimen name="title">32sp</dimen>
+    <dimen name="vacancy_title">32sp</dimen>
 
     <dimen name="two">2dp</dimen>
     <dimen name="four">4dp</dimen>
