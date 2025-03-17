@@ -3,7 +3,7 @@
 
     <style name="TextBold32">
         <item name="android:fontFamily">@font/ys_medium</item>
-        <item name="android:textSize">@dimen/title</item>
+        <item name="android:textSize">@dimen/vacancy_title</item>
         <item name="android:textStyle">bold</item>
     </style>
 
@@ -42,10 +42,10 @@
         <item name="android:fontFamily">@font/ys_regular</item>
         <item name="android:textSize">@dimen/medium_text</item>
         <item name="android:radius">@dimen/radius</item>
-        <item name="android:paddingStart">@dimen/medium_padding</item>
-        <item name="android:paddingEnd">@dimen/small_padding</item>
-        <item name="android:paddingTop">@dimen/small_padding</item>
-        <item name="android:paddingBottom">@dimen/small_padding</item>
+        <item name="android:paddingStart">@dimen/eight</item>
+        <item name="android:paddingEnd">@dimen/four</item>
+        <item name="android:paddingTop">@dimen/four</item>
+        <item name="android:paddingBottom">@dimen/four</item>
     </style>
 
     <style name="Widget.Diploma.TopAppBar" parent="Widget.Material3.Toolbar">
@@ -53,17 +53,17 @@
         <item name="android:fontFamily">@font/ys_medium</item>
         <item name="android:textSize">22sp</item>
         <item name="android:textColor">?attr/colorOnBackground</item>
-        <item name="android:paddingStart">@dimen/small_padding</item>
-        <item name="android:paddingEnd">@dimen/medium_padding</item>
-        <item name="android:paddingTop">@dimen/medium_padding</item>
-        <item name="android:paddingBottom">@dimen/medium_padding</item>
+        <item name="android:paddingStart">@dimen/four</item>
+        <item name="android:paddingEnd">@dimen/eight</item>
+        <item name="android:paddingTop">@dimen/eight</item>
+        <item name="android:paddingBottom">@dimen/eight</item>
     </style>
 
-    <style name="VacancyCard">
+    <style name="CompanyCard">
         <item name="android:textColor">@color/black</item>
         <item name="background">@color/light_gray</item>
         <item name="android:radius">@dimen/radius</item>
-        <item name="android:padding">@dimen/big_padding</item>
+        <item name="android:padding">@dimen/sixteen</item>
     </style>
 
     <style name="Widget.Diploma.SalaryInput" parent="Widget.Material3.TextInputLayout.OutlinedBox">
@@ -92,8 +92,8 @@
         <item name="android:radius">@dimen/radius</item>
         <item name="android:paddingStart">@dimen/radius</item>
         <item name="android:paddingEnd">@dimen/radius</item>
-        <item name="android:paddingTop">@dimen/small_padding</item>
-        <item name="android:paddingBottom">@dimen/small_padding</item>
+        <item name="android:paddingTop">@dimen/four</item>
+        <item name="android:paddingBottom">@dimen/four</item>
     </style>
 
 </resources>
