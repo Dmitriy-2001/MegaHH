@@ -30,13 +30,13 @@ class FavoriteFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        openVacancy()
+        binding.vacancyArrow.setOnClickListener {
+            openVacancy()
+        }
     }
 
     private fun openVacancy() {
-        binding.vacancyArrow.setOnClickListener {
-            val directions = FavoriteFragmentDirections.actionFavoriteFragmentToVacancyFragment()
-            findNavController().navigate(directions)
-        }
+        val directions = FavoriteFragmentDirections.actionFavoriteFragmentToVacancyFragment()
+        findNavController().navigate(directions)
     }
 }
