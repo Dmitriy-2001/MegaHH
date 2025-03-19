@@ -19,4 +19,6 @@
     <string name="dev_4">Катерина Скорова</string>
     <string name="dev_5">Анна Киритцева</string>
     <string name="dev_6">Алдун Сардарлы</string>
+
+    <string name="search_hint">Введите запрос</string>
 </resources>
