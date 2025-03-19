@@ -26,5 +26,6 @@ object Convertor {
     private fun getSalaryString(salary: Salary) = buildString {
         salary.from?.let { append("от $it ") }
         salary.to?.let { append("до $it") }
+        if (isEmpty()) append("Зарплата не указана")
     }
 }
