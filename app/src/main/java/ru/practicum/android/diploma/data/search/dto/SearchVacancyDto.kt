@@ -49,7 +49,7 @@ data class KeySkill(
     val name: String
 )
 
-enum class Currency(val сurrencySymbol: String) {
+enum class Currency(val symbol: String) {
     AZN("₼"),
     BYR("Br"),
     EUR("€"),
