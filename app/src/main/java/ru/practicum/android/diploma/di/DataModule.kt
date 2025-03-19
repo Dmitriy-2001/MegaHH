@@ -7,9 +7,9 @@ import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import ru.practicum.android.diploma.data.Constants.BASE_URL_HH
 import ru.practicum.android.diploma.data.favorites.db.AppDatabase
-import ru.practicum.android.diploma.data.network.HHApi
-import ru.practicum.android.diploma.data.network.NetworkClient
-import ru.practicum.android.diploma.data.network.RetrofitNetworkClient
+import ru.practicum.android.diploma.data.search.network.HHApi
+import ru.practicum.android.diploma.data.search.network.NetworkClient
+import ru.practicum.android.diploma.data.search.network.RetrofitNetworkClient
 
 val dataModule = module {
     single<NetworkClient> {

@@ -2,7 +2,7 @@ package ru.practicum.android.diploma.data
 
 import android.content.SharedPreferences
 import com.google.gson.Gson
-import ru.practicum.android.diploma.domain.models.FilterParams
+import ru.practicum.android.diploma.domain.filter.models.FilterParams
 
 class SharedPrefsHelper(val prefs: SharedPreferences, val gson: Gson) {
 
