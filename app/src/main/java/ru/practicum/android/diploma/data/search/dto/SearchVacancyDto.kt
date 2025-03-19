@@ -8,6 +8,10 @@ data class SearchVacancyDto(
     val employer: Employer,
     val address: Address,
     val salary: Salary,
+    val description: String,
+    val employmentForm: EmploymentForm?,
+    val experience: Experience,
+    val keySkills: List<KeySkill> = listOf(),
 )
 
 data class Employer(
@@ -26,7 +30,34 @@ data class Address(
 )
 
 data class Salary(
-    val currency: String?,
+    val currency: Currency?,
     val from: Int?,
     val to: Int?
 )
+
+data class EmploymentForm(
+    val id: String,
+    val name: String
+)
+
+data class Experience(
+    val id: String,
+    val name: String
+)
+
+data class KeySkill(
+    val name: String
+)
+
+enum class Currency(val сurrencySymbol: String) {
+    AZN("₼"),
+    BYR("Br"),
+    EUR("€"),
+    GEL("₾"),
+    KGS("с"),
+    KZT("₸"),
+    RUR("₽"),
+    UAH("₴"),
+    USD("$"),
+    UZS("лв")
+}

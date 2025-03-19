@@ -18,7 +18,7 @@ object Convertor {
                 logoUrl = it.employer.logoUrls?.url240,
                 city = it.address.city,
                 salary = getSalaryString(it.salary),
-                currency = it.salary.currency
+                currency = it.salary.currency?.сurrencySymbol
             )
         }
     )
