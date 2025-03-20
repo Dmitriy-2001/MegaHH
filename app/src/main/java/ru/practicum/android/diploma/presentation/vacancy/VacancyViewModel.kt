@@ -1,16 +1,17 @@
 package ru.practicum.android.diploma.presentation.vacancy
 
-import ru.practicum.android.diploma.domain.search.Resource
-import ru.practicum.android.diploma.domain.search.api.VacanciesInteractor
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.launch
 import ru.practicum.android.diploma.domain.search.ErrorType
+import ru.practicum.android.diploma.domain.search.Resource
+import ru.practicum.android.diploma.domain.search.api.VacanciesInteractor
 
 class VacancyViewModel(
-    val vacancyId: String, private val vacancyInteractor: VacanciesInteractor
+    val vacancyId: String,
+    private val vacancyInteractor: VacanciesInteractor
 ) : ViewModel() {
 
     private val vacancyState = MutableLiveData<VacancyState>()
