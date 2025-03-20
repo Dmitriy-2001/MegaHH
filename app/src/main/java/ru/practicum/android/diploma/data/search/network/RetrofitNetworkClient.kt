@@ -12,16 +12,11 @@ class RetrofitNetworkClient(private val vacancyService: HHApi) : NetworkClient {
     // R — это тип входного параметра, который передается в метод doRequest
     // T — это тип данных, который будет возвращен из метода doRequest
 
-    override suspend fun <R, T> doRequest(dto: R): Flow<Resource<T>> = flow {
+    override fun <R, T> doRequest(dto: R, clazz: Class<T>): Flow<Resource<T>> = flow {
         try {
             val response = when (dto) {
-                is SearchVacanciesRequest -> {
-                    vacancyService.searchVacancy(dto.page, dto.perPage, dto.text)
-                }
-                is GetVacancyDetailsRequest -> {
-                    vacancyService.getVacancyDetails(dto.id)
-                }
-
+                is SearchVacanciesRequest -> vacancyService.searchVacancy(dto.page, dto.perPage, dto.text)
+                is GetVacancyDetailsRequest -> vacancyService.getVacancyDetails(dto.id)
                 else -> throw IllegalArgumentException("Unknown request type")
             }
 

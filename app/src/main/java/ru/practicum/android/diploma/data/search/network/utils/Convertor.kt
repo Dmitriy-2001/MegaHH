@@ -1,6 +1,7 @@
 package ru.practicum.android.diploma.data.search.network.utils
 
 import ru.practicum.android.diploma.data.search.dto.Salary
+import ru.practicum.android.diploma.data.search.dto.response.GetVacancyDetailsResponse
 import ru.practicum.android.diploma.data.search.dto.response.SearchVacanciesResponse
 import ru.practicum.android.diploma.domain.search.models.VacanciesModel
 import ru.practicum.android.diploma.domain.search.models.VacancyModel
@@ -23,6 +24,15 @@ object Convertor {
                 salary = getSalaryString(it.salary)
             )
         }
+    )
+
+    fun GetVacancyDetailsResponse.convertToModel() = VacancyModel(
+        id = this.id,
+        name = this.name,
+        employer = this.employer.name,
+        logoUrl = this.employer.logoUrls?.url240,
+        city = this.address.city,
+        salary = getSalaryString(this.salary)
     )
 
     private fun getSalaryString(salary: Salary) = buildString {
