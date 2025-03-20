@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    app:cardElevation="@dimen/zero">
+
+    <LinearLayout
+        style="@style/RVCard"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="?attr/colorPrimary"
+        android:orientation="horizontal">
+
+        <ImageView
+            android:id="@+id/logo_url"
+            android:layout_width="@dimen/forty_eight"
+            android:layout_height="@dimen/forty_eight"
+            android:background="@drawable/border_logo_url" />
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/radius"
+            android:layout_weight="1"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/name_and_city"
+                style="@style/TitleMedium22"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                tools:text="Разработчик на С++ в команду внутренних сервисов, Москва" />
+
+            <TextView
+                android:id="@+id/employer"
+                style="@style/TextRegula16"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                tools:text="Авто.ру" />
+
+            <TextView
+                android:id="@+id/salary_and_currency"
+                style="@style/TextRegula16"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                tools:text="от 40 000 до 80 000 ₽" />
+        </LinearLayout>
+    </LinearLayout>
+</androidx.cardview.widget.CardView>
