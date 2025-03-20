@@ -16,7 +16,7 @@ class SearchVacancyFragment : Fragment() {
     private val binding: FragmentVacancySearchBinding
         get() = requireNotNull(_binding) { "Binding is null" }
 
-    private lateinit var vacancyAdapter: VacancyAdapter
+    private var vacancyAdapter: VacancyAdapter? = null
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -33,12 +33,13 @@ class SearchVacancyFragment : Fragment() {
             openFilter()
         }
 
-        binding.recyclerViewVacancy.layoutManager = LinearLayoutManager(requireContext())
-        vacancyAdapter = VacancyAdapter(emptyList()) { vacancy ->
-            openVacancy(vacancy)
+        if (vacancyAdapter == null) {
+            vacancyAdapter = VacancyAdapter(emptyList()) { vacancy -> openVacancy(vacancy) }
         }
-
-        binding.recyclerViewVacancy.adapter = vacancyAdapter
+        binding.recyclerViewVacancy.layoutManager = LinearLayoutManager(requireContext())
+        vacancyAdapter?.let {
+            binding.recyclerViewVacancy.adapter = it
+        }
     }
 
     override fun onDestroyView() {
@@ -53,7 +54,7 @@ class SearchVacancyFragment : Fragment() {
 
     private fun openVacancy(vacancy: VacancyModel) {
         val directions = SearchVacancyFragmentDirections.actionVacancySearchFragmentToVacancyFragment()
-        //Todo: Добавить то что будем передавать
+        // Todo: Добавить то что будем передавать
         findNavController().navigate(directions)
     }
 }
