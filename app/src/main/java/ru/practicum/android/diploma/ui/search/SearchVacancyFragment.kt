@@ -29,17 +29,14 @@ class SearchVacancyFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
         binding.parameters.setOnClickListener {
             openFilter()
         }
 
-        if (vacancyAdapter == null) {
-            vacancyAdapter = VacancyAdapter(emptyList()) { vacancy -> openVacancy(vacancy) }
-        }
+        vacancyAdapter = vacancyAdapter ?: VacancyAdapter(emptyList()) { vacancy -> openVacancy(vacancy) }
         binding.recyclerViewVacancy.layoutManager = LinearLayoutManager(requireContext())
-        vacancyAdapter?.let {
-            binding.recyclerViewVacancy.adapter = it
-        }
+        binding.recyclerViewVacancy.adapter = vacancyAdapter
     }
 
     override fun onDestroyView() {
