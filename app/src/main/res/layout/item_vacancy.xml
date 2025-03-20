@@ -41,7 +41,7 @@
                 tools:text="Авто.ру" />
 
             <TextView
-                android:id="@+id/salary_and_currency"
+                android:id="@+id/salary"
                 style="@style/TextRegula16"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
