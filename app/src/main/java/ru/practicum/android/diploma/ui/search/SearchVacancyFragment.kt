@@ -8,7 +8,6 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import ru.practicum.android.diploma.databinding.FragmentVacancySearchBinding
-import ru.practicum.android.diploma.domain.search.models.VacancyModel
 
 class SearchVacancyFragment : Fragment() {
 
@@ -34,7 +33,7 @@ class SearchVacancyFragment : Fragment() {
             openFilter()
         }
 
-        vacancyAdapter = vacancyAdapter ?: VacancyAdapter(emptyList()) { vacancy -> openVacancy(vacancy) }
+        vacancyAdapter = vacancyAdapter ?: VacancyAdapter(emptyList()) { vacancy -> openVacancy(vacancy.id) }
         binding.recyclerViewVacancy.layoutManager = LinearLayoutManager(requireContext())
         binding.recyclerViewVacancy.adapter = vacancyAdapter
     }
