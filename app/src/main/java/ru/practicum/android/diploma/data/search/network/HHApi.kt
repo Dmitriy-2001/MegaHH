@@ -9,10 +9,7 @@ import ru.practicum.android.diploma.data.search.dto.response.GetVacancyDetailsRe
 import ru.practicum.android.diploma.data.search.dto.response.SearchVacanciesResponse
 
 interface HHApi {
-    @Headers(
-        "Authorization: Bearer ${BuildConfig.HH_ACCESS_TOKEN}",
-        "HH-User-Agent: megaHH (bizim734@gmail.com)"
-    )
+    @Headers(authHeader, userAgentHeader)
     @GET("/vacancies")
     suspend fun searchVacancy(
         @Query("page") page: Int,
@@ -20,12 +17,14 @@ interface HHApi {
         @Query("text") text: String
     ): SearchVacanciesResponse
 
-    @Headers(
-        "Authorization: Bearer ${BuildConfig.HH_ACCESS_TOKEN}",
-        "HH-User-Agent: megaHH (bizim734@gmail.com)"
-    )
+    @Headers(authHeader, userAgentHeader)
     @GET("/vacancies/{vacancy_id}")
     suspend fun getVacancyDetails(
         @Path("vacancy_id") vacancyId: String
     ): GetVacancyDetailsResponse
+
+    companion object {
+        private const val authHeader = "Authorization: Bearer ${BuildConfig.HH_ACCESS_TOKEN}"
+        private const val userAgentHeader = "HH-User-Agent: megaHH (bizim734@gmail.com)"
+    }
 }
