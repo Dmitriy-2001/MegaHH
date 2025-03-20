@@ -18,16 +18,6 @@
         app:titleTextColor="?attr/colorOnPrimary" />
 
     <ImageButton
-        android:id="@+id/search"
-        android:layout_width="wrap_content"
-        android:layout_height="@dimen/sixty_four"
-        android:backgroundTint="@color/white"
-        android:src="@drawable/ic_search"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/toolbar"
-        tools:ignore="MissingConstraints,SpeakableTextPresentCheck" />
-
-    <ImageButton
         android:id="@+id/parameters"
         android:layout_width="wrap_content"
         android:layout_height="@dimen/sixty_four"
@@ -35,5 +25,16 @@
         android:src="@drawable/ic_parameters"
         app:layout_constraintEnd_toEndOf="@id/toolbar"
         tools:ignore="MissingConstraints,SpeakableTextPresentCheck" />
+
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recycler_view_vacancy"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/zero"
+        android:layout_weight="1"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/toolbar" />
+    <!-- TODO: перезакрепить RV Top_toBottom к строке поиска а не к toolbar -->
 
 </androidx.constraintlayout.widget.ConstraintLayout>
