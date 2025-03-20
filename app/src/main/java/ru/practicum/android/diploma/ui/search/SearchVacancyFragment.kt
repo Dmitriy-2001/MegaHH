@@ -28,7 +28,7 @@ class SearchVacancyFragment : Fragment() {
         binding.parameters.setOnClickListener {
             openFilter()
         }
-        binding.search.setOnClickListener { openVacancy() }
+        binding.search.setOnClickListener { openVacancy("118345056") } // TODO - убрать заглушку
     }
 
     override fun onDestroyView() {
@@ -41,8 +41,8 @@ class SearchVacancyFragment : Fragment() {
         findNavController().navigate(directions)
     }
 
-    private fun openVacancy() {
-        val directions = SearchVacancyFragmentDirections.actionVacancySearchFragmentToVacancyFragment()
+    private fun openVacancy(vacancyId: String) {
+        val directions = SearchVacancyFragmentDirections.actionVacancySearchFragmentToVacancyFragment(vacancyId)
         findNavController().navigate(directions)
     }
 }

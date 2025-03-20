@@ -5,6 +5,7 @@ import kotlinx.coroutines.flow.flow
 import retrofit2.HttpException
 import ru.practicum.android.diploma.data.search.dto.request.GetVacancyDetailsRequest
 import ru.practicum.android.diploma.data.search.dto.request.SearchVacanciesRequest
+import ru.practicum.android.diploma.domain.search.ErrorType
 import ru.practicum.android.diploma.domain.search.Resource
 
 class RetrofitNetworkClient(private val vacancyService: HHApi) : NetworkClient {
@@ -23,7 +24,11 @@ class RetrofitNetworkClient(private val vacancyService: HHApi) : NetworkClient {
             // Обертываем успешный ответ в Resource.Success
             emit(Resource.Success(response as T))
         } catch (e: HttpException) {
-            emit(Resource.Error("Ошибка с кодом: ${e.code()}"))
+            if (e.code() == 404) {
+                emit(Resource.Error(ErrorType.NOT_FOUND))
+            } else {
+                emit(Resource.Error(ErrorType.SERVER_ERROR))
+            }
         }
     }
 }

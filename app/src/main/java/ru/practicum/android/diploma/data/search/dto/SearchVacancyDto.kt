@@ -6,12 +6,14 @@ data class SearchVacancyDto(
     val id: String,
     val name: String,
     val employer: Employer,
-    val address: Address,
+    val address: Address?,
     val salary: Salary,
     val description: String,
     val employmentForm: EmploymentForm?,
     val experience: Experience,
+    @SerializedName("key_skills")
     val keySkills: List<KeySkill> = listOf(),
+    val area: Area
 )
 
 data class Employer(
@@ -46,6 +48,10 @@ data class Experience(
 )
 
 data class KeySkill(
+    val name: String
+)
+
+data class Area(
     val name: String
 )
 

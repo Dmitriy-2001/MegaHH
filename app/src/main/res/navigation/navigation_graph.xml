@@ -23,7 +23,11 @@
         android:id="@+id/vacancyFragment"
         android:name="ru.practicum.android.diploma.ui.vacancy.VacancyFragment"
         android:label="fragment_vacancy_"
-        tools:layout="@layout/fragment_vacancy"></fragment>
+        tools:layout="@layout/fragment_vacancy">
+        <argument
+            android:name="vacancy_id"
+            app:argType="string" />
+    </fragment>
 
     <fragment
         android:id="@+id/filterFragment"

@@ -30,7 +30,7 @@ class VacanciesRepositoryImpl(private val networkClient: NetworkClient) : Vacanc
         map { resource ->
             when (resource) {
                 is Resource.Success -> Resource.Success(transform(resource.data))
-                is Resource.Error -> Resource.Error(resource.message)
+                is Resource.Error -> Resource.Error(resource.errorType)
             }
         }
 }

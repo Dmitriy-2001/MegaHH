@@ -10,6 +10,7 @@ import ru.practicum.android.diploma.data.favorites.db.AppDatabase
 import ru.practicum.android.diploma.data.search.network.HHApi
 import ru.practicum.android.diploma.data.search.network.NetworkClient
 import ru.practicum.android.diploma.data.search.network.RetrofitNetworkClient
+import ru.practicum.android.diploma.util.okHttpClient
 
 val dataModule = module {
     single<NetworkClient> {
@@ -20,6 +21,7 @@ val dataModule = module {
         Retrofit.Builder()
             .baseUrl(BASE_URL_HH)
             .addConverterFactory(GsonConverterFactory.create())
+            .client(okHttpClient) // Передаем кастомный клиент. После тестов убрать
             .build()
             .create(HHApi::class.java)
     }
