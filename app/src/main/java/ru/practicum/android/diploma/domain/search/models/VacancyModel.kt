@@ -6,6 +6,5 @@ data class VacancyModel(
     val employer: String,
     val logoUrl: String?,
     val city: String?,
-    val salary: String,
-    val currency: String?
+    val salary: String
 )
