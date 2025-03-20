@@ -20,8 +20,7 @@ object Convertor {
                 employer = it.employer.name,
                 logoUrl = it.employer.logoUrls?.url240,
                 city = it.address.city,
-                salary = getSalaryString(it.salary),
-                currency = it.salary.currency?.symbol
+                salary = getSalaryString(it.salary)
             )
         }
     )
@@ -29,7 +28,7 @@ object Convertor {
     private fun getSalaryString(salary: Salary) = buildString {
         salary.from?.let { append("от ${formatSalary(it)} ") }
         salary.to?.let { append("до ${formatSalary(it)}") }
-        if (isEmpty()) append("Зарплата не указана")
+        if (isEmpty()) append("Зарплата не указана") else append(salary.currency?.symbol)
     }
 
     private fun formatSalary(salary: Int): String {
