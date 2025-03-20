@@ -5,6 +5,7 @@
     <dimen name="big_text">22sp</dimen>
     <dimen name="vacancy_title">32sp</dimen>
 
+    <dimen name="zero">0dp</dimen>
     <dimen name="two">2dp</dimen>
     <dimen name="four">4dp</dimen>
     <dimen name="eight">8dp</dimen>
@@ -16,4 +17,5 @@
     <dimen name="twenty_four">24dp</dimen>
     <dimen name="sixty_four">64dp</dimen>
     <dimen name="thirty_two">32dp</dimen>
+    <dimen name="forty_eight">48dp</dimen>
 </resources>

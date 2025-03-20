@@ -6,13 +6,17 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.LinearLayoutManager
 import ru.practicum.android.diploma.databinding.FragmentVacancySearchBinding
+import ru.practicum.android.diploma.domain.search.models.VacancyModel
 
 class SearchVacancyFragment : Fragment() {
 
     private var _binding: FragmentVacancySearchBinding? = null
     private val binding: FragmentVacancySearchBinding
         get() = requireNotNull(_binding) { "Binding is null" }
+
+    private var vacancyAdapter: VacancyAdapter? = null
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -25,10 +29,14 @@ class SearchVacancyFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
         binding.parameters.setOnClickListener {
             openFilter()
         }
-        binding.search.setOnClickListener { openVacancy("118345056") } // TODO - убрать заглушку
+
+        vacancyAdapter = vacancyAdapter ?: VacancyAdapter(emptyList()) { vacancy -> openVacancy(vacancy) }
+        binding.recyclerViewVacancy.layoutManager = LinearLayoutManager(requireContext())
+        binding.recyclerViewVacancy.adapter = vacancyAdapter
     }
 
     override fun onDestroyView() {
