@@ -31,7 +31,7 @@ class FavoriteFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding.vacancyArrow.setOnClickListener {
-            openVacancy("118345056") // // TODO - убрать заглушку
+            openVacancy("118345056") // убрать заглушку после тестов
         }
     }
 

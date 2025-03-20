@@ -10,8 +10,7 @@ import kotlinx.coroutines.launch
 import ru.practicum.android.diploma.domain.search.ErrorType
 
 class VacancyViewModel(
-    val vacancyId: String,
-    private val vacancyInteractor: VacanciesInteractor
+    val vacancyId: String, private val vacancyInteractor: VacanciesInteractor
 ) : ViewModel() {
 
     private val vacancyState = MutableLiveData<VacancyState>()

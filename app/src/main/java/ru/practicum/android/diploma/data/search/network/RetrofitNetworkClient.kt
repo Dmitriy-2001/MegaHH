@@ -24,11 +24,15 @@ class RetrofitNetworkClient(private val vacancyService: HHApi) : NetworkClient {
             // Обертываем успешный ответ в Resource.Success
             emit(Resource.Success(response as T))
         } catch (e: HttpException) {
-            if (e.code() == 404) {
+            if (e.code() == NOT_FOUND_CODE) {
                 emit(Resource.Error(ErrorType.NOT_FOUND))
             } else {
                 emit(Resource.Error(ErrorType.SERVER_ERROR))
             }
         }
+    }
+
+    companion object {
+        private const val NOT_FOUND_CODE = 404
     }
 }

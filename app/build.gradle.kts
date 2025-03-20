@@ -87,6 +87,6 @@ dependencies {
     // Coroutines
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:${libs.versions.coroutinesVersion.get()}")
 
-    // TODO - удалить после тестов
+    // удалить после тестов
     implementation("com.squareup.okhttp3:logging-interceptor:4.11.0")
 }

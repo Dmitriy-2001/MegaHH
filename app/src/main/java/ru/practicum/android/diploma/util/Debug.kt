@@ -3,14 +3,12 @@ package ru.practicum.android.diploma.util
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 
-// TODO Удалить после тестов
+// Удалить после тестов
 
-// Создаем логгер
 val loggingInterceptor = HttpLoggingInterceptor().apply {
-    level = HttpLoggingInterceptor.Level.BODY // Уровень логирования
+    level = HttpLoggingInterceptor.Level.BODY
 }
 
-// Создаем OkHttpClient с логированием
 val okHttpClient = OkHttpClient.Builder()
     .addInterceptor(loggingInterceptor)
     .build()
