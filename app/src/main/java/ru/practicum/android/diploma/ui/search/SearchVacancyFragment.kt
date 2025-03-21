@@ -12,8 +12,10 @@ import androidx.core.widget.doOnTextChanged
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.LinearLayoutManager
 import ru.practicum.android.diploma.R
 import ru.practicum.android.diploma.databinding.FragmentVacancySearchBinding
+import ru.practicum.android.diploma.domain.search.models.VacancyModel
 import ru.practicum.android.diploma.util.Debouncer
 
 class SearchVacancyFragment : Fragment() {
@@ -27,6 +29,8 @@ class SearchVacancyFragment : Fragment() {
     private lateinit var debouncer: Debouncer
 
     private var currentQuery: String = ""
+
+    private var vacancyAdapter: VacancyAdapter? = null
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -70,6 +74,11 @@ class SearchVacancyFragment : Fragment() {
             }
         }
 
+        vacancyAdapter = vacancyAdapter ?: VacancyAdapter(emptyList()) { vacancy -> openVacancy(vacancy) }
+        binding.recyclerViewVacancy.layoutManager = LinearLayoutManager(requireContext())
+        binding.recyclerViewVacancy.adapter = vacancyAdapter
+    }
+
         searchEditText.setOnEditorActionListener { _, actionId, event ->
             val query = searchEditText.text.toString()
             if ((actionId == EditorInfo.IME_ACTION_SEARCH || event?.keyCode == KeyEvent.KEYCODE_ENTER)
@@ -104,8 +113,9 @@ class SearchVacancyFragment : Fragment() {
         findNavController().navigate(directions)
     }
 
-    private fun openVacancy() {
+    private fun openVacancy(vacancy: VacancyModel) {
         val directions = SearchVacancyFragmentDirections.actionVacancySearchFragmentToVacancyFragment()
+        // Todo: Добавить то что будем передавать
         findNavController().navigate(directions)
     }
 

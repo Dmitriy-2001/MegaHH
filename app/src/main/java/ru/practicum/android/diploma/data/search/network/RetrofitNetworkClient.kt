@@ -3,6 +3,7 @@ package ru.practicum.android.diploma.data.search.network
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import retrofit2.HttpException
+import ru.practicum.android.diploma.data.search.dto.request.GetVacancyDetailsRequest
 import ru.practicum.android.diploma.data.search.dto.request.SearchVacanciesRequest
 import ru.practicum.android.diploma.domain.search.Resource
 
@@ -16,6 +17,9 @@ class RetrofitNetworkClient(private val vacancyService: HHApi) : NetworkClient {
             val response = when (dto) {
                 is SearchVacanciesRequest -> {
                     vacancyService.searchVacancy(dto.page, dto.perPage, dto.text)
+                }
+                is GetVacancyDetailsRequest -> {
+                    vacancyService.getVacancyDetails(dto.id)
                 }
 
                 else -> throw IllegalArgumentException("Unknown request type")

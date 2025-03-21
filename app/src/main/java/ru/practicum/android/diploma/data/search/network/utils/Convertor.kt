@@ -4,6 +4,9 @@ import ru.practicum.android.diploma.data.search.dto.Salary
 import ru.practicum.android.diploma.data.search.dto.response.SearchVacanciesResponse
 import ru.practicum.android.diploma.domain.search.models.VacanciesModel
 import ru.practicum.android.diploma.domain.search.models.VacancyModel
+import java.text.DecimalFormat
+import java.text.DecimalFormatSymbols
+import java.util.Locale
 
 object Convertor {
     fun SearchVacanciesResponse.convertToModel() = VacanciesModel(
@@ -17,15 +20,22 @@ object Convertor {
                 employer = it.employer.name,
                 logoUrl = it.employer.logoUrls?.url240,
                 city = it.address.city,
-                salary = getSalaryString(it.salary),
-                currency = it.salary.currency
+                salary = getSalaryString(it.salary)
             )
         }
     )
 
     private fun getSalaryString(salary: Salary) = buildString {
-        salary.from?.let { append("от $it ") }
-        salary.to?.let { append("до $it") }
-        if (isEmpty()) append("Зарплата не указана")
+        salary.from?.let { append("от ${formatSalary(it)} ") }
+        salary.to?.let { append("до ${formatSalary(it)}") }
+        if (isEmpty()) append("Зарплата не указана") else append(salary.currency?.symbol)
+    }
+
+    private fun formatSalary(salary: Int): String {
+        val symbols = DecimalFormatSymbols(Locale.getDefault()).apply {
+            groupingSeparator = ' ' // Используем пробел вместо запятой, по дефолту запятая
+        }
+        val formatter = DecimalFormat("#,###", symbols)
+        return formatter.format(salary)
     }
 }

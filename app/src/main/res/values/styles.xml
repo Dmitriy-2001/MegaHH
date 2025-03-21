@@ -17,6 +17,11 @@
         <item name="android:textSize">@dimen/medium_text</item>
     </style>
 
+    <style name="TextRegula16">
+        <item name="android:fontFamily">@font/ys_regular</item>
+        <item name="android:textSize">@dimen/medium_text</item>
+    </style>
+
     <style name="TextRegular12">
         <item name="android:fontFamily">@font/ys_medium</item>
         <item name="android:textSize">@dimen/big_text</item>
@@ -94,6 +99,12 @@
         <item name="android:paddingEnd">@dimen/radius</item>
         <item name="android:paddingTop">@dimen/four</item>
         <item name="android:paddingBottom">@dimen/four</item>
+    </style>
+
+    <style name="RVCard">
+        <item name="android:textColor">?attr/colorOnPrimary</item>
+        <item name="android:paddingHorizontal">@dimen/sixteen</item>
+        <item name="android:paddingVertical">@dimen/eight</item>
     </style>
 
 </resources>
