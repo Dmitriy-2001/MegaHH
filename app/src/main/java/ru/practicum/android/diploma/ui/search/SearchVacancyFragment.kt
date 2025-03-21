@@ -30,7 +30,9 @@ class SearchVacancyFragment : Fragment() {
     private val placeholder: View by lazy { requireView().findViewById(R.id.placeholder) }
     private val searchNotification: TextView by lazy { requireView().findViewById(R.id.search_result_notification) }
 
-    private lateinit var debouncer: Debouncer
+    private val debouncer: Debouncer by lazy {
+        Debouncer(viewLifecycleOwner.lifecycleScope, DEBOUNCE_DELAY_MS)
+    }
 
     private var vacancyAdapter: VacancyAdapter? = null
     private var isKeyboardVisible = false
@@ -48,8 +50,6 @@ class SearchVacancyFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         observeKeyboardVisibility(view)
-
-        debouncer = Debouncer(viewLifecycleOwner.lifecycleScope, DEBOUNCE_DELAY_MS)
 
         binding.parameters.setOnClickListener {
             openFilter()
