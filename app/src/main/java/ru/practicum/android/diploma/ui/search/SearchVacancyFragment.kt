@@ -1,13 +1,16 @@
 package ru.practicum.android.diploma.ui.search
 
+import android.graphics.Rect
 import android.os.Bundle
 import android.view.KeyEvent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.ViewTreeObserver
 import android.view.inputmethod.EditorInfo
 import android.widget.EditText
 import android.widget.ImageView
+import android.widget.TextView
 import androidx.core.widget.doOnTextChanged
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
@@ -27,10 +30,11 @@ class SearchVacancyFragment : Fragment() {
     private lateinit var searchIcon: ImageView
     private lateinit var placeholder: View
     private lateinit var debouncer: Debouncer
-
-    private var currentQuery: String = ""
+    private lateinit var searchNotification: TextView
 
     private var vacancyAdapter: VacancyAdapter? = null
+
+    private var isKeyboardVisible = false
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -42,9 +46,34 @@ class SearchVacancyFragment : Fragment() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
         searchEditText = view.findViewById(R.id.search_edit_text)
         searchIcon = view.findViewById(R.id.search_icon)
         placeholder = view.findViewById(R.id.placeholder)
+        searchNotification = view.findViewById(R.id.search_result_notification)
+
+        // === Отслеживание появления/скрытия клавиатуры ===
+        val rootView = view
+        rootView.viewTreeObserver.addOnGlobalLayoutListener(object : ViewTreeObserver.OnGlobalLayoutListener {
+            override fun onGlobalLayout() {
+                val rect = Rect()
+                rootView.getWindowVisibleDisplayFrame(rect)
+                val screenHeight = rootView.rootView.height
+                val keypadHeight = screenHeight - rect.bottom
+
+                val keyboardNowVisible = keypadHeight > screenHeight * 0.15
+                if (keyboardNowVisible != isKeyboardVisible) {
+                    isKeyboardVisible = keyboardNowVisible
+                    val bottomNav = requireActivity().findViewById<View>(R.id.bottomNavigationView)
+                    val bottomNavDivider = requireActivity().findViewById<View>(R.id.bottomNavDivider)
+
+                    val visibility = if (isKeyboardVisible) View.GONE else View.VISIBLE
+                    bottomNav?.visibility = visibility
+                    bottomNavDivider?.visibility = visibility
+                }
+            }
+        })
 
         debouncer = Debouncer(viewLifecycleOwner.lifecycleScope, 2000)
 
@@ -74,11 +103,6 @@ class SearchVacancyFragment : Fragment() {
             }
         }
 
-        vacancyAdapter = vacancyAdapter ?: VacancyAdapter(emptyList()) { vacancy -> openVacancy(vacancy) }
-        binding.recyclerViewVacancy.layoutManager = LinearLayoutManager(requireContext())
-        binding.recyclerViewVacancy.adapter = vacancyAdapter
-    }
-
         searchEditText.setOnEditorActionListener { _, actionId, event ->
             val query = searchEditText.text.toString()
             if ((actionId == EditorInfo.IME_ACTION_SEARCH || event?.keyCode == KeyEvent.KEYCODE_ENTER)
@@ -90,22 +114,23 @@ class SearchVacancyFragment : Fragment() {
                 false
             }
         }
+
+        vacancyAdapter = vacancyAdapter ?: VacancyAdapter(emptyList()) { vacancy -> openVacancy(vacancy) }
+        binding.recyclerViewVacancy.layoutManager = LinearLayoutManager(requireContext())
+        binding.recyclerViewVacancy.adapter = vacancyAdapter
     }
 
     private fun startSearch(query: String) {
-        currentQuery = query
         hidePlaceholder()
-        // Запустить поиск (например, передать в ViewModel)
+        // Передай query в ViewModel
     }
 
     private fun showPlaceholder() {
         placeholder.visibility = View.VISIBLE
-        // recyclerView?.visibility = View.GONE // когда появится список
     }
 
     private fun hidePlaceholder() {
         placeholder.visibility = View.GONE
-        // recyclerView?.visibility = View.VISIBLE // когда появится список
     }
 
     private fun openFilter() {
@@ -115,8 +140,16 @@ class SearchVacancyFragment : Fragment() {
 
     private fun openVacancy(vacancy: VacancyModel) {
         val directions = SearchVacancyFragmentDirections.actionVacancySearchFragmentToVacancyFragment()
-        // Todo: Добавить то что будем передавать
         findNavController().navigate(directions)
+    }
+
+    private fun showNotification(message: String) {
+        searchNotification.text = message
+        searchNotification.visibility = View.VISIBLE
+    }
+
+    private fun hideNotification() {
+        searchNotification.visibility = View.GONE
     }
 
     override fun onDestroyView() {

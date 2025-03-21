@@ -67,6 +67,20 @@
 
         </RelativeLayout>
     </androidx.cardview.widget.CardView>
+    <TextView
+        android:id="@+id/search_result_notification"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:padding="12dp"
+        android:gravity="center"
+        android:textSize="14sp"
+        android:textColor="@android:color/white"
+        android:background="@color/blue"
+        android:visibility="gone"
+        app:layout_constraintTop_toBottomOf="@id/search_container"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
     <!-- Guideline: горизонтальная, 50% между поиском и низом -->
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/mid_guideline"
@@ -95,7 +109,5 @@
         android:layout_weight="1"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/toolbar" />
-    <!-- TODO: перезакрепить RV Top_toBottom к строке поиска а не к toolbar -->
-
+        app:layout_constraintTop_toBottomOf="@+id/search_container" />
 </androidx.constraintlayout.widget.ConstraintLayout>
