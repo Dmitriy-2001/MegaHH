@@ -31,12 +31,12 @@ class FavoriteFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding.vacancyArrow.setOnClickListener {
-            openVacancy()
+            openVacancy("118345056") // убрать заглушку после тестов
         }
     }
 
-    private fun openVacancy() {
-        val directions = FavoriteFragmentDirections.actionFavoriteFragmentToVacancyFragment()
+    private fun openVacancy(vacancyId: String) {
+        val directions = FavoriteFragmentDirections.actionFavoriteFragmentToVacancyFragment(vacancyId)
         findNavController().navigate(directions)
     }
 }

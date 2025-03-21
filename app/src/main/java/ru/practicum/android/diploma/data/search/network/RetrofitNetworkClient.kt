@@ -5,6 +5,7 @@ import kotlinx.coroutines.flow.flow
 import retrofit2.HttpException
 import ru.practicum.android.diploma.data.search.dto.request.GetVacancyDetailsRequest
 import ru.practicum.android.diploma.data.search.dto.request.SearchVacanciesRequest
+import ru.practicum.android.diploma.domain.search.ErrorType
 import ru.practicum.android.diploma.domain.search.Resource
 
 class RetrofitNetworkClient(private val vacancyService: HHApi) : NetworkClient {
@@ -12,23 +13,26 @@ class RetrofitNetworkClient(private val vacancyService: HHApi) : NetworkClient {
     // R — это тип входного параметра, который передается в метод doRequest
     // T — это тип данных, который будет возвращен из метода doRequest
 
-    override suspend fun <R, T> doRequest(dto: R): Flow<Resource<T>> = flow {
+    override fun <R, T> doRequest(dto: R, clazz: Class<T>): Flow<Resource<T>> = flow {
         try {
             val response = when (dto) {
-                is SearchVacanciesRequest -> {
-                    vacancyService.searchVacancy(dto.page, dto.perPage, dto.text)
-                }
-                is GetVacancyDetailsRequest -> {
-                    vacancyService.getVacancyDetails(dto.id)
-                }
-
+                is SearchVacanciesRequest -> vacancyService.searchVacancy(dto.page, dto.perPage, dto.text)
+                is GetVacancyDetailsRequest -> vacancyService.getVacancyDetails(dto.id)
                 else -> throw IllegalArgumentException("Unknown request type")
             }
 
             // Обертываем успешный ответ в Resource.Success
             emit(Resource.Success(response as T))
         } catch (e: HttpException) {
-            emit(Resource.Error("Ошибка с кодом: ${e.code()}"))
+            if (e.code() == NOT_FOUND_CODE) {
+                emit(Resource.Error(ErrorType.NOT_FOUND))
+            } else {
+                emit(Resource.Error(ErrorType.SERVER_ERROR))
+            }
         }
+    }
+
+    companion object {
+        private const val NOT_FOUND_CODE = 404
     }
 }

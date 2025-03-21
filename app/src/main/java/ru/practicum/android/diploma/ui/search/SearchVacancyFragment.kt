@@ -115,7 +115,7 @@ class SearchVacancyFragment : Fragment() {
             }
         }
 
-        vacancyAdapter = vacancyAdapter ?: VacancyAdapter(emptyList()) { vacancy -> openVacancy(vacancy) }
+        vacancyAdapter = vacancyAdapter ?: VacancyAdapter(emptyList()) { vacancy -> openVacancy(vacancy.id) }
         binding.recyclerViewVacancy.layoutManager = LinearLayoutManager(requireContext())
         binding.recyclerViewVacancy.adapter = vacancyAdapter
     }
@@ -138,8 +138,8 @@ class SearchVacancyFragment : Fragment() {
         findNavController().navigate(directions)
     }
 
-    private fun openVacancy(vacancy: VacancyModel) {
-        val directions = SearchVacancyFragmentDirections.actionVacancySearchFragmentToVacancyFragment()
+    private fun openVacancy(vacancyId: String) {
+        val directions = SearchVacancyFragmentDirections.actionVacancySearchFragmentToVacancyFragment(vacancyId)
         findNavController().navigate(directions)
     }
 

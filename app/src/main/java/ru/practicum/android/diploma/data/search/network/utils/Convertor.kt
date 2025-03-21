@@ -1,6 +1,7 @@
 package ru.practicum.android.diploma.data.search.network.utils
 
 import ru.practicum.android.diploma.data.search.dto.Salary
+import ru.practicum.android.diploma.data.search.dto.response.GetVacancyDetailsResponse
 import ru.practicum.android.diploma.data.search.dto.response.SearchVacanciesResponse
 import ru.practicum.android.diploma.domain.search.models.VacanciesModel
 import ru.practicum.android.diploma.domain.search.models.VacancyModel
@@ -19,16 +20,35 @@ object Convertor {
                 name = it.name,
                 employer = it.employer.name,
                 logoUrl = it.employer.logoUrls?.url240,
-                city = it.address.city,
-                salary = getSalaryString(it.salary)
+                city = it.address?.city,
+                salary = getSalaryString(it.salary),
+                description = it.description,
+                employmentForm = it.employmentForm?.name,
+                experience = it.experience.name,
+                keySkills = it.keySkills.map { it.name },
+                area = it.name
             )
         }
+    )
+
+    fun GetVacancyDetailsResponse.convertToModel() = VacancyModel(
+        id = this.id,
+        name = this.name,
+        employer = this.employer.name,
+        logoUrl = this.employer.logoUrls?.url240,
+        city = this.address?.city,
+        salary = getSalaryString(this.salary),
+        description = this.description,
+        employmentForm = this.employmentForm?.name,
+        experience = this.experience.name,
+        keySkills = this.keySkills.map { it.name },
+        area = this.area.name
     )
 
     private fun getSalaryString(salary: Salary) = buildString {
         salary.from?.let { append("от ${formatSalary(it)} ") }
         salary.to?.let { append("до ${formatSalary(it)}") }
-        if (isEmpty()) append("Зарплата не указана") else append(salary.currency?.symbol)
+        if (isEmpty()) append("Зарплата не указана") else append(" ${salary.currency?.symbol}")
     }
 
     private fun formatSalary(salary: Int): String {
