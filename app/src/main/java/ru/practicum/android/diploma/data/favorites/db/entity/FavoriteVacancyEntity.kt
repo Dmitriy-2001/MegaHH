@@ -18,4 +18,3 @@ data class FavoriteVacancyEntity(
     val description: String?,
     val keySkills: String?,
 )
-

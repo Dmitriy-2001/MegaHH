@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/toolbar"
-        app:titleTextAppearance="@style/TitleMedium22"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:contentInsetStartWithNavigation="0dp"
@@ -16,6 +16,16 @@
         app:navigationIcon="@drawable/ic_arrow_back"
         app:tint="?attr/colorOnPrimary"
         app:title="@string/vacancy"
+        app:titleTextAppearance="@style/TitleMedium22"
         app:titleTextColor="?attr/colorOnPrimary" />
+
+    <TextView
+        android:id="@+id/name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Заглушка для имени вакансии без стилей"
+        android:textAllCaps="false"
+        app:layout_constraintTop_toBottomOf="@id/toolbar"
+        tools:ignore="MissingConstraints" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
