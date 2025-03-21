@@ -18,7 +18,6 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import ru.practicum.android.diploma.R
 import ru.practicum.android.diploma.databinding.FragmentVacancySearchBinding
-import ru.practicum.android.diploma.domain.search.models.VacancyModel
 import ru.practicum.android.diploma.util.Debouncer
 
 class SearchVacancyFragment : Fragment() {
