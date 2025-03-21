@@ -25,14 +25,14 @@ class SearchVacancyFragment : Fragment() {
     private var _binding: FragmentVacancySearchBinding? = null
     private val binding get() = _binding!!
 
-    private lateinit var searchEditText: EditText
-    private lateinit var searchIcon: ImageView
-    private lateinit var placeholder: View
+    private val searchEditText: EditText by lazy { requireView().findViewById(R.id.search_edit_text) }
+    private val searchIcon: ImageView by lazy { requireView().findViewById(R.id.search_icon) }
+    private val placeholder: View by lazy { requireView().findViewById(R.id.placeholder) }
+    private val searchNotification: TextView by lazy { requireView().findViewById(R.id.search_result_notification) }
+
     private lateinit var debouncer: Debouncer
-    private lateinit var searchNotification: TextView
 
     private var vacancyAdapter: VacancyAdapter? = null
-
     private var isKeyboardVisible = false
 
     override fun onCreateView(
@@ -47,57 +47,35 @@ class SearchVacancyFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        searchEditText = view.findViewById(R.id.search_edit_text)
-        searchIcon = view.findViewById(R.id.search_icon)
-        placeholder = view.findViewById(R.id.placeholder)
-        searchNotification = view.findViewById(R.id.search_result_notification)
+        observeKeyboardVisibility(view)
 
-        // === Отслеживание появления/скрытия клавиатуры ===
-        val rootView = view
-        rootView.viewTreeObserver.addOnGlobalLayoutListener(object : ViewTreeObserver.OnGlobalLayoutListener {
-            override fun onGlobalLayout() {
-                val rect = Rect()
-                rootView.getWindowVisibleDisplayFrame(rect)
-                val screenHeight = rootView.rootView.height
-                val keypadHeight = screenHeight - rect.bottom
-
-                val keyboardNowVisible = keypadHeight > screenHeight * 0.15
-                if (keyboardNowVisible != isKeyboardVisible) {
-                    isKeyboardVisible = keyboardNowVisible
-                    val bottomNav = requireActivity().findViewById<View>(R.id.bottomNavigationView)
-                    val bottomNavDivider = requireActivity().findViewById<View>(R.id.bottomNavDivider)
-
-                    val visibility = if (isKeyboardVisible) View.GONE else View.VISIBLE
-                    bottomNav?.visibility = visibility
-                    bottomNavDivider?.visibility = visibility
-                }
-            }
-        })
-
-        debouncer = Debouncer(viewLifecycleOwner.lifecycleScope, 2000)
+        debouncer = Debouncer(viewLifecycleOwner.lifecycleScope, DEBOUNCE_DELAY_MS)
 
         binding.parameters.setOnClickListener {
             openFilter()
         }
 
+        updateSearchIcon(searchEditText.text.toString())
+
+        searchIcon.setOnClickListener {
+            val input = searchEditText.text.toString()
+            if (input.isNotBlank()) {
+                searchEditText.text.clear()
+                showPlaceholder()
+            }
+        }
+
         searchEditText.doOnTextChanged { text, _, _, _ ->
             val input = text.toString()
+            updateSearchIcon(input)
 
             if (input.isNotBlank()) {
-                searchIcon.setImageResource(R.drawable.ic_clear)
-                searchIcon.setOnClickListener {
-                    searchEditText.text.clear()
-                    showPlaceholder()
-                }
-
                 debouncer.debounce {
                     if (searchEditText.text.toString().isNotBlank()) {
                         startSearch(searchEditText.text.toString())
                     }
                 }
             } else {
-                searchIcon.setImageResource(R.drawable.ic_search)
-                searchIcon.setOnClickListener(null)
                 showPlaceholder()
             }
         }
@@ -117,6 +95,14 @@ class SearchVacancyFragment : Fragment() {
         vacancyAdapter = vacancyAdapter ?: VacancyAdapter(emptyList()) { vacancy -> openVacancy(vacancy.id) }
         binding.recyclerViewVacancy.layoutManager = LinearLayoutManager(requireContext())
         binding.recyclerViewVacancy.adapter = vacancyAdapter
+    }
+
+    private fun updateSearchIcon(text: String) {
+        if (text.isNotBlank()) {
+            searchIcon.setImageResource(R.drawable.ic_clear)
+        } else {
+            searchIcon.setImageResource(R.drawable.ic_search)
+        }
     }
 
     private fun startSearch(query: String) {
@@ -142,17 +128,47 @@ class SearchVacancyFragment : Fragment() {
         findNavController().navigate(directions)
     }
 
+    @Suppress("unused") // Используется позже
     private fun showNotification(message: String) {
         searchNotification.text = message
         searchNotification.visibility = View.VISIBLE
     }
 
+    @Suppress("unused") // Используется позже
     private fun hideNotification() {
         searchNotification.visibility = View.GONE
+    }
+
+    private fun observeKeyboardVisibility(rootView: View) {
+        rootView.viewTreeObserver.addOnGlobalLayoutListener(object : ViewTreeObserver.OnGlobalLayoutListener {
+            override fun onGlobalLayout() {
+                val rect = Rect()
+                rootView.getWindowVisibleDisplayFrame(rect)
+                val screenHeight = rootView.rootView.height
+                val keypadHeight = screenHeight - rect.bottom
+
+                val keyboardNowVisible = keypadHeight > screenHeight * KEYBOARD_THRESHOLD_RATIO
+                if (keyboardNowVisible != isKeyboardVisible) {
+                    isKeyboardVisible = keyboardNowVisible
+                    val bottomNav = requireActivity().findViewById<View>(R.id.bottomNavigationView)
+                    val bottomNavDivider = requireActivity().findViewById<View>(R.id.bottomNavDivider)
+
+                    val visibility = if (isKeyboardVisible) View.GONE else View.VISIBLE
+                    bottomNav?.visibility = visibility
+                    bottomNavDivider?.visibility = visibility
+                }
+            }
+        })
     }
 
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
     }
+
+    companion object {
+        private const val DEBOUNCE_DELAY_MS = 2000L
+        private const val KEYBOARD_THRESHOLD_RATIO = 0.15
+    }
 }
+
