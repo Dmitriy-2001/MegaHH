@@ -9,7 +9,20 @@ targetSdk = "33"
 
 # Detekt
 detekt = "1.23.3"
-detektTwitterComposeRules ="0.0.26"
+detektTwitterComposeRules = "0.0.26"
+
+# Plugin versions
+navPluginVersion = "2.8.3"
+
+# Libs versions
+roomVersion = "2.6.0"
+glideVersion = "4.14.2"
+koinVersion = "3.5.3"
+retrofitVersion = "2.9.0"
+navigationVersion = "2.5.3"
+coroutinesVersion = "1.6.4"
+fragmentKtxVersion = "1.5.6"
+viewPagerVersion = "1.0.0"
 
 [libraries]
 
@@ -37,4 +50,28 @@ unitTests-junit = "junit:junit:4.13.2"
 uiTests-junitExt = "androidx.test.ext:junit:1.1.5"
 uiTests-espressoCore = "androidx.test.espresso:espresso-core:3.5.1"
 
+# Retrofit
+retrofit = { module = "com.squareup.retrofit2:retrofit", version.ref = "retrofitVersion" }
+retrofit-converter-gson = { module = "com.squareup.retrofit2:converter-gson", version.ref = "retrofitVersion" }
+
+# Koin
+koin-android = { module = "io.insert-koin:koin-android", version.ref = "koinVersion" }
+
+# Glide
+glide = { module = "com.github.bumptech.glide:glide", version.ref = "glideVersion" }
+glide-compiler = { module = "com.github.bumptech.glide:compiler", version.ref = "glideVersion" }
+
+# Room
+room-runtime = { module = "androidx.room:room-runtime", version.ref = "roomVersion" }
+room-compiler = { module = "androidx.room:room-compiler", version.ref = "roomVersion" }
+room-ktx = { module = "androidx.room:room-ktx", version.ref = "roomVersion" }
+
+# Navigation
+navigation-fragment-ktx = { module = "androidx.navigation:navigation-fragment-ktx", version.ref = "navigationVersion" }
+navigation-ui-ktx = { module = "androidx.navigation:navigation-ui-ktx", version.ref = "navigationVersion" }
+fragment-ktx = { module = "androidx.fragment:fragment-ktx", version.ref = "fragmentKtxVersion" }
+viewpager2 = { module = "androidx.viewpager2:viewpager2", version.ref = "viewPagerVersion" }
+
+# Coroutines
+kotlinx-coroutines-android = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-android", version.ref = "coroutinesVersion" }
 [bundles]

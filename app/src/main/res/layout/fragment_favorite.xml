@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/four"
+        app:contentInsetStartWithNavigation="0dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:tint="?attr/colorOnPrimary"
+        app:title="@string/favorite"
+        app:titleTextAppearance="@style/TitleMedium22"
+        app:titleTextColor="?attr/colorOnPrimary" />
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/vacancy"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        app:hintTextColor="@color/black"
+        app:layout_constraintTop_toBottomOf="@+id/toolbar">
+
+        <ImageButton
+            android:id="@+id/vacancy_arrow"
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/sixty_four"
+            android:layout_marginEnd="@dimen/four"
+            android:backgroundTint="@color/white"
+            android:src="@drawable/ic_arrow_forward"
+            app:layout_constraintEnd_toEndOf="@id/vacancy"
+            tools:ignore="MissingConstraints,SpeakableTextPresentCheck" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
