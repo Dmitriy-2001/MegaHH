@@ -27,37 +27,36 @@ class FavoriteVacanciesRepositoryImpl(private val favoriteVacancyDao: FavoriteVa
         emit(vacancy)
     }
 
-    override suspend fun checkIfVacancyIsFavorite (id: String): Boolean {
+    override suspend fun checkIfVacancyIsFavorite(id: String): Boolean {
         val favoriteIds = favoriteVacancyDao.getVacanciesFavoriteIds()
         return favoriteIds.contains(id)
     }
 
     private fun VacancyModel.mapToFavoriteVacancyEntity() = FavoriteVacancyEntity(
-            id = this.id,
-            name = this.name,
-            employer = this.employer,
-            logoUrl = this.logoUrl,
-            city = this.city,
-            salary = this.salary,
-            description = this.description,
-            employmentForm = this.employmentForm,
-            experience = this.experience,
-            keySkills = this.keySkills,
-            area = this.area
-        )
+        id = this.id,
+        name = this.name,
+        employer = this.employer,
+        logoUrl = this.logoUrl,
+        city = this.city,
+        salary = this.salary,
+        description = this.description,
+        employmentForm = this.employmentForm,
+        experience = this.experience,
+        keySkills = this.keySkills,
+        area = this.area
+    )
 
-    private fun FavoriteVacancyEntity.mapToVacancyModel() =
-        VacancyModel(
-            id = this.id,
-            name = this.name,
-            employer = this.employer,
-            logoUrl = this.logoUrl,
-            city = this.city,
-            salary = this.salary,
-            description = this.description,
-            employmentForm = this.employmentForm,
-            experience = this.experience,
-            keySkills = this.keySkills,
-            area = this.area
-        )
-    }
+    private fun FavoriteVacancyEntity.mapToVacancyModel() = VacancyModel(
+        id = this.id,
+        name = this.name,
+        employer = this.employer,
+        logoUrl = this.logoUrl,
+        city = this.city,
+        salary = this.salary,
+        description = this.description,
+        employmentForm = this.employmentForm,
+        experience = this.experience,
+        keySkills = this.keySkills,
+        area = this.area
+    )
+}
