@@ -149,22 +149,22 @@ class SearchVacancyFragment : Fragment() {
 
     private fun observeKeyboardVisibility() {
         keyboardListener = ViewTreeObserver.OnGlobalLayoutListener {
-            if (_binding == null) return@OnGlobalLayoutListener // Проверка на null
+            if (_binding != null) { // Проверка на null
+                val rect = Rect()
+                binding.root.getWindowVisibleDisplayFrame(rect)
+                val screenHeight = binding.root.rootView.height
+                val keypadHeight = screenHeight - rect.bottom
 
-            val rect = Rect()
-            binding.root.getWindowVisibleDisplayFrame(rect)
-            val screenHeight = binding.root.rootView.height
-            val keypadHeight = screenHeight - rect.bottom
+                val keyboardNowVisible = keypadHeight > screenHeight * KEYBOARD_THRESHOLD_RATIO
+                if (keyboardNowVisible != isKeyboardVisible) {
+                    isKeyboardVisible = keyboardNowVisible
+                    val bottomNav = requireActivity().findViewById<View>(R.id.bottomNavigationView)
+                    val bottomNavDivider = requireActivity().findViewById<View>(R.id.bottomNavDivider)
 
-            val keyboardNowVisible = keypadHeight > screenHeight * KEYBOARD_THRESHOLD_RATIO
-            if (keyboardNowVisible != isKeyboardVisible) {
-                isKeyboardVisible = keyboardNowVisible
-                val bottomNav = requireActivity().findViewById<View>(R.id.bottomNavigationView)
-                val bottomNavDivider = requireActivity().findViewById<View>(R.id.bottomNavDivider)
-
-                val visibility = if (isKeyboardVisible) View.GONE else View.VISIBLE
-                bottomNav?.visibility = visibility
-                bottomNavDivider?.visibility = visibility
+                    val visibility = if (isKeyboardVisible) View.GONE else View.VISIBLE
+                    bottomNav?.visibility = visibility
+                    bottomNavDivider?.visibility = visibility
+                }
             }
         }
 
