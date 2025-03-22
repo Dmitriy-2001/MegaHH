@@ -27,13 +27,12 @@ class FavoriteVacanciesRepositoryImpl(private val favoriteVacancyDao: FavoriteVa
         emit(vacancy)
     }
 
-    override suspend fun checkVacanciesFavorite(id: String): Boolean {
+    override suspend fun checkIfVacancyIsFavorite (id: String): Boolean {
         val favoriteIds = favoriteVacancyDao.getVacanciesFavoriteIds()
         return favoriteIds.contains(id)
     }
 
-    private fun VacancyModel.mapToFavoriteVacancyEntity(): FavoriteVacancyEntity {
-        return FavoriteVacancyEntity(
+    private fun VacancyModel.mapToFavoriteVacancyEntity() = FavoriteVacancyEntity(
             id = this.id,
             name = this.name,
             employer = this.employer,
@@ -46,10 +45,9 @@ class FavoriteVacanciesRepositoryImpl(private val favoriteVacancyDao: FavoriteVa
             keySkills = this.keySkills,
             area = this.area
         )
-    }
 
-    private fun FavoriteVacancyEntity.mapToVacancyModel(): VacancyModel {
-        return VacancyModel(
+    private fun FavoriteVacancyEntity.mapToVacancyModel() =
+        VacancyModel(
             id = this.id,
             name = this.name,
             employer = this.employer,
@@ -63,4 +61,3 @@ class FavoriteVacanciesRepositoryImpl(private val favoriteVacancyDao: FavoriteVa
             area = this.area
         )
     }
-}

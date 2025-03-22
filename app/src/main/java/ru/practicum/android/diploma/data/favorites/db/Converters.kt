@@ -4,12 +4,12 @@ import androidx.room.TypeConverter
 
 class Converters {
     @TypeConverter
-    fun fromKeySkills(keySkills: List<String>): String {
+    fun fromKeySkillsListToString(keySkills: List<String>): String {
         return keySkills.joinToString(",")
     }
 
     @TypeConverter
-    fun toKeySkills(keySkillsString: String): List<String> {
+    fun toKeySkillsListFromString(keySkillsString: String): List<String> {
         return keySkillsString.split(",")
     }
 }
