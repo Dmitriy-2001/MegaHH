@@ -12,8 +12,8 @@ interface HHApi {
     @Headers(authHeader, userAgentHeader)
     @GET("/vacancies")
     suspend fun searchVacancy(
-        @Query("page") page: Int,
-        @Query("per_page") perPage: Int,
+        @Query("page") page: Int?,
+        @Query("per_page") perPage: Int?,
         @Query("text") text: String
     ): SearchVacanciesResponse
 
