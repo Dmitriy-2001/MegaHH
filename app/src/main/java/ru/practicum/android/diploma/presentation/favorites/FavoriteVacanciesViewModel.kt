@@ -5,4 +5,4 @@ import ru.practicum.android.diploma.domain.favorites.api.FavoriteVacanciesIntera
 
 class FavoriteVacanciesViewModel(
     private val favoriteVacanciesInteractor: FavoriteVacanciesInteractor
-): ViewModel()
+) : ViewModel()
