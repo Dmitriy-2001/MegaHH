@@ -17,7 +17,9 @@
     <dimen name="sixteen">16dp</dimen>
     <dimen name="twenty">20dp</dimen>
     <dimen name="twenty_four">24dp</dimen>
-    <dimen name="sixty_four">64dp</dimen>
     <dimen name="thirty_two">32dp</dimen>
     <dimen name="forty_eight">48dp</dimen>
+    <dimen name="sixty_four">64dp</dimen>
+    <dimen name="seventy_two">72dp</dimen>
+    <dimen name="three_hundred">300dp</dimen>
 </resources>

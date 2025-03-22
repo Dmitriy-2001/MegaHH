@@ -8,14 +8,12 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.ViewTreeObserver
 import android.view.inputmethod.EditorInfo
-import android.widget.EditText
-import android.widget.ImageView
-import android.widget.TextView
 import androidx.core.widget.doOnTextChanged
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
+import kotlinx.coroutines.launch
 import ru.practicum.android.diploma.R
 import ru.practicum.android.diploma.databinding.FragmentVacancySearchBinding
 import ru.practicum.android.diploma.util.Debouncer
@@ -25,17 +23,13 @@ class SearchVacancyFragment : Fragment() {
     private var _binding: FragmentVacancySearchBinding? = null
     private val binding get() = _binding!!
 
-    private val searchEditText: EditText by lazy { requireView().findViewById(R.id.search_edit_text) }
-    private val searchIcon: ImageView by lazy { requireView().findViewById(R.id.search_icon) }
-    private val placeholder: View by lazy { requireView().findViewById(R.id.placeholder) }
-    private val searchNotification: TextView by lazy { requireView().findViewById(R.id.search_result_notification) }
-
     private val debouncer: Debouncer by lazy {
         Debouncer(viewLifecycleOwner.lifecycleScope, DEBOUNCE_DELAY_MS)
     }
 
     private var vacancyAdapter: VacancyAdapter? = null
     private var isKeyboardVisible = false
+    private var keyboardListener: ViewTreeObserver.OnGlobalLayoutListener? = null
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -49,30 +43,31 @@ class SearchVacancyFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        observeKeyboardVisibility(view)
+        observeKeyboardVisibility()
 
         binding.parameters.setOnClickListener {
             openFilter()
         }
 
-        updateSearchIcon(searchEditText.text.toString())
+        updateSearchIcon(binding.searchEditText.text.toString())
 
-        searchIcon.setOnClickListener {
-            val input = searchEditText.text.toString()
-            if (input.isNotBlank()) {
-                searchEditText.text.clear()
+        binding.searchIcon.setOnClickListener {
+            if (binding.searchEditText.text.isNotBlank()) {
+                binding.searchEditText.text.clear()
                 showPlaceholder()
             }
         }
 
-        searchEditText.doOnTextChanged { text, _, _, _ ->
-            val input = text.toString()
-            updateSearchIcon(input)
+        binding.searchEditText.doOnTextChanged { text, _, _, _ ->
+            val currentText = text.toString()
+            updateSearchIcon(currentText)
 
-            if (input.isNotBlank()) {
-                debouncer.debounce {
-                    if (searchEditText.text.toString().isNotBlank()) {
-                        startSearch(searchEditText.text.toString())
+            if (currentText.isNotBlank()) {
+                viewLifecycleOwner.lifecycleScope.launch {
+                    debouncer.debounce {
+                        if (_binding != null && binding.searchEditText.text.toString().isNotBlank()) {
+                            startSearch(binding.searchEditText.text.toString())
+                        }
                     }
                 }
             } else {
@@ -80,8 +75,8 @@ class SearchVacancyFragment : Fragment() {
             }
         }
 
-        searchEditText.setOnEditorActionListener { _, actionId, event ->
-            val query = searchEditText.text.toString()
+        binding.searchEditText.setOnEditorActionListener { _, actionId, event ->
+            val query = binding.searchEditText.text.toString()
             if ((actionId == EditorInfo.IME_ACTION_SEARCH || event?.keyCode == KeyEvent.KEYCODE_ENTER)
                 && query.isNotBlank()
             ) {
@@ -92,30 +87,41 @@ class SearchVacancyFragment : Fragment() {
             }
         }
 
-        vacancyAdapter = vacancyAdapter ?: VacancyAdapter(emptyList()) { vacancy -> openVacancy(vacancy.id) }
+        vacancyAdapter = vacancyAdapter ?: VacancyAdapter(emptyList()) { vacancy ->
+            openVacancy(vacancy.id)
+        }
         binding.recyclerViewVacancy.layoutManager = LinearLayoutManager(requireContext())
         binding.recyclerViewVacancy.adapter = vacancyAdapter
     }
 
+    override fun onResume() {
+        super.onResume()
+        updateSearchIcon(binding.searchEditText.text.toString())
+    }
+
     private fun updateSearchIcon(text: String) {
+        if (_binding == null) return // Проверка на null
         if (text.isNotBlank()) {
-            searchIcon.setImageResource(R.drawable.ic_clear)
+            binding.searchIcon.setImageResource(R.drawable.ic_clear)
         } else {
-            searchIcon.setImageResource(R.drawable.ic_search)
+            binding.searchIcon.setImageResource(R.drawable.ic_search)
         }
     }
 
     private fun startSearch(query: String) {
+        if (_binding == null) return // Проверка на null
         hidePlaceholder()
         // Передай query в ViewModel
     }
 
     private fun showPlaceholder() {
-        placeholder.visibility = View.VISIBLE
+        if (_binding == null) return // Проверка на null
+        binding.placeholder.visibility = View.VISIBLE
     }
 
     private fun hidePlaceholder() {
-        placeholder.visibility = View.GONE
+        if (_binding == null) return // Проверка на null
+        binding.placeholder.visibility = View.GONE
     }
 
     private fun openFilter() {
@@ -130,40 +136,48 @@ class SearchVacancyFragment : Fragment() {
 
     @Suppress("unused") // Используется позже
     private fun showNotification(message: String) {
-        searchNotification.text = message
-        searchNotification.visibility = View.VISIBLE
+        if (_binding == null) return // Проверка на null
+        binding.searchResultNotification.text = message
+        binding.searchResultNotification.visibility = View.VISIBLE
     }
 
     @Suppress("unused") // Используется позже
     private fun hideNotification() {
-        searchNotification.visibility = View.GONE
+        if (_binding == null) return // Проверка на null
+        binding.searchResultNotification.visibility = View.GONE
     }
 
-    private fun observeKeyboardVisibility(rootView: View) {
-        rootView.viewTreeObserver.addOnGlobalLayoutListener(object : ViewTreeObserver.OnGlobalLayoutListener {
-            override fun onGlobalLayout() {
-                val rect = Rect()
-                rootView.getWindowVisibleDisplayFrame(rect)
-                val screenHeight = rootView.rootView.height
-                val keypadHeight = screenHeight - rect.bottom
+    private fun observeKeyboardVisibility() {
+        keyboardListener = ViewTreeObserver.OnGlobalLayoutListener {
+            if (_binding == null) return@OnGlobalLayoutListener // Проверка на null
 
-                val keyboardNowVisible = keypadHeight > screenHeight * KEYBOARD_THRESHOLD_RATIO
-                if (keyboardNowVisible != isKeyboardVisible) {
-                    isKeyboardVisible = keyboardNowVisible
-                    val bottomNav = requireActivity().findViewById<View>(R.id.bottomNavigationView)
-                    val bottomNavDivider = requireActivity().findViewById<View>(R.id.bottomNavDivider)
+            val rect = Rect()
+            binding.root.getWindowVisibleDisplayFrame(rect)
+            val screenHeight = binding.root.rootView.height
+            val keypadHeight = screenHeight - rect.bottom
 
-                    val visibility = if (isKeyboardVisible) View.GONE else View.VISIBLE
-                    bottomNav?.visibility = visibility
-                    bottomNavDivider?.visibility = visibility
-                }
+            val keyboardNowVisible = keypadHeight > screenHeight * KEYBOARD_THRESHOLD_RATIO
+            if (keyboardNowVisible != isKeyboardVisible) {
+                isKeyboardVisible = keyboardNowVisible
+                val bottomNav = requireActivity().findViewById<View>(R.id.bottomNavigationView)
+                val bottomNavDivider = requireActivity().findViewById<View>(R.id.bottomNavDivider)
+
+                val visibility = if (isKeyboardVisible) View.GONE else View.VISIBLE
+                bottomNav?.visibility = visibility
+                bottomNavDivider?.visibility = visibility
             }
-        })
+        }
+
+        binding.root.viewTreeObserver.addOnGlobalLayoutListener(keyboardListener)
     }
 
     override fun onDestroyView() {
-        super.onDestroyView()
+        keyboardListener?.let {
+            binding.root.viewTreeObserver.removeOnGlobalLayoutListener(it)
+        }
+        keyboardListener = null
         _binding = null
+        super.onDestroyView()
     }
 
     companion object {
@@ -171,4 +185,3 @@ class SearchVacancyFragment : Fragment() {
         private const val KEYBOARD_THRESHOLD_RATIO = 0.15
     }
 }
-

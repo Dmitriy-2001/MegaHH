@@ -49,8 +49,9 @@
         <item name="android:maxLines">1</item>
         <item name="android:imeOptions">actionSearch</item>
         <item name="android:inputType">text</item>
-        <item name="android:layout_width">match_parent</item>
-        <item name="android:layout_height">48dp</item>
+        <item name="android:layout_width">@dimen/three_hundred</item>
+        <item name="android:layout_height">@dimen/forty_eight</item>
+        <item name="android:hint">@string/search_hint</item>
     </style>
 
     <style name="Widget.Diploma.TopAppBar" parent="Widget.Material3.Toolbar">
@@ -99,6 +100,9 @@
         <item name="android:paddingEnd">@dimen/radius</item>
         <item name="android:paddingTop">@dimen/four</item>
         <item name="android:paddingBottom">@dimen/four</item>
+        <item name="android:layout_width">@dimen/zero</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginTop">@dimen/eight</item>
     </style>
 
     <style name="RVCard">
