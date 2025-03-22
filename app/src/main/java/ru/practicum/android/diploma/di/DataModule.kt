@@ -14,9 +14,6 @@ import ru.practicum.android.diploma.data.search.network.RetrofitNetworkClient
 import ru.practicum.android.diploma.util.okHttpClient
 import ru.practicum.android.diploma.data.filter.impl.FilterStateStorageImpl
 import ru.practicum.android.diploma.data.filter.storage.FilterStateStorage
-import ru.practicum.android.diploma.data.network.HHApi
-import ru.practicum.android.diploma.data.network.NetworkClient
-import ru.practicum.android.diploma.data.network.RetrofitNetworkClient
 
 private const val BASE_URL_HH = "https://api.hh.ru/"
 
