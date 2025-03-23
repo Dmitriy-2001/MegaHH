@@ -1,9 +1,9 @@
 package ru.practicum.android.diploma.presentation.favorites
 
 import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import androidx.lifecycle.MutableLiveData
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.launch
 import ru.practicum.android.diploma.domain.favorites.api.FavoriteVacanciesInteractor
@@ -22,7 +22,6 @@ class FavoriteVacanciesViewModel(
 
     private fun loadFavorites() {
         _favoriteVacancyState.value = FavoriteVacancyState.Loading
-
         viewModelScope.launch {
             favoriteVacanciesInteractor.getVacanciesFavorite().catch {
                 _favoriteVacancyState.postValue(FavoriteVacancyState.Error)
@@ -33,7 +32,7 @@ class FavoriteVacanciesViewModel(
     private fun handleFavoritesResult(list: List<VacancyModel>) {
         _favoriteVacancyState.postValue(
             if (list.isEmpty()) FavoriteVacancyState.Empty
-            else FavoriteVacancyState.Content(list)) }
-
+            else FavoriteVacancyState.Content(list)
+        )
+    }
 }
-
