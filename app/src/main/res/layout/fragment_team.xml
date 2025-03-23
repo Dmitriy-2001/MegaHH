@@ -11,7 +11,6 @@
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/toolbar"
         style="@style/TitleMedium22"
-        app:titleTextAppearance="@style/TitleMedium22"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:contentInsetStartWithNavigation="0dp"
@@ -20,6 +19,7 @@
         app:layout_constraintTop_toTopOf="parent"
         app:tint="?attr/colorOnPrimary"
         app:title="@string/team"
+        app:titleTextAppearance="@style/TitleMedium22"
         app:titleTextColor="?attr/colorOnPrimary" />
 
     <FrameLayout
@@ -36,7 +36,8 @@
             android:layout_height="match_parent"
             android:layout_gravity="center_vertical"
             android:text="@string/team_title"
-            android:textAllCaps="false" />
+            android:textAllCaps="false"
+            android:textColor="?attr/colorOnPrimary" />
 
     </FrameLayout>
 
@@ -54,7 +55,8 @@
             android:layout_height="wrap_content"
             android:layout_marginEnd="@dimen/eight"
             android:layout_marginBottom="@dimen/sixteen"
-            android:text="@string/dev_1" />
+            android:text="@string/dev_1"
+            android:textColor="?attr/colorOnPrimary" />
 
         <TextView
             style="@style/TextMedium16"
@@ -62,7 +64,8 @@
             android:layout_height="wrap_content"
             android:layout_marginEnd="@dimen/eight"
             android:layout_marginBottom="@dimen/sixteen"
-            android:text="@string/dev_2" />
+            android:text="@string/dev_2"
+            android:textColor="?attr/colorOnPrimary" />
 
         <TextView
             style="@style/TextMedium16"
@@ -70,7 +73,8 @@
             android:layout_height="wrap_content"
             android:layout_marginEnd="@dimen/eight"
             android:layout_marginBottom="@dimen/sixteen"
-            android:text="@string/dev_3" />
+            android:text="@string/dev_3"
+            android:textColor="?attr/colorOnPrimary" />
 
         <TextView
             style="@style/TextMedium16"
@@ -78,7 +82,8 @@
             android:layout_height="wrap_content"
             android:layout_marginEnd="@dimen/eight"
             android:layout_marginBottom="@dimen/sixteen"
-            android:text="@string/dev_4" />
+            android:text="@string/dev_4"
+            android:textColor="?attr/colorOnPrimary" />
 
         <TextView
             style="@style/TextMedium16"
@@ -86,7 +91,8 @@
             android:layout_height="wrap_content"
             android:layout_marginEnd="@dimen/eight"
             android:layout_marginBottom="@dimen/sixteen"
-            android:text="@string/dev_5" />
+            android:text="@string/dev_5"
+            android:textColor="?attr/colorOnPrimary" />
 
         <TextView
             style="@style/TextMedium16"
@@ -94,7 +100,8 @@
             android:layout_height="wrap_content"
             android:layout_marginEnd="@dimen/eight"
             android:layout_marginBottom="@dimen/sixteen"
-            android:text="@string/dev_6" />
+            android:text="@string/dev_6"
+            android:textColor="?attr/colorOnPrimary" />
 
     </LinearLayout>
 
