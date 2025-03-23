@@ -19,6 +19,31 @@
         app:titleTextAppearance="@style/TitleMedium22"
         app:titleTextColor="?attr/colorOnPrimary" />
 
+    <ImageView
+        android:id="@+id/ivShare"
+        android:layout_width="@dimen/forty_eight"
+        android:layout_height="@dimen/forty_eight"
+        android:layout_marginTop="@dimen/eight"
+        android:layout_marginEnd="@dimen/sixty"
+        android:background="?attr/selectableItemBackgroundBorderless"
+        android:src="@drawable/ic_share"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@id/toolbar"
+        app:tint="?attr/colorOnPrimary" />
+
+    <ImageView
+        android:id="@+id/ivFavorite"
+        android:layout_width="@dimen/forty_eight"
+        android:layout_height="@dimen/forty_eight"
+        android:layout_marginTop="@dimen/eight"
+        android:layout_marginEnd="@dimen/eight"
+        android:background="?attr/selectableItemBackgroundBorderless"
+        android:contentDescription="@string/favorite"
+        android:src="@drawable/ic_favorite"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@id/toolbar"
+        app:tint="?attr/colorOnPrimary" />
+
     <TextView
         android:id="@+id/name"
         android:layout_width="wrap_content"
