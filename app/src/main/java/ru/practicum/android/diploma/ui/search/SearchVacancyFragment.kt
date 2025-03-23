@@ -69,11 +69,6 @@ class SearchVacancyFragment : Fragment() {
         findNavController().navigate(directions)
     }
 
-    private fun query(text: String) {
-        // Когда будет верстка, я доработаю этот метод
-        viewModel.searchVacancies(text)
-    }
-
     private fun showVacancies(vacanciesModel: VacanciesModel) {
         val vacancyList = vacanciesModel.items ?: emptyList()
         vacancyAdapter?.updateVacancy(vacancyList)
