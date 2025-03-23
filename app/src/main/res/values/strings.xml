@@ -19,9 +19,6 @@
     <string name="dev_4">Катерина Скорова</string>
     <string name="dev_5">Анна Киритцева</string>
     <string name="dev_6">Алдун Сардарлы</string>
-
-    <string name="search_hint">Введите запрос</string>
-
     <string name="experience_title">Требуемый опыт</string>
     <string name="description_title">Описание вакансии</string>
     <string name="key_skills_title">Ключевые навыки</string>
