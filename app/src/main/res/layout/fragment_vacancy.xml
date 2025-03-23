@@ -39,7 +39,7 @@
         android:layout_marginEnd="@dimen/eight"
         android:background="?attr/selectableItemBackgroundBorderless"
         android:contentDescription="@string/favorite"
-        android:src="@drawable/ic_favorite"
+        android:src="@drawable/ic_favorite_unselected"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="@id/toolbar"
         app:tint="?attr/colorOnPrimary" />

@@ -9,6 +9,7 @@ import ru.practicum.android.diploma.domain.favorites.api.FavoriteVacanciesIntera
 import ru.practicum.android.diploma.domain.search.ErrorType
 import ru.practicum.android.diploma.domain.search.Resource
 import ru.practicum.android.diploma.domain.search.api.VacanciesInteractor
+import ru.practicum.android.diploma.domain.search.models.VacancyModel
 
 class VacancyViewModel(
     val vacancyId: String,
@@ -19,6 +20,11 @@ class VacancyViewModel(
     private val vacancyState = MutableLiveData<VacancyState>()
     fun getVacancyState(): LiveData<VacancyState> = vacancyState
 
+
+    private val isFavorite = MutableLiveData<Boolean>()
+    fun getIsFavorite(): LiveData<Boolean> = isFavorite
+
+
     init {
         getVacancyDetails()
     }
@@ -27,7 +33,11 @@ class VacancyViewModel(
         vacancyInteractor.getVacancyById(vacancyId).collect { resource ->
             vacancyState.postValue(
                 when (resource) {
-                    is Resource.Success -> VacancyState.Content(resource.data)
+                    is Resource.Success -> {
+                        checkFavoriteStatus(resource.data.id)
+                        VacancyState.Content(resource.data)
+                    }
+
                     is Resource.Error -> when (resource.errorType) {
                         ErrorType.NOT_FOUND -> VacancyState.NothingFound
                         ErrorType.NO_INTERNET -> VacancyState.NoInternet
@@ -35,6 +45,27 @@ class VacancyViewModel(
                     }
                 }
             )
+        }
+    }
+
+    private fun checkFavoriteStatus(id: String) {
+        viewModelScope.launch {
+            val isFav = favoriteVacanciesInteractor.checkIfVacancyIsFavorite(id)
+            isFavorite.postValue(isFav)
+        }
+    }
+
+    fun addToFavorites(vacancy: VacancyModel) {
+        viewModelScope.launch {
+            favoriteVacanciesInteractor.addVacancyToFavorite(vacancy)
+            isFavorite.postValue(true)
+        }
+    }
+
+    fun removeFromFavorites(vacancy: VacancyModel) {
+        viewModelScope.launch {
+            favoriteVacanciesInteractor.removeVacancyFromFavorite(vacancy)
+            isFavorite.postValue(false)
         }
     }
 }
