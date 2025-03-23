@@ -129,7 +129,7 @@ class SearchVacancyFragment : Fragment() {
 
     private fun startSearch(query: String) {
         hidePlaceholder()
-        // TODO: Передать query в ViewModel
+        // Передать query в ViewModel (будет реализовано позже)
     }
 
     private fun showPlaceholder() {
