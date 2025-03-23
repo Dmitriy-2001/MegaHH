@@ -14,13 +14,13 @@ import ru.practicum.android.diploma.domain.search.models.VacanciesModel
 import ru.practicum.android.diploma.domain.search.models.VacancyModel
 
 class VacanciesRepositoryImpl(private val networkClient: NetworkClient) : VacanciesRepository {
-    override fun searchVacancies(text: String): Flow<Resource<VacanciesModel>> {
-        return networkClient.doRequest<SearchVacanciesRequest, SearchVacanciesResponse>(
+    override fun searchVacancies(text: String): Flow<Resource<VacanciesModel>> =
+        networkClient.doRequest<SearchVacanciesRequest, SearchVacanciesResponse>(
             SearchVacanciesRequest(
                 text = text
             )
         ).mapResource { it.convertToModel() }
-    }
+
 
     override fun getVacancyDetailsById(id: String): Flow<Resource<VacancyModel>> =
         networkClient.doRequest<GetVacancyDetailsRequest, GetVacancyDetailsResponse>(GetVacancyDetailsRequest(id))

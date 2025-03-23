@@ -45,7 +45,7 @@ class SearchVacancyFragment : Fragment() {
 
         viewModel.getSearchScreenState().observe(viewLifecycleOwner) { state ->
             when (state) {
-                is SearchScreenState.Content -> showVacancies((state.data))
+                is SearchScreenState.Content -> showVacancies(state.data)
                 is SearchScreenState.Error -> TODO()
                 is SearchScreenState.Loading -> TODO()
                 is SearchScreenState.NoInternet -> TODO()
@@ -69,10 +69,10 @@ class SearchVacancyFragment : Fragment() {
         findNavController().navigate(directions)
     }
 
-    private fun query(text:String) {
+    //private fun query(text: String) {
         // Когда будет верстка, я доработаю этот метод
-        viewModel.searchVacancies(text)
-    }
+     //   viewModel.searchVacancies(text)
+   // }
 
     private fun showVacancies(vacanciesModel: VacanciesModel) {
         val vacancyList = vacanciesModel.items ?: emptyList()
