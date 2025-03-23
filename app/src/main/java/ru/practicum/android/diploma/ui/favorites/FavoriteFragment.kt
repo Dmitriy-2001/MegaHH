@@ -9,6 +9,7 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import ru.practicum.android.diploma.databinding.FragmentFavoriteBinding
+import ru.practicum.android.diploma.domain.search.models.VacancyModel
 import ru.practicum.android.diploma.presentation.favorites.FavoriteVacanciesViewModel
 import ru.practicum.android.diploma.presentation.favorites.FavoriteVacancyState
 import ru.practicum.android.diploma.ui.search.VacancyAdapter
@@ -50,33 +51,38 @@ class FavoriteFragment : Fragment() {
 
         viewModel.favoriteVacancyState.observe(viewLifecycleOwner) { state ->
             when (state) {
-                is FavoriteVacancyState.Loading -> {
-                    binding.rvFavoriteVacancy.visibility = View.GONE
-                    binding.llEmptyList.visibility = View.GONE
-                    binding.llError.visibility = View.GONE
-                }
-
-                is FavoriteVacancyState.Content -> {
-                    binding.rvFavoriteVacancy.visibility = View.VISIBLE
-                    binding.llEmptyList.visibility = View.GONE
-                    binding.llError.visibility = View.GONE
-                    vacancyAdapter?.updateVacancy(state.data)
-                }
-
-                is FavoriteVacancyState.Empty -> {
-                    binding.rvFavoriteVacancy.visibility = View.GONE
-                    binding.llEmptyList.visibility = View.VISIBLE
-                    binding.llError.visibility = View.GONE
-                }
-
-                is FavoriteVacancyState.Error -> {
-                    binding.rvFavoriteVacancy.visibility = View.GONE
-                    binding.llEmptyList.visibility = View.GONE
-                    binding.llError.visibility = View.VISIBLE
-                }
+                is FavoriteVacancyState.Loading -> showLoading()
+                is FavoriteVacancyState.Content -> showFavoriteVacanciesRV(state.data)
+                is FavoriteVacancyState.Empty -> showEmptyState()
+                is FavoriteVacancyState.Error -> showErrorState()
             }
         }
 
+    }
+
+    private fun showLoading() {
+        binding.rvFavoriteVacancy.visibility = View.GONE
+        binding.llEmptyList.visibility = View.GONE
+        binding.llError.visibility = View.GONE
+    }
+
+    private fun showFavoriteVacanciesRV(data: List<VacancyModel>) {
+        binding.rvFavoriteVacancy.visibility = View.VISIBLE
+        binding.llEmptyList.visibility = View.GONE
+        binding.llError.visibility = View.GONE
+        vacancyAdapter?.updateVacancy(data)
+    }
+
+    private fun showEmptyState() {
+        binding.rvFavoriteVacancy.visibility = View.GONE
+        binding.llEmptyList.visibility = View.VISIBLE
+        binding.llError.visibility = View.GONE
+    }
+
+    private fun showErrorState() {
+        binding.rvFavoriteVacancy.visibility = View.GONE
+        binding.llEmptyList.visibility = View.GONE
+        binding.llError.visibility = View.VISIBLE
     }
 
     private fun openVacancy(vacancyId: String) {

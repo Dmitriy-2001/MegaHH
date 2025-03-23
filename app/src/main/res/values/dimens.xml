@@ -19,4 +19,5 @@
     <dimen name="sixty">64dp</dimen>
     <dimen name="thirty_two">32dp</dimen>
     <dimen name="forty_eight">48dp</dimen>
+    <dimen name="hundred_seventy_one">171dp</dimen>
 </resources>
