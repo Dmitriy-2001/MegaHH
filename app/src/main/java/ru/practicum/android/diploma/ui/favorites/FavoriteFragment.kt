@@ -23,7 +23,6 @@ class FavoriteFragment : Fragment() {
     private val viewModel by viewModel<FavoriteVacanciesViewModel>()
     private var vacancyAdapter: VacancyAdapter? = null
 
-
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
