@@ -82,7 +82,7 @@
         app:layout_constraintGuide_percent="0.5" />
 
     <ImageView
-        android:id="@+id/placeholder"
+        android:id="@+id/placeholder_not_searched"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:gravity="center"

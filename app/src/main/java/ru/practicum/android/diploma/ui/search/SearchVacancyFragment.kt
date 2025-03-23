@@ -13,7 +13,6 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
-import kotlinx.coroutines.launch
 import ru.practicum.android.diploma.R
 import ru.practicum.android.diploma.databinding.FragmentVacancySearchBinding
 import ru.practicum.android.diploma.util.Debouncer
@@ -58,49 +57,53 @@ class SearchVacancyFragment : Fragment() {
             }
         }
 
-        binding.searchEditText.doOnTextChanged { text, _, _, _ ->
-            val currentText = text.toString()
-            updateSearchIcon(currentText)
+        with(binding.searchEditText) {
+            doOnTextChanged { text, _, _, _ ->
+                val currentText = text.toString()
+                updateSearchIcon(currentText)
 
-            if (currentText.isNotBlank()) {
-                viewLifecycleOwner.lifecycleScope.launch {
+                if (currentText.isNotBlank()) {
                     debouncer.debounce {
-                        if (_binding != null && binding.searchEditText.text.toString().isNotBlank()) {
+                        if (binding.searchEditText.text.toString().isNotBlank()) {
                             startSearch(binding.searchEditText.text.toString())
                         }
                     }
+                } else {
+                    showPlaceholder()
                 }
-            } else {
-                showPlaceholder()
             }
-        }
 
-        binding.searchEditText.setOnEditorActionListener { _, actionId, event ->
-            val query = binding.searchEditText.text.toString()
-            if ((actionId == EditorInfo.IME_ACTION_SEARCH || event?.keyCode == KeyEvent.KEYCODE_ENTER)
-                && query.isNotBlank()
-            ) {
-                startSearch(query)
-                true
-            } else {
-                false
+            setOnEditorActionListener { _, actionId, event ->
+                val query = binding.searchEditText.text.toString()
+                if ((actionId == EditorInfo.IME_ACTION_SEARCH || event?.keyCode == KeyEvent.KEYCODE_ENTER)
+                    && query.isNotBlank()
+                ) {
+                    startSearch(query)
+                    true
+                } else {
+                    false
+                }
             }
         }
 
         vacancyAdapter = vacancyAdapter ?: VacancyAdapter(emptyList()) { vacancy ->
             openVacancy(vacancy.id)
         }
+
         binding.recyclerViewVacancy.layoutManager = LinearLayoutManager(requireContext())
         binding.recyclerViewVacancy.adapter = vacancyAdapter
     }
 
     override fun onResume() {
         super.onResume()
-        updateSearchIcon(binding.searchEditText.text.toString())
+        val text = binding.searchEditText.text.toString()
+        updateSearchIcon(text)
+        if (text.isNotBlank()) {
+            hidePlaceholder()
+        }
     }
 
     private fun updateSearchIcon(text: String) {
-        if (_binding == null) return // Проверка на null
         if (text.isNotBlank()) {
             binding.searchIcon.setImageResource(R.drawable.ic_clear)
         } else {
@@ -109,19 +112,16 @@ class SearchVacancyFragment : Fragment() {
     }
 
     private fun startSearch(query: String) {
-        if (_binding == null) return // Проверка на null
         hidePlaceholder()
-        // Передай query в ViewModel
+        // TODO: Передать query в ViewModel
     }
 
     private fun showPlaceholder() {
-        if (_binding == null) return // Проверка на null
-        binding.placeholder.visibility = View.VISIBLE
+        binding.placeholderNotSearched.visibility = View.VISIBLE
     }
 
     private fun hidePlaceholder() {
-        if (_binding == null) return // Проверка на null
-        binding.placeholder.visibility = View.GONE
+        binding.placeholderNotSearched.visibility = View.GONE
     }
 
     private fun openFilter() {
@@ -134,30 +134,29 @@ class SearchVacancyFragment : Fragment() {
         findNavController().navigate(directions)
     }
 
-    @Suppress("unused") // Используется позже
+    @Suppress("unused")
     private fun showNotification(message: String) {
-        if (_binding == null) return // Проверка на null
         binding.searchResultNotification.text = message
         binding.searchResultNotification.visibility = View.VISIBLE
     }
 
-    @Suppress("unused") // Используется позже
+    @Suppress("unused")
     private fun hideNotification() {
-        if (_binding == null) return // Проверка на null
         binding.searchResultNotification.visibility = View.GONE
     }
 
     private fun observeKeyboardVisibility() {
         keyboardListener = ViewTreeObserver.OnGlobalLayoutListener {
-            if (_binding != null) { // Проверка на null
+            _binding?.let { safeBinding ->
                 val rect = Rect()
-                binding.root.getWindowVisibleDisplayFrame(rect)
-                val screenHeight = binding.root.rootView.height
+                safeBinding.root.getWindowVisibleDisplayFrame(rect)
+                val screenHeight = safeBinding.root.rootView.height
                 val keypadHeight = screenHeight - rect.bottom
 
                 val keyboardNowVisible = keypadHeight > screenHeight * KEYBOARD_THRESHOLD_RATIO
                 if (keyboardNowVisible != isKeyboardVisible) {
                     isKeyboardVisible = keyboardNowVisible
+
                     val bottomNav = requireActivity().findViewById<View>(R.id.bottomNavigationView)
                     val bottomNavDivider = requireActivity().findViewById<View>(R.id.bottomNavDivider)
 
@@ -172,12 +171,13 @@ class SearchVacancyFragment : Fragment() {
     }
 
     override fun onDestroyView() {
+        super.onDestroyView()
+
         keyboardListener?.let {
-            binding.root.viewTreeObserver.removeOnGlobalLayoutListener(it)
+            _binding?.root?.viewTreeObserver?.removeOnGlobalLayoutListener(it)
         }
         keyboardListener = null
         _binding = null
-        super.onDestroyView()
     }
 
     companion object {
