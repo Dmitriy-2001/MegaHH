@@ -63,29 +63,29 @@ dependencies {
     // endregion
 
     // Retrofit
-    implementation("com.squareup.retrofit2:retrofit:${libs.versions.retrofitVersion.get()}")
-    implementation("com.squareup.retrofit2:converter-gson:${libs.versions.retrofitVersion.get()}")
+    implementation(libs.retrofit)
+    implementation(libs.retrofit.converter.gson)
 
     // Koin
-    implementation("io.insert-koin:koin-android:${libs.versions.koinVersion.get()}")
+    implementation(libs.koin.android)
 
     // Glide
-    implementation("com.github.bumptech.glide:glide:${libs.versions.glideVersion.get()}")
-    annotationProcessor("com.github.bumptech.glide:compiler:${libs.versions.glideVersion.get()}")
+    implementation(libs.glide)
+    annotationProcessor(libs.glide.compiler)
 
     // Room
-    implementation("androidx.room:room-runtime:${libs.versions.roomVersion.get()}")
-    kapt("androidx.room:room-compiler:${libs.versions.roomVersion.get()}")
-    implementation("androidx.room:room-ktx:${libs.versions.roomVersion.get()}")
+    implementation(libs.room.runtime)
+    kapt(libs.room.compiler)
+    implementation(libs.room.ktx)
 
     // Navigation
-    implementation("androidx.navigation:navigation-fragment-ktx:${libs.versions.navigationVersion.get()}")
-    implementation("androidx.navigation:navigation-ui-ktx:${libs.versions.navigationVersion.get()}")
-    implementation("androidx.fragment:fragment-ktx:${libs.versions.fragmentKtxVersion.get()}")
-    implementation("androidx.viewpager2:viewpager2:${libs.versions.viewPagerVersion.get()}")
+    implementation(libs.navigation.fragment.ktx)
+    implementation(libs.navigation.ui.ktx)
+    implementation(libs.fragment.ktx)
+    implementation(libs.viewpager2)
 
     // Coroutines
-    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:${libs.versions.coroutinesVersion.get()}")
+    implementation(libs.kotlinx.coroutines.android)
 
     // удалить после тестов
     implementation("com.squareup.okhttp3:logging-interceptor:4.11.0")

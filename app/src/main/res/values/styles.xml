@@ -27,7 +27,7 @@
         <item name="android:textSize">@dimen/big_text</item>
     </style>
 
-    <style name="BottomMenuStyle">
+    <style name="BottomMenuStyle" parent="Widget.MaterialComponents.BottomNavigationView.Colored">
         <item name="itemIconTint">@color/nav_item_color</item>
         <item name="itemTextColor">@color/nav_item_color</item>
         <item name="background">?attr/colorPrimary</item>
