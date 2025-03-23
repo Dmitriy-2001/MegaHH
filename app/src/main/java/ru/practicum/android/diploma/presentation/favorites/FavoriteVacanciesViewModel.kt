@@ -33,8 +33,7 @@ class FavoriteVacanciesViewModel(
     private fun handleFavoritesResult(list: List<VacancyModel>) {
         _favoriteVacancyState.postValue(
             if (list.isEmpty()) FavoriteVacancyState.Empty
-            else FavoriteVacancyState.Content(list)
-        )
-    }
+            else FavoriteVacancyState.Content(list)) }
+
 }
 

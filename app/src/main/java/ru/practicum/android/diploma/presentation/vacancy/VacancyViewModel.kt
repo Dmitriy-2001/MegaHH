@@ -20,10 +20,8 @@ class VacancyViewModel(
     private val vacancyState = MutableLiveData<VacancyState>()
     fun getVacancyState(): LiveData<VacancyState> = vacancyState
 
-
     private val isFavorite = MutableLiveData<Boolean>()
     fun getIsFavorite(): LiveData<Boolean> = isFavorite
-
 
     init {
         getVacancyDetails()

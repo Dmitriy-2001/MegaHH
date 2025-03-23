@@ -28,7 +28,7 @@ class VacancyFragment : Fragment() {
 
     private val vacancyId by lazy { args.vacancyId }
 
-    private var currentVacancy: VacancyModel? = null // 🆕 сохраняем текущую вакансию
+    private var currentVacancy: VacancyModel? = null
 
     override fun onCreateView(
         inflater: LayoutInflater,

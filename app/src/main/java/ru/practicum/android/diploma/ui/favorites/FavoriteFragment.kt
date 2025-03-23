@@ -25,7 +25,9 @@ class FavoriteFragment : Fragment() {
 
 
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
     ): View {
         _binding = FragmentFavoriteBinding.inflate(inflater, container, false)
         return binding.root
@@ -38,11 +40,6 @@ class FavoriteFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-//        binding.vacancyArrow.setOnClickListener {
-//            openVacancy("118345056") // убрать заглушку после тестов
-//        }
-
-
         vacancyAdapter = VacancyAdapter(emptyList()) { vacancy ->
             openVacancy(vacancy.id)
         }
