@@ -46,6 +46,7 @@ class VacancyFragment : Fragment() {
         viewModel.getVacancyState().observe(viewLifecycleOwner) { state ->
             when (state) {
                 is VacancyState.Content -> {
+                    currentVacancy = state.data
                     with(binding) {
                         name.text = state.data.name
                     }
