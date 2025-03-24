@@ -8,14 +8,18 @@
     <dimen name="zero">0dp</dimen>
     <dimen name="two">2dp</dimen>
     <dimen name="four">4dp</dimen>
+    <dimen name="six">6dp</dimen>
     <dimen name="eight">8dp</dimen>
     <dimen name="nine">9dp</dimen>
+    <dimen name="ten">10dp</dimen>
     <dimen name="radius">12dp</dimen>
     <dimen name="fifteen">15dp</dimen>
     <dimen name="sixteen">16dp</dimen>
     <dimen name="twenty">20dp</dimen>
     <dimen name="twenty_four">24dp</dimen>
-    <dimen name="sixty_four">64dp</dimen>
     <dimen name="thirty_two">32dp</dimen>
     <dimen name="forty_eight">48dp</dimen>
+    <dimen name="sixty_four">64dp</dimen>
+    <dimen name="seventy_two">72dp</dimen>
+    <dimen name="three_hundred">300dp</dimen>
 </resources>
