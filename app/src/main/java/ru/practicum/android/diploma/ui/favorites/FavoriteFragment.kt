@@ -24,9 +24,7 @@ class FavoriteFragment : Fragment() {
     private var vacancyAdapter: VacancyAdapter? = null
 
     override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
+        inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View {
         _binding = FragmentFavoriteBinding.inflate(inflater, container, false)
         return binding.root
@@ -84,5 +82,10 @@ class FavoriteFragment : Fragment() {
     private fun openVacancy(vacancyId: String) {
         val directions = FavoriteFragmentDirections.actionFavoriteFragmentToVacancyFragment(vacancyId)
         findNavController().navigate(directions)
+    }
+
+    override fun onResume() {
+        super.onResume()
+        viewModel.loadFavorites()
     }
 }
