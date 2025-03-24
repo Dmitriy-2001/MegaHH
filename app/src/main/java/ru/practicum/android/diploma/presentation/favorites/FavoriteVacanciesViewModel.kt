@@ -20,7 +20,7 @@ class FavoriteVacanciesViewModel(
         loadFavorites()
     }
 
-    private fun loadFavorites() {
+    fun loadFavorites() {
         _favoriteVacancyState.value = FavoriteVacancyState.Loading
         viewModelScope.launch {
             favoriteVacanciesInteractor.getVacanciesFavorite().catch {
