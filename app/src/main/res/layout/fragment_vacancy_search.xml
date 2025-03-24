@@ -52,7 +52,7 @@
                 style="@style/SearchEditText" />
 
             <ImageView
-                android:id="@+id/search_icon"
+                android:id="@+id/search_or_clear_icon"
                 android:layout_width="@dimen/twenty_four"
                 android:layout_height="@dimen/twenty_four"
                 android:layout_alignParentEnd="true"

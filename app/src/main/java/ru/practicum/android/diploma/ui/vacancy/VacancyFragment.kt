@@ -1,15 +1,11 @@
 package ru.practicum.android.diploma.ui.vacancy
 
 import android.os.Bundle
-import android.text.Html
 import android.text.method.LinkMovementMethod
 import android.view.LayoutInflater
 import android.view.View
-import android.view.View.GONE
-import android.view.View.VISIBLE
 import android.view.ViewGroup
 import androidx.core.text.HtmlCompat
-import androidx.core.text.HtmlCompat.FROM_HTML_MODE_LEGACY
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
@@ -20,19 +16,28 @@ import ru.practicum.android.diploma.R
 import ru.practicum.android.diploma.databinding.FragmentVacancyBinding
 import ru.practicum.android.diploma.presentation.vacancy.VacancyState
 import ru.practicum.android.diploma.presentation.vacancy.VacancyViewModel
+import ru.practicum.android.diploma.util.setVisibility
+import ru.practicum.android.diploma.util.show
 
 class VacancyFragment : Fragment() {
     private var _binding: FragmentVacancyBinding? = null
-    private val binding: FragmentVacancyBinding
-        get() = requireNotNull(_binding) { "Binding is null" }
+    private val binding get() = requireNotNull(_binding) { "Binding is null" }
 
     private val args: VacancyFragmentArgs by navArgs()
+    private val vacancyId by lazy { args.vacancyId }
+    private val viewModel by viewModel<VacancyViewModel> { parametersOf(vacancyId) }
 
-    private val viewModel by viewModel<VacancyViewModel>() {
-        parametersOf(vacancyId)
+    private val contentFields by lazy {
+        listOf(binding.cardViewCompany, binding.experienceTitle, binding.descriptionTitle)
     }
 
-    private val vacancyId by lazy { args.vacancyId }
+    private val errorPlaceholders by lazy {
+        listOf(
+            binding.placeholderVacancyNotFound.root,
+            binding.placeholderNoInternet.root,
+            binding.placeholderServerError.root
+        )
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -48,55 +53,42 @@ class VacancyFragment : Fragment() {
         binding.toolbar.setOnClickListener { findNavController().navigateUp() }
 
         viewModel.getVacancyState().observe(viewLifecycleOwner) { state ->
-            hideErrorPlaceholders()
-            hideContentFields()
+            errorPlaceholders.setVisibility(false)
+            contentFields.setVisibility(state is VacancyState.Content)
 
             when (state) {
-                is VacancyState.Content -> {
-                    with(binding) {
-                        name.text = state.data.name
-                        salary.text = state.data.salary
-                        companyName.text = state.data.employer
-                        companyCity.text = state.data.city
-
-                        Glide.with(this@VacancyFragment)
-                            .load(state.data.logoUrl)
-                            .placeholder(R.drawable.placeholder_rv)
-                            .into(companyImage)
-
-                        experience.text = state.data.experience
-                        employmentForm.text = state.data.employmentForm
-                        description.text = Html.fromHtml(state.data.description, FROM_HTML_MODE_LEGACY)
-                        description.movementMethod = LinkMovementMethod.getInstance()
-
-                        if (state.data.keySkills.isNotEmpty()) keySkillsTitle.visibility = VISIBLE
-                        val listHtml = state.data.keySkills.joinToString(separator = "<br>• ") { it }
-                        keySkills.text = HtmlCompat.fromHtml("• $listHtml", FROM_HTML_MODE_LEGACY)
-                    }
-                }
-
-                is VacancyState.NothingFound -> {
-                    binding.placeholderVacancyNotFound.root.visibility = VISIBLE
-                }
-
-                is VacancyState.NoInternet -> {
-                    binding.placeholderNoInternet.root.visibility = VISIBLE
-                }
-
-                is VacancyState.ServerError -> {
-                    binding.placeholderServerError.root.visibility = VISIBLE
-                }
+                is VacancyState.Content -> bindContent(state)
+                is VacancyState.NothingFound -> binding.placeholderVacancyNotFound.root.show()
+                is VacancyState.NoInternet -> binding.placeholderNoInternet.root.show()
+                is VacancyState.ServerError -> binding.placeholderServerError.root.show()
             }
         }
     }
 
-    private fun hideErrorPlaceholders() = listOf(
-        binding.placeholderVacancyNotFound.root,
-        binding.placeholderNoInternet.root, binding.placeholderServerError.root
-    ).forEach { it.visibility = GONE }
+    private fun bindContent(state: VacancyState.Content) = with(binding) {
+        name.text = state.data.name
+        salary.text = state.data.salary
+        companyName.text = state.data.employer
+        companyCity.text = state.data.city
 
-    private fun hideContentFields() = listOf(
-        binding.cardViewCompany, binding.experienceTitle, binding.descriptionTitle).forEach { it.visibility = GONE }
+        Glide.with(this@VacancyFragment)
+            .load(state.data.logoUrl)
+            .placeholder(R.drawable.placeholder_rv)
+            .into(companyImage)
+
+        experience.text = state.data.experience
+        employmentForm.text = state.data.employmentForm
+        description.apply {
+            text = HtmlCompat.fromHtml(state.data.description, HtmlCompat.FROM_HTML_MODE_LEGACY)
+            movementMethod = LinkMovementMethod.getInstance()
+        }
+
+        keySkillsTitle.visibility = if (state.data.keySkills.isNotEmpty()) View.VISIBLE else View.GONE
+        keySkills.text = HtmlCompat.fromHtml(
+            state.data.keySkills.joinToString("<br>• ", prefix = "• "),
+            HtmlCompat.FROM_HTML_MODE_LEGACY
+        )
+    }
 
     override fun onDestroyView() {
         super.onDestroyView()

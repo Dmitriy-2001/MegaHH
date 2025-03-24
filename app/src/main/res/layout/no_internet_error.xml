@@ -9,11 +9,11 @@
         android:src="@drawable/no_interner_placeholder" />
 
     <TextView
+        style="@style/TitleMedium22"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        style="@style/TitleMedium22"
+        android:layout_marginTop="@dimen/sixteen"
         android:gravity="center"
-        android:text="Нет интернета"
-        android:layout_marginTop="@dimen/sixteen"/>
+        android:text="@string/no_internet_error" />
 </LinearLayout>

@@ -5,7 +5,6 @@ import android.os.Bundle
 import android.view.KeyEvent
 import android.view.LayoutInflater
 import android.view.View
-import android.view.View.VISIBLE
 import android.view.ViewGroup
 import android.view.ViewTreeObserver
 import android.view.inputmethod.EditorInfo
@@ -21,6 +20,9 @@ import ru.practicum.android.diploma.domain.search.models.VacanciesModel
 import ru.practicum.android.diploma.presentation.search.SearchScreenState
 import ru.practicum.android.diploma.presentation.search.SearchVacancyViewModel
 import ru.practicum.android.diploma.util.Debouncer
+import ru.practicum.android.diploma.util.gone
+import ru.practicum.android.diploma.util.setVisibility
+import ru.practicum.android.diploma.util.show
 
 class SearchVacancyFragment : Fragment() {
 
@@ -36,6 +38,14 @@ class SearchVacancyFragment : Fragment() {
     private var keyboardListener: ViewTreeObserver.OnGlobalLayoutListener? = null
 
     private val viewModel by viewModel<SearchVacancyViewModel>()
+
+    private val errorPlaceholders by lazy {
+        listOf(
+            binding.placeholderEmptyList.root,
+            binding.placeholderNoInternet.root,
+            binding.placeholderServerError.root
+        )
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -57,26 +67,27 @@ class SearchVacancyFragment : Fragment() {
 
         updateSearchIcon(binding.searchEditText.text.toString())
 
-        binding.searchIcon.setOnClickListener {
+        binding.searchOrClearIcon.setOnClickListener {
             if (binding.searchEditText.text.isNotBlank()) {
                 binding.searchEditText.text.clear()
-                showPlaceholder()
+                showNotSearchedPlaceholder()
             }
         }
 
         with(binding.searchEditText) {
             doOnTextChanged { text, _, _, _ ->
-                val currentText = text.toString()
-                updateSearchIcon(currentText)
+                errorPlaceholders.setVisibility(false)
+                hideCountNotification()
+                updateSearchIcon(text.toString())
 
-                if (currentText.isNotBlank()) {
+                if (text.toString().isNotBlank()) {
                     debouncer.debounce {
                         if (binding.searchEditText.text.toString().isNotBlank()) {
                             startSearch(binding.searchEditText.text.toString())
                         }
                     }
                 } else {
-                    showPlaceholder()
+                    showNotSearchedPlaceholder()
                 }
             }
 
@@ -101,7 +112,9 @@ class SearchVacancyFragment : Fragment() {
         binding.recyclerViewVacancy.adapter = vacancyAdapter
 
         viewModel.getSearchScreenState().observe(viewLifecycleOwner) { state ->
-            println("State: $state")
+            errorPlaceholders.setVisibility(false)
+            hideCountNotification()
+
             when (state) {
                 is SearchScreenState.Content -> showVacancies(state.data)
                 is SearchScreenState.Error -> showError()
@@ -117,30 +130,26 @@ class SearchVacancyFragment : Fragment() {
         val text = binding.searchEditText.text.toString()
         updateSearchIcon(text)
         if (text.isNotBlank()) {
-            hidePlaceholder()
+            hideNotSearchedPlaceholder()
         }
     }
 
     private fun updateSearchIcon(text: String) {
         if (text.isNotBlank()) {
-            binding.searchIcon.setImageResource(R.drawable.ic_clear)
+            binding.searchOrClearIcon.setImageResource(R.drawable.ic_clear)
         } else {
-            binding.searchIcon.setImageResource(R.drawable.ic_search)
+            binding.searchOrClearIcon.setImageResource(R.drawable.ic_search)
         }
     }
 
     private fun startSearch(query: String) {
-        hidePlaceholder()
+        hideNotSearchedPlaceholder()
         viewModel.searchVacancies(query)
     }
 
-    private fun showPlaceholder() {
-        binding.placeholderNotSearched.visibility = View.VISIBLE
-    }
+    private fun showNotSearchedPlaceholder() = binding.placeholderNotSearched.show()
 
-    private fun hidePlaceholder() {
-        binding.placeholderNotSearched.visibility = View.GONE
-    }
+    private fun hideNotSearchedPlaceholder() = binding.placeholderNotSearched.gone()
 
     private fun openFilter() {
         val directions = SearchVacancyFragmentDirections.actionVacancySearchFragmentToFilterFragment()
@@ -155,26 +164,22 @@ class SearchVacancyFragment : Fragment() {
     private fun showVacancies(vacanciesModel: VacanciesModel) {
         val vacancyList = vacanciesModel.items ?: emptyList()
         if (vacancyList.isNotEmpty()) {
-            showNotification(message = "Найдено ${vacancyList.size} вакансий")
-            binding.searchResultNotification.visibility = View.VISIBLE
+            showCountNotification(message = "Найдено ${vacancyList.size} вакансий")
         } else {
-            showNotification(message = "Таких вакансий нет")
-            binding.placeholderEmptyList.root.visibility = VISIBLE
-//            hideNotification()
+            showCountNotification(message = "Таких вакансий нет")
+            binding.placeholderEmptyList.root.show()
         }
         vacancyAdapter?.updateVacancy(vacancyList)
-        binding.recyclerViewVacancy.visibility = View.VISIBLE
+        binding.recyclerViewVacancy.show()
     }
 
-    @Suppress("unused")
-    private fun showNotification(message: String) {
+    private fun showCountNotification(message: String) {
         binding.searchResultNotification.text = message
-        binding.searchResultNotification.visibility = View.VISIBLE
+        binding.searchResultNotification.show()
     }
 
-    @Suppress("unused")
-    private fun hideNotification() {
-        binding.searchResultNotification.visibility = View.GONE
+    private fun hideCountNotification() {
+        binding.searchResultNotification.gone()
     }
 
     private fun observeKeyboardVisibility() {
@@ -203,21 +208,22 @@ class SearchVacancyFragment : Fragment() {
     }
 
     private fun showError() {
-        binding.placeholderServerError.root.visibility = VISIBLE
-        binding.recyclerViewVacancy.visibility = View.GONE
+        binding.placeholderServerError.root.show()
+        binding.recyclerViewVacancy.gone()
     }
 
     private fun showLoading() {
-        binding.recyclerViewVacancy.visibility = View.GONE
+        binding.recyclerViewVacancy.gone()
     }
 
     private fun showNoInternetMessage() {
-        binding.placeholderNoInternet.root.visibility = VISIBLE
-        binding.recyclerViewVacancy.visibility = View.GONE
+        binding.placeholderNoInternet.root.show()
+        binding.recyclerViewVacancy.gone()
     }
 
     private fun showNothingFoundMessage() {
-        binding.recyclerViewVacancy.visibility = View.GONE
+        binding.placeholderEmptyList.root.show()
+        binding.recyclerViewVacancy.gone()
     }
 
     override fun onDestroyView() {
