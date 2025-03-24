@@ -98,7 +98,6 @@ class VacancyFragment : Fragment() {
     private fun hideContentFields() = listOf(
         binding.cardViewCompany, binding.experienceTitle, binding.descriptionTitle).forEach { it.visibility = GONE }
 
-    )
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
