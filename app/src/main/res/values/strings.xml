@@ -22,4 +22,6 @@
     <string name="experience_title">Требуемый опыт</string>
     <string name="description_title">Описание вакансии</string>
     <string name="key_skills_title">Ключевые навыки</string>
+
+    <string name="search_hint">Введите запрос</string>
 </resources>
