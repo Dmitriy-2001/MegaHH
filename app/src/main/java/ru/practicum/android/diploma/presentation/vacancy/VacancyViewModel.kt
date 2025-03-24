@@ -4,6 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import kotlinx.coroutines.flow.firstOrNull
 import kotlinx.coroutines.launch
 import ru.practicum.android.diploma.domain.favorites.api.FavoriteVacanciesInteractor
 import ru.practicum.android.diploma.domain.search.ErrorType
@@ -38,7 +39,17 @@ class VacancyViewModel(
 
                     is Resource.Error -> when (resource.errorType) {
                         ErrorType.NOT_FOUND -> VacancyState.NothingFound
-                        ErrorType.NO_INTERNET -> VacancyState.NoInternet
+                        ErrorType.NO_INTERNET -> {
+                            val localVacancy =
+                                favoriteVacanciesInteractor.getVacancyFavoriteById(vacancyId).firstOrNull()
+                            if (localVacancy != null) {
+                                checkFavoriteStatus(vacancyId)
+                                VacancyState.Content(localVacancy)
+                            } else {
+                                VacancyState.NoInternet
+                            }
+                        }
+
                         else -> VacancyState.ServerError
                     }
                 }
