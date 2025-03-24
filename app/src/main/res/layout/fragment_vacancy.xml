@@ -28,10 +28,10 @@
             android:layout_width="@dimen/forty_eight"
             android:layout_height="@dimen/forty_eight"
             android:layout_marginTop="@dimen/eight"
-            android:layout_marginEnd="@dimen/sixty"
+            android:layout_marginEnd="@dimen/sixteen"
             android:background="?attr/selectableItemBackgroundBorderless"
             android:src="@drawable/ic_share"
-            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/ivFavorite"
             app:layout_constraintTop_toTopOf="@id/toolbar"
             app:tint="?attr/colorOnPrimary" />
 
@@ -44,7 +44,7 @@
             android:background="?attr/selectableItemBackgroundBorderless"
             android:contentDescription="@string/favorite"
             android:src="@drawable/ic_favorite_unselected"
-            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintEnd_toEndOf="@id/right_guideline"
             app:layout_constraintTop_toTopOf="@id/toolbar" />
 
         <androidx.constraintlayout.widget.Guideline
