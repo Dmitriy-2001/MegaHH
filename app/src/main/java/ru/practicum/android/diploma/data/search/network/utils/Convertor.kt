@@ -20,13 +20,12 @@ object Convertor {
                 name = it.name,
                 employer = it.employer.name,
                 logoUrl = it.employer.logoUrls?.url240,
-                city = it.address?.city,
+                city = it.area.name,
                 salary = getSalaryString(it.salary),
-                description = it.description,
-                employmentForm = it.employmentForm?.name,
+                description = it.description ?: "",
+                employmentForm = it.employment?.name,
                 experience = it.experience.name,
-                keySkills = it.keySkills.map { it.name },
-                area = it.name
+                keySkills = it.keySkills?.map { it.name } ?: listOf()
             )
         }
     )
@@ -36,19 +35,18 @@ object Convertor {
         name = this.name,
         employer = this.employer.name,
         logoUrl = this.employer.logoUrls?.url240,
-        city = this.address?.city,
+        city = this.area.name,
         salary = getSalaryString(this.salary),
         description = this.description,
-        employmentForm = this.employmentForm?.name,
+        employmentForm = this.employment?.name,
         experience = this.experience.name,
         keySkills = this.keySkills.map { it.name },
-        area = this.area.name
     )
 
-    private fun getSalaryString(salary: Salary) = buildString {
-        salary.from?.let { append("от ${formatSalary(it)} ") }
-        salary.to?.let { append("до ${formatSalary(it)}") }
-        if (isEmpty()) append("Зарплата не указана") else append(" ${salary.currency?.symbol}")
+    private fun getSalaryString(salary: Salary?) = buildString {
+        salary?.from?.let { append("от ${formatSalary(it)} ") }
+        salary?.to?.let { append("до ${formatSalary(it)}") }
+        if (isEmpty()) append("Зарплата не указана") else append(" ${salary?.currency?.symbol}")
     }
 
     private fun formatSalary(salary: Int): String {

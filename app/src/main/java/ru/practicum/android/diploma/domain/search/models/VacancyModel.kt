@@ -5,11 +5,10 @@ data class VacancyModel(
     val name: String,
     val employer: String,
     val logoUrl: String?,
-    val city: String?,
+    val city: String,
     val salary: String,
     val description: String,
     val employmentForm: String?,
     val experience: String,
     val keySkills: List<String> = listOf(),
-    val area: String
 )

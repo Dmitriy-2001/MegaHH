@@ -14,9 +14,9 @@ data class GetVacancyDetailsResponse(
     val name: String,
     val employer: Employer,
     val address: Address?,
-    val salary: Salary,
+    val salary: Salary?,
     val description: String,
-    val employmentForm: EmploymentForm?,
+    val employment: EmploymentForm?,
     val experience: Experience,
     @SerializedName("key_skills")
     val keySkills: List<KeySkill> = listOf(),
