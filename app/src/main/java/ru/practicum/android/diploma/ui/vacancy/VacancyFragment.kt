@@ -5,6 +5,7 @@ import android.text.Html
 import android.text.method.LinkMovementMethod
 import android.view.LayoutInflater
 import android.view.View
+import android.view.View.GONE
 import android.view.View.VISIBLE
 import android.view.ViewGroup
 import androidx.core.text.HtmlCompat
@@ -47,6 +48,9 @@ class VacancyFragment : Fragment() {
         binding.toolbar.setOnClickListener { findNavController().navigateUp() }
 
         viewModel.getVacancyState().observe(viewLifecycleOwner) { state ->
+            hideErrorPlaceholders()
+            hideContentFields()
+
             when (state) {
                 is VacancyState.Content -> {
                     with(binding) {
@@ -72,20 +76,29 @@ class VacancyFragment : Fragment() {
                 }
 
                 is VacancyState.NothingFound -> {
-                    TODO()
+                    binding.placeholderVacancyNotFound.root.visibility = VISIBLE
                 }
 
                 is VacancyState.NoInternet -> {
-                    TODO()
+                    binding.placeholderNoInternet.root.visibility = VISIBLE
                 }
 
                 is VacancyState.ServerError -> {
-                    TODO()
+                    binding.placeholderServerError.root.visibility = VISIBLE
                 }
             }
         }
     }
 
+    private fun hideErrorPlaceholders() = listOf(
+        binding.placeholderVacancyNotFound.root,
+        binding.placeholderNoInternet.root, binding.placeholderServerError.root
+    ).forEach { it.visibility = GONE }
+
+    private fun hideContentFields() = listOf(
+        binding.cardViewCompany, binding.experienceTitle, binding.descriptionTitle).forEach { it.visibility = GONE }
+
+    )
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null

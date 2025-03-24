@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.view.KeyEvent
 import android.view.LayoutInflater
 import android.view.View
+import android.view.View.VISIBLE
 import android.view.ViewGroup
 import android.view.ViewTreeObserver
 import android.view.inputmethod.EditorInfo
@@ -157,7 +158,9 @@ class SearchVacancyFragment : Fragment() {
             showNotification(message = "Найдено ${vacancyList.size} вакансий")
             binding.searchResultNotification.visibility = View.VISIBLE
         } else {
-            hideNotification()
+            showNotification(message = "Таких вакансий нет")
+            binding.placeholderEmptyList.root.visibility = VISIBLE
+//            hideNotification()
         }
         vacancyAdapter?.updateVacancy(vacancyList)
         binding.recyclerViewVacancy.visibility = View.VISIBLE
@@ -200,6 +203,7 @@ class SearchVacancyFragment : Fragment() {
     }
 
     private fun showError() {
+        binding.placeholderServerError.root.visibility = VISIBLE
         binding.recyclerViewVacancy.visibility = View.GONE
     }
 
@@ -208,6 +212,7 @@ class SearchVacancyFragment : Fragment() {
     }
 
     private fun showNoInternetMessage() {
+        binding.placeholderNoInternet.root.visibility = VISIBLE
         binding.recyclerViewVacancy.visibility = View.GONE
     }
 

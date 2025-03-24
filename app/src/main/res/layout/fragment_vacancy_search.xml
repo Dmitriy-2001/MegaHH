@@ -101,4 +101,28 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/search_result_notification" />
+
+    <include
+        android:id="@+id/placeholder_no_internet"
+        layout="@layout/no_internet_error"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        app:layout_constraintTop_toBottomOf="@id/search_container" />
+
+    <include
+        android:id="@+id/placeholder_empty_list"
+        layout="@layout/empty_list_error"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        app:layout_constraintTop_toBottomOf="@id/search_container" />
+
+    <include
+        android:id="@+id/placeholder_server_error"
+        layout="@layout/server_error_for_search_fragment"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        app:layout_constraintTop_toBottomOf="@id/search_container" />
 </androidx.constraintlayout.widget.ConstraintLayout>
