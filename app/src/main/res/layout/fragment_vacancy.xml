@@ -24,7 +24,7 @@
         android:layout_width="@dimen/forty_eight"
         android:layout_height="@dimen/forty_eight"
         android:layout_marginTop="@dimen/eight"
-        android:layout_marginEnd="@dimen/sixty"
+        android:layout_marginEnd="@dimen/sixty_four"
         android:background="?attr/selectableItemBackgroundBorderless"
         android:src="@drawable/ic_share"
         app:layout_constraintEnd_toEndOf="parent"
