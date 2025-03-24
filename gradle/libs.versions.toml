@@ -74,4 +74,6 @@ viewpager2 = { module = "androidx.viewpager2:viewpager2", version.ref = "viewPag
 
 # Coroutines
 kotlinx-coroutines-android = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-android", version.ref = "coroutinesVersion" }
+
+cardview = { group = "androidx.cardview", name = "cardview", version = "1.0.0" }
 [bundles]

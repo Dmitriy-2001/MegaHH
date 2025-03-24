@@ -23,7 +23,7 @@ object Convertor {
                 city = it.area.name,
                 salary = getSalaryString(it.salary),
                 description = it.description ?: "",
-                employmentForm = it.employmentForm?.name,
+                employmentForm = it.employment?.name,
                 experience = it.experience.name,
                 keySkills = it.keySkills?.map { it.name } ?: listOf()
             )
@@ -38,7 +38,7 @@ object Convertor {
         city = this.area.name,
         salary = getSalaryString(this.salary),
         description = this.description,
-        employmentForm = this.employmentForm?.name,
+        employmentForm = this.employment?.name,
         experience = this.experience.name,
         keySkills = this.keySkills.map { it.name },
     )

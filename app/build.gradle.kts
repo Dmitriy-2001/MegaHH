@@ -52,6 +52,7 @@ dependencies {
     // UI layer libraries
     implementation(libs.ui.material)
     implementation(libs.ui.constraintLayout)
+    implementation(libs.cardview)
 
     // region Unit tests
     testImplementation(libs.unitTests.junit)
