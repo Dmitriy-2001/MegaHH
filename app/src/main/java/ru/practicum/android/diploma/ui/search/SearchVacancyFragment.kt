@@ -1,5 +1,6 @@
 package ru.practicum.android.diploma.ui.search
 
+import android.content.Context
 import android.graphics.Rect
 import android.os.Bundle
 import android.view.KeyEvent
@@ -8,6 +9,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.ViewTreeObserver
 import android.view.inputmethod.EditorInfo
+import android.view.inputmethod.InputMethodManager
 import androidx.core.widget.doOnTextChanged
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
@@ -81,8 +83,9 @@ class SearchVacancyFragment : Fragment() {
 
                 if (text.toString().isNotBlank()) {
                     debouncer.debounce {
-                        if (binding.searchEditText.text.toString().isNotBlank()) {
-                            startSearch(binding.searchEditText.text.toString())
+                        val query = binding.searchEditText.text.toString()
+                        if (query.isNotBlank()) {
+                            startSearch(query)
                         }
                     }
                 } else {
@@ -143,6 +146,7 @@ class SearchVacancyFragment : Fragment() {
 
     private fun startSearch(query: String) {
         binding.placeholderNotSearched.gone()
+        hideKeyboard()
         viewModel.searchVacancies(query)
     }
 
@@ -175,6 +179,12 @@ class SearchVacancyFragment : Fragment() {
 
     private fun hideCountNotification() {
         binding.searchResultNotification.gone()
+    }
+
+    private fun hideKeyboard() {
+        val inputMethodManager =
+            requireContext().getSystemService(Context.INPUT_METHOD_SERVICE) as? InputMethodManager
+        inputMethodManager?.hideSoftInputFromWindow(binding.searchEditText.windowToken, 0)
     }
 
     private fun observeKeyboardVisibility() {
