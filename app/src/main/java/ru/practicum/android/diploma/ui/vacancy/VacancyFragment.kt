@@ -80,7 +80,6 @@ class VacancyFragment : Fragment() {
                 }
 
                 is VacancyState.NoInternet -> {
-                    TODO()
                 }
 
                 is VacancyState.ServerError -> {
