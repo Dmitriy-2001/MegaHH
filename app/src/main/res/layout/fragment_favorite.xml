@@ -20,23 +20,85 @@
         app:titleTextAppearance="@style/TitleMedium22"
         app:titleTextColor="?attr/colorOnPrimary" />
 
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/vacancy"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="center_vertical"
-        app:hintTextColor="@color/black"
-        app:layout_constraintTop_toBottomOf="@+id/toolbar">
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rv_favorite_vacancy"
+        android:layout_width="@dimen/zero"
+        android:layout_height="@dimen/zero"
+        android:paddingStart="@dimen/sixteen"
+        android:paddingTop="@dimen/sixteen"
+        android:paddingEnd="@dimen/sixteen"
+        android:visibility="gone"
+        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/toolbar"
+        tools:listitem="@layout/item_vacancy" />
 
-        <ImageButton
-            android:id="@+id/vacancy_arrow"
+    <LinearLayout
+        android:id="@+id/ll_empty_list"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/sixteen"
+        android:layout_marginTop="@dimen/hundred_seventy_two"
+        android:layout_marginRight="@dimen/sixteen"
+        android:layout_marginBottom="@dimen/hundred_seventy_two"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/toolbar">
+
+        <ImageView
             android:layout_width="wrap_content"
-            android:layout_height="@dimen/sixty_four"
-            android:layout_marginEnd="@dimen/four"
-            android:backgroundTint="@color/white"
-            android:src="@drawable/ic_arrow_forward"
-            app:layout_constraintEnd_toEndOf="@id/vacancy"
-            tools:ignore="MissingConstraints,SpeakableTextPresentCheck" />
-    </com.google.android.material.textfield.TextInputLayout>
+            android:layout_height="wrap_content"
+            android:src="@drawable/placeholder_empty_vacancy_list" />
+
+        <TextView
+            android:id="@+id/tv_placeholder"
+            style="@style/TitleMedium22"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/sixteen"
+            android:text="@string/empty_list"
+            android:textColor="?attr/colorOnPrimary" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/ll_error"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/sixteen"
+        android:layout_marginTop="@dimen/hundred_seventy_two"
+        android:layout_marginRight="@dimen/sixteen"
+        android:layout_marginBottom="@dimen/hundred_seventy_two"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:visibility="visible"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/toolbar">
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/placeholder_error" />
+
+        <TextView
+            android:id="@+id/tv_error"
+            style="@style/TitleMedium22"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/sixteen"
+            android:gravity="center"
+            android:maxWidth="@dimen/two_hundred_sixty_eight"
+            android:text="@string/unable_to_get_favorite_vacancy"
+            android:textAlignment="center"
+            android:textColor="?attr/colorOnPrimary" />
+    </LinearLayout>
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

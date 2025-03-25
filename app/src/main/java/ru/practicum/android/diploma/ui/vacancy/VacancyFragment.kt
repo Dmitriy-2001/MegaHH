@@ -17,6 +17,7 @@ import org.koin.androidx.viewmodel.ext.android.viewModel
 import org.koin.core.parameter.parametersOf
 import ru.practicum.android.diploma.R
 import ru.practicum.android.diploma.databinding.FragmentVacancyBinding
+import ru.practicum.android.diploma.domain.search.models.VacancyModel
 import ru.practicum.android.diploma.presentation.vacancy.VacancyState
 import ru.practicum.android.diploma.presentation.vacancy.VacancyViewModel
 
@@ -32,6 +33,8 @@ class VacancyFragment : Fragment() {
     }
 
     private val vacancyId by lazy { args.vacancyId }
+
+    private var currentVacancy: VacancyModel? = null
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -49,6 +52,7 @@ class VacancyFragment : Fragment() {
         viewModel.getVacancyState().observe(viewLifecycleOwner) { state ->
             when (state) {
                 is VacancyState.Content -> {
+                    currentVacancy = state.data
                     with(binding) {
                         name.text = state.data.name
                         salary.text = state.data.salary
@@ -76,13 +80,36 @@ class VacancyFragment : Fragment() {
                 }
 
                 is VacancyState.NoInternet -> {
-                    TODO()
                 }
 
                 is VacancyState.ServerError -> {
                     TODO()
                 }
             }
+        }
+
+        viewModel.getIsFavorite().observe(viewLifecycleOwner) { isFavorite ->
+            updateFavoriteIcon(isFavorite)
+        }
+
+        binding.ivFavorite.setOnClickListener {
+            toggleFavorite()
+        }
+    }
+
+    private fun updateFavoriteIcon(isFavorite: Boolean) {
+        binding.ivFavorite.setImageResource(
+            if (isFavorite) R.drawable.ic_favorite_selected else R.drawable.ic_favorite_unselected
+        )
+    }
+
+    private fun toggleFavorite() {
+        val vacancy = currentVacancy ?: return
+        val isFavorite = viewModel.getIsFavorite().value ?: false
+        if (isFavorite) {
+            viewModel.removeFromFavorites(vacancy)
+        } else {
+            viewModel.addToFavorites(vacancy)
         }
     }
 
