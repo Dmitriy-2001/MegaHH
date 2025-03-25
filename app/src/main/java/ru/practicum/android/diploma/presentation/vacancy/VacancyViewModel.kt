@@ -10,7 +10,6 @@ import ru.practicum.android.diploma.domain.favorites.api.FavoriteVacanciesIntera
 import ru.practicum.android.diploma.domain.search.ErrorType
 import ru.practicum.android.diploma.domain.search.Resource
 import ru.practicum.android.diploma.domain.search.api.VacanciesInteractor
-import ru.practicum.android.diploma.domain.search.models.VacancyModel
 
 class VacancyViewModel(
     val vacancyId: String,
@@ -40,14 +39,11 @@ class VacancyViewModel(
                     is Resource.Error -> when (resource.errorType) {
                         ErrorType.NOT_FOUND -> VacancyState.NothingFound
                         ErrorType.NO_INTERNET -> {
-                            val localVacancy =
-                                favoriteVacanciesInteractor.getVacancyFavoriteById(vacancyId).firstOrNull()
-                            if (localVacancy != null) {
-                                checkFavoriteStatus(vacancyId)
-                                VacancyState.Content(localVacancy)
-                            } else {
-                                VacancyState.NoInternet
-                            }
+                            favoriteVacanciesInteractor.getVacancyFavoriteById(vacancyId).firstOrNull()
+                                ?.let { localVacancy ->
+                                    checkFavoriteStatus(vacancyId)
+                                    VacancyState.Content(localVacancy)
+                                } ?: VacancyState.NoInternet
                         }
 
                         else -> VacancyState.ServerError
@@ -64,17 +60,18 @@ class VacancyViewModel(
         }
     }
 
-    fun addToFavorites(vacancy: VacancyModel) {
-        viewModelScope.launch {
-            favoriteVacanciesInteractor.addVacancyToFavorite(vacancy)
-            isFavorite.postValue(true)
-        }
-    }
+    fun changeFavoriteState() {
+        val vacancy = (vacancyState.value as? VacancyState.Content)?.data ?: return
+        val currentlyFavorite = isFavorite.value ?: false
 
-    fun removeFromFavorites(vacancy: VacancyModel) {
         viewModelScope.launch {
-            favoriteVacanciesInteractor.removeVacancyFromFavorite(vacancy)
-            isFavorite.postValue(false)
+            if (currentlyFavorite) {
+                favoriteVacanciesInteractor.removeVacancyFromFavorite(vacancy)
+                isFavorite.postValue(false)
+            } else {
+                favoriteVacanciesInteractor.addVacancyToFavorite(vacancy)
+                isFavorite.postValue(true)
+            }
         }
     }
 }
