@@ -78,6 +78,7 @@ class SearchVacancyFragment : Fragment() {
                         }
                     }
                 } else {
+                    hideVacancies()
                     showPlaceholder()
                 }
             }
@@ -153,6 +154,11 @@ class SearchVacancyFragment : Fragment() {
     private fun openVacancy(vacancyId: String) {
         val directions = SearchVacancyFragmentDirections.actionVacancySearchFragmentToVacancyFragment(vacancyId)
         findNavController().navigate(directions)
+    }
+
+    private fun hideVacancies() {
+        binding.recyclerViewVacancy.visibility = View.GONE
+        binding.searchResultNotification.visibility = View.GONE
     }
 
     private fun showVacancies(vacanciesModel: VacanciesModel) {

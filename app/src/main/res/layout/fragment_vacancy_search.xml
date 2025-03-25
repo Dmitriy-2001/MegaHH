@@ -64,41 +64,43 @@
         </RelativeLayout>
     </androidx.cardview.widget.CardView>
 
-    <TextView
-        android:id="@+id/search_result_notification"
-        style="@style/Notification"
-        android:gravity="center"
-        android:visibility="gone"
+    <!-- Список вакансий -->
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recycler_view_vacancy"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/search_container" />
-    <!-- Guideline: горизонтальная, 50% между поиском и низом -->
-    <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/mid_guideline"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        app:layout_constraintGuide_begin="0dp"
-        app:layout_constraintGuide_percent="0.5" />
 
+    <!-- Уведомление -->
+    <TextView
+        android:id="@+id/search_result_notification"
+        style="@style/Notification"
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        android:background="@drawable/bg_notification"
+        android:gravity="center"
+        android:outlineProvider="none"
+        android:translationY="-8dp"
+        android:visibility="gone"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHeight_default="wrap"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/search_container" />
+
+    <!-- Placeholder, если ничего не искали -->
     <ImageView
         android:id="@+id/placeholder_not_searched"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:gravity="center"
         android:src="@drawable/placeholder_not_searched"
+        android:visibility="visible"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/search_container"
         app:layout_constraintVertical_bias="0.5" />
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recycler_view_vacancy"
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/zero"
-        android:layout_weight="1"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/search_result_notification" />
 </androidx.constraintlayout.widget.ConstraintLayout>
