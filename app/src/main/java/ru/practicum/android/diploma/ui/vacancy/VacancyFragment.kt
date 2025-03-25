@@ -59,9 +59,7 @@ class VacancyFragment : Fragment() {
                         companyName.text = state.data.employer
                         companyCity.text = state.data.city
 
-                        Glide.with(this@VacancyFragment)
-                            .load(state.data.logoUrl)
-                            .placeholder(R.drawable.placeholder_rv)
+                        Glide.with(this@VacancyFragment).load(state.data.logoUrl).placeholder(R.drawable.placeholder_rv)
                             .into(companyImage)
 
                         experience.text = state.data.experience
@@ -93,7 +91,7 @@ class VacancyFragment : Fragment() {
         }
 
         binding.ivFavorite.setOnClickListener {
-            toggleFavorite()
+            viewModel.changeFavoriteState()
         }
     }
 
@@ -101,16 +99,6 @@ class VacancyFragment : Fragment() {
         binding.ivFavorite.setImageResource(
             if (isFavorite) R.drawable.ic_favorite_selected else R.drawable.ic_favorite_unselected
         )
-    }
-
-    private fun toggleFavorite() {
-        val vacancy = currentVacancy ?: return
-        val isFavorite = viewModel.getIsFavorite().value ?: false
-        if (isFavorite) {
-            viewModel.removeFromFavorites(vacancy)
-        } else {
-            viewModel.addToFavorites(vacancy)
-        }
     }
 
     override fun onDestroyView() {

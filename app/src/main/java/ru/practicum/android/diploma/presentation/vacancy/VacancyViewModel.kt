@@ -60,17 +60,18 @@ class VacancyViewModel(
         }
     }
 
-    fun addToFavorites(vacancy: VacancyModel) {
-        viewModelScope.launch {
-            favoriteVacanciesInteractor.addVacancyToFavorite(vacancy)
-            isFavorite.postValue(true)
-        }
-    }
+    fun changeFavoriteState() {
+        val vacancy = (vacancyState.value as? VacancyState.Content)?.data ?: return
+        val currentlyFavorite = isFavorite.value ?: false
 
-    fun removeFromFavorites(vacancy: VacancyModel) {
         viewModelScope.launch {
-            favoriteVacanciesInteractor.removeVacancyFromFavorite(vacancy)
-            isFavorite.postValue(false)
+            if (currentlyFavorite) {
+                favoriteVacanciesInteractor.removeVacancyFromFavorite(vacancy)
+                isFavorite.postValue(false)
+            } else {
+                favoriteVacanciesInteractor.addVacancyToFavorite(vacancy)
+                isFavorite.postValue(true)
+            }
         }
     }
 }
