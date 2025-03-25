@@ -8,7 +8,7 @@ import ru.practicum.android.diploma.data.favorites.db.entity.FavoriteVacancyEnti
 
 @Database(
     entities = [FavoriteVacancyEntity::class],
-    version = 2,
+    version = 3,
     exportSchema = false
 )
 @TypeConverters(Converters::class)

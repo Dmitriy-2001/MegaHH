@@ -1,8 +1,9 @@
 package ru.practicum.android.diploma.ui.vacancy
 
+import android.content.Intent
 import android.os.Bundle
 import android.text.Html
-import android.text.method.LinkMovementMethod
+import android.text.Html.FROM_HTML_MODE_COMPACT
 import android.view.LayoutInflater
 import android.view.View
 import android.view.View.VISIBLE
@@ -66,12 +67,16 @@ class VacancyFragment : Fragment() {
 
                         experience.text = state.data.experience
                         employmentForm.text = state.data.employmentForm
-                        description.text = Html.fromHtml(state.data.description, FROM_HTML_MODE_LEGACY)
-                        description.movementMethod = LinkMovementMethod.getInstance()
+
+                        description.text = Html.fromHtml(state.data.description, FROM_HTML_MODE_COMPACT)
 
                         if (state.data.keySkills.isNotEmpty()) keySkillsTitle.visibility = VISIBLE
                         val listHtml = state.data.keySkills.joinToString(separator = "<br>• ") { it }
                         keySkills.text = HtmlCompat.fromHtml("• $listHtml", FROM_HTML_MODE_LEGACY)
+
+                        binding.ivShare.setOnClickListener {
+                            shareVacancyLink(state.data.alternateUrl)
+                        }
                     }
                 }
 
@@ -111,6 +116,13 @@ class VacancyFragment : Fragment() {
         } else {
             viewModel.addToFavorites(vacancy)
         }
+    }
+
+    private fun shareVacancyLink(link: String?) = link?.let {
+        Intent(Intent.ACTION_SEND).apply {
+            type = "text/plain"
+            putExtra(Intent.EXTRA_TEXT, link)
+        }.also { startActivity(it) }
     }
 
     override fun onDestroyView() {

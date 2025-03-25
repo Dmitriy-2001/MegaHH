@@ -42,7 +42,8 @@ class FavoriteVacanciesRepositoryImpl(private val favoriteVacancyDao: FavoriteVa
         description = this.description,
         employmentForm = this.employmentForm,
         experience = this.experience,
-        keySkills = this.keySkills
+        keySkills = this.keySkills,
+        alternateUrl = this.alternateUrl
     )
 
     private fun FavoriteVacancyEntity.mapToVacancyModel() = VacancyModel(
@@ -55,6 +56,7 @@ class FavoriteVacanciesRepositoryImpl(private val favoriteVacancyDao: FavoriteVa
         description = this.description,
         employmentForm = this.employmentForm,
         experience = this.experience,
-        keySkills = this.keySkills
+        keySkills = this.keySkills,
+        alternateUrl = this.alternateUrl
     )
 }

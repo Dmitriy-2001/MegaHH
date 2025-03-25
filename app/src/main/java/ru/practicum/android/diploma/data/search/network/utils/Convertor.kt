@@ -10,6 +10,8 @@ import java.text.DecimalFormatSymbols
 import java.util.Locale
 
 object Convertor {
+    private const val hhLink = "https://hh.ru/vacancy"
+
     fun SearchVacanciesResponse.convertToModel() = VacanciesModel(
         pages = this.pages,
         itemsCount = this.found,
@@ -26,7 +28,7 @@ object Convertor {
                 employmentForm = it.employment?.name,
                 experience = it.experience.name,
                 keySkills = it.keySkills?.map { it.name } ?: listOf(),
-                alternateUrl = it.employer.alternateUrl
+                alternateUrl = it.employer.alternateUrl ?: "$hhLink/${it.id}"
             )
         }
     )
@@ -42,7 +44,7 @@ object Convertor {
         employmentForm = this.employment?.name,
         experience = this.experience.name,
         keySkills = this.keySkills.map { it.name },
-        alternateUrl = this.employer.alternateUrl
+        alternateUrl = this.employer.alternateUrl ?: "$hhLink/${this.id}"
     )
 
     private fun getSalaryString(salary: Salary?) = buildString {
