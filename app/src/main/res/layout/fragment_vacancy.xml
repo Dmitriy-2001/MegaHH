@@ -23,6 +23,30 @@
             app:titleTextAppearance="@style/TitleMedium22"
             app:titleTextColor="?attr/colorOnPrimary" />
 
+        <include
+            android:id="@+id/placeholder_no_internet"
+            layout="@layout/no_internet_error"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:visibility="gone"
+            app:layout_constraintTop_toBottomOf="@id/toolbar" />
+
+        <include
+            android:id="@+id/placeholder_vacancy_not_found"
+            layout="@layout/vacancy_not_found_error"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:visibility="gone"
+            app:layout_constraintTop_toBottomOf="@id/toolbar" />
+
+        <include
+            android:id="@+id/placeholder_server_error"
+            layout="@layout/server_error_for_vacancy_fragment"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:visibility="gone"
+            app:layout_constraintTop_toBottomOf="@id/toolbar" />
+
         <androidx.constraintlayout.widget.Guideline
             android:id="@+id/left_guideline"
             style="@style/verticalGuideline"

@@ -22,6 +22,9 @@
     <string name="experience_title">Требуемый опыт</string>
     <string name="description_title">Описание вакансии</string>
     <string name="key_skills_title">Ключевые навыки</string>
-
     <string name="search_hint">Введите запрос</string>
+    <string name="empty_list_error">Не удалось получить \n список вакансий</string>
+    <string name="no_internet_error">Нет интернета</string>
+    <string name="server_error">Ошибка сервера</string>
+    <string name="vacancy_not_found">Вакансия не найдена или удалена</string>
 </resources>
