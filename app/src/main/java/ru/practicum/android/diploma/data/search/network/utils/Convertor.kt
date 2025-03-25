@@ -25,7 +25,8 @@ object Convertor {
                 description = it.description ?: "",
                 employmentForm = it.employment?.name,
                 experience = it.experience.name,
-                keySkills = it.keySkills?.map { it.name } ?: listOf()
+                keySkills = it.keySkills?.map { it.name } ?: listOf(),
+                alternateUrl = it.employer.alternateUrl
             )
         }
     )
@@ -41,6 +42,7 @@ object Convertor {
         employmentForm = this.employment?.name,
         experience = this.experience.name,
         keySkills = this.keySkills.map { it.name },
+        alternateUrl = this.employer.alternateUrl
     )
 
     private fun getSalaryString(salary: Salary?) = buildString {

@@ -11,4 +11,5 @@ data class VacancyModel(
     val employmentForm: String?,
     val experience: String,
     val keySkills: List<String> = listOf(),
+    val alternateUrl: String?
 )
