@@ -1,11 +1,9 @@
 package ru.practicum.android.diploma.ui.vacancy
 
 import android.content.Intent
-import android.content.Intent
 import android.os.Bundle
 import android.text.Html
 import android.text.Html.FROM_HTML_MODE_COMPACT
-import android.text.method.LinkMovementMethod
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -105,20 +103,9 @@ class VacancyFragment : Fragment() {
         employmentForm.text = state.data.employmentForm
         description.text = Html.fromHtml(state.data.description, FROM_HTML_MODE_COMPACT)
 
-
-        keySkillsTitle.visibility = if (state.data.keySkills.isNotEmpty()) View.VISIBLE else View.GONE
-        keySkills.text = HtmlCompat.fromHtml(
-            state.data.keySkills.joinToString("<br>• ", prefix = "• "),
-            HtmlCompat.FROM_HTML_MODE_LEGACY
-        )
-
-            // из ырфку
-        if (state.data.keySkills.isNotEmpty()) keySkillsTitle.visibility = VISIBLE
+        if (state.data.keySkills.isNotEmpty()) keySkillsTitle.show() else keySkillsTitle.gone()
         val listHtml = state.data.keySkills.joinToString(separator = "<br>• ") { it }
-        keySkills.text = HtmlCompat.fromHtml("• $listHtml", FROM_HTML_MODE_LEGACY)
-
-
-
+        keySkills.text = HtmlCompat.fromHtml("• $listHtml", HtmlCompat.FROM_HTML_MODE_COMPACT)
     }
 
     private fun updateFavoriteIcon(isFavorite: Boolean) {
