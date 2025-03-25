@@ -48,8 +48,8 @@ class VacancyViewModel(
 
                         else -> VacancyState.ServerError
                     }
-
-                })
+                }
+            )
         }
     }
 
