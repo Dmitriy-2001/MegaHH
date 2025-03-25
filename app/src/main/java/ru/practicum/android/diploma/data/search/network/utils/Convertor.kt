@@ -28,7 +28,8 @@ object Convertor {
                 employmentForm = it.employment?.name,
                 experience = it.experience.name,
                 keySkills = it.keySkills?.map { it.name } ?: listOf(),
-                alternateUrl = it.employer.alternateUrl ?: "$hhLink/${it.id}"
+                alternateUrl = it.employer.alternateUrl ?: "$hhLink/${it.id}",
+                workFormat = it.workFormat?.joinToString(",") { format -> format.name } ?: ""
             )
         }
     )
@@ -44,7 +45,8 @@ object Convertor {
         employmentForm = this.employment?.name,
         experience = this.experience.name,
         keySkills = this.keySkills.map { it.name },
-        alternateUrl = this.employer.alternateUrl ?: "$hhLink/${this.id}"
+        alternateUrl = this.employer.alternateUrl ?: "$hhLink/${this.id}",
+        workFormat = this.workFormat?.joinToString(",") { format -> format.name } ?: ""
     )
 
     private fun getSalaryString(salary: Salary?) = buildString {

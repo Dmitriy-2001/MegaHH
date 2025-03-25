@@ -66,7 +66,11 @@ class VacancyFragment : Fragment() {
                             .into(companyImage)
 
                         experience.text = state.data.experience
-                        employmentForm.text = state.data.employmentForm
+                        employmentForm.text = buildString {
+                            append(state.data.employmentForm)
+                            if (state.data.workFormat.isNotEmpty()) append(", ")
+                            append(state.data.workFormat)
+                        }
 
                         description.text = Html.fromHtml(state.data.description, FROM_HTML_MODE_COMPACT)
 

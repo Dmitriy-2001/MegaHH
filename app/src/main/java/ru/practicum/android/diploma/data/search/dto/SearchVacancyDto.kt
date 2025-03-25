@@ -13,7 +13,9 @@ data class SearchVacancyDto(
     val experience: Experience,
     @SerializedName("key_skills")
     val keySkills: List<KeySkill>? = listOf(),
-    val area: Area
+    val area: Area,
+    @SerializedName("work_format")
+    val workFormat: List<WorkFormat>? = listOf()
 )
 
 data class Employer(
@@ -53,6 +55,10 @@ data class KeySkill(
 )
 
 data class Area(
+    val name: String
+)
+
+data class WorkFormat(
     val name: String
 )
 
