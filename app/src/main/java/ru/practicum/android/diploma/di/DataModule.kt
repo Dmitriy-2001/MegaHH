@@ -19,7 +19,7 @@ private const val BASE_URL_HH = "https://api.hh.ru/"
 
 val dataModule = module {
     single<NetworkClient> {
-        RetrofitNetworkClient(get())
+        RetrofitNetworkClient(get(), androidContext())
     }
 
     single<HHApi> {
