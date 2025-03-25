@@ -103,12 +103,13 @@ class SearchVacancyFragment : Fragment() {
         binding.recyclerViewVacancy.adapter = vacancyAdapter
 
         viewModel.getSearchScreenState().observe(viewLifecycleOwner) { state ->
+            println("State: $state")
             when (state) {
                 is SearchScreenState.Content -> showVacancies(state.data)
-                is SearchScreenState.Error -> TODO()
-                is SearchScreenState.Loading -> TODO()
-                is SearchScreenState.NoInternet -> TODO()
-                is SearchScreenState.NothingFound -> TODO()
+                is SearchScreenState.Error -> showError()
+                is SearchScreenState.Loading -> showLoading()
+                is SearchScreenState.NoInternet -> showNoInternetMessage()
+                is SearchScreenState.NothingFound -> showNothingFoundMessage()
             }
         }
     }
@@ -134,6 +135,7 @@ class SearchVacancyFragment : Fragment() {
         hidePlaceholder()
         hideKeyboard()
         // Здесь будет вызов ViewModel с query, когда логика будет реализована
+        viewModel.searchVacancies(query)
     }
 
     private fun showPlaceholder() {
@@ -156,7 +158,14 @@ class SearchVacancyFragment : Fragment() {
 
     private fun showVacancies(vacanciesModel: VacanciesModel) {
         val vacancyList = vacanciesModel.items ?: emptyList()
+        if (vacancyList.isNotEmpty()) {
+            showNotification(message = "Найдено ${vacancyList.size} вакансий")
+            binding.searchResultNotification.visibility = View.VISIBLE
+        } else {
+            hideNotification()
+        }
         vacancyAdapter?.updateVacancy(vacancyList)
+        binding.recyclerViewVacancy.visibility = View.VISIBLE
     }
 
     @Suppress("unused")
@@ -199,6 +208,22 @@ class SearchVacancyFragment : Fragment() {
         }
 
         binding.root.viewTreeObserver.addOnGlobalLayoutListener(keyboardListener)
+    }
+
+    private fun showError() {
+        binding.recyclerViewVacancy.visibility = View.GONE
+    }
+
+    private fun showLoading() {
+        binding.recyclerViewVacancy.visibility = View.GONE
+    }
+
+    private fun showNoInternetMessage() {
+        binding.recyclerViewVacancy.visibility = View.GONE
+    }
+
+    private fun showNothingFoundMessage() {
+        binding.recyclerViewVacancy.visibility = View.GONE
     }
 
     override fun onDestroyView() {
