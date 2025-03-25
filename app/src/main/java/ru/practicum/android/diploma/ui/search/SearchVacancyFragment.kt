@@ -134,7 +134,6 @@ class SearchVacancyFragment : Fragment() {
     private fun startSearch(query: String) {
         hidePlaceholder()
         hideKeyboard()
-        // Здесь будет вызов ViewModel с query, когда логика будет реализована
         viewModel.searchVacancies(query)
     }
 
