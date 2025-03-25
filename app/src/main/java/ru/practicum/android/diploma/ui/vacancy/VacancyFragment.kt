@@ -4,6 +4,7 @@ import android.content.Intent
 import android.content.Intent
 import android.os.Bundle
 import android.text.Html
+import android.text.Html
 import android.text.Html.FROM_HTML_MODE_COMPACT
 import android.text.method.LinkMovementMethod
 import android.view.LayoutInflater
@@ -64,7 +65,6 @@ class VacancyFragment : Fragment() {
             contentFields.gone()
 
             when (state) {
-
                 is VacancyState.Content -> {
                     currentVacancy = state.data
                     contentFields.show()
@@ -76,6 +76,26 @@ class VacancyFragment : Fragment() {
                 is VacancyState.ServerError -> binding.placeholderServerError.root.show()
             }
         }
+
+        viewModel.getIsFavorite().observe(viewLifecycleOwner) { isFavorite ->
+            updateFavoriteIcon(isFavorite)
+        }
+
+        binding.ivFavorite.setOnClickListener {
+            viewModel.changeFavoriteState()
+        }
+    }
+}
+private fun toggleFavorite() {
+    val vacancy = currentVacancy ?: return
+    val isFavorite = viewModel.getIsFavorite().value ?: false
+    if (isFavorite) {
+        viewModel.removeFromFavorites(vacancy)
+    } else {
+        viewModel.addToFavorites(vacancy)
+    }
+}
+
     }
 
     private fun bindContent(state: VacancyState.Content) = with(binding) {
@@ -96,27 +116,27 @@ class VacancyFragment : Fragment() {
             append(state.data.workFormat)
         }
 
-        description.text = Html.fromHtml(state.data.description, Html.FROM_HTML_MODE_COMPACT)
+        description.text = android.text.Html.fromHtml(state.data.description, android.text.Html.FROM_HTML_MODE_COMPACT)
 
         if (state.data.keySkills.isNotEmpty()) keySkillsTitle.visibility = VISIBLE
         val listHtml = state.data.keySkills.joinToString(separator = "<br>• ") { it }
-        keySkills.text = HtmlCompat.fromHtml("• $listHtml", FROM_HTML_MODE_LEGACY)
+        keySkills.text = androidx.core.text.HtmlCompat.fromHtml("• $listHtml", FROM_HTML_MODE_LEGACY)
 
         binding.ivShare.setOnClickListener {
             shareVacancyLink(state.data.alternateUrl)
         }
     }
-}
-private fun toggleFavorite() {
-    val vacancy = currentVacancy ?: return
-    val isFavorite = viewModel.getIsFavorite().value ?: false
-    if (isFavorite) {
-        viewModel.removeFromFavorites(vacancy)
-    } else {
-        viewModel.addToFavorites(vacancy)
-    }
-}
 
+    private fun updateFavoriteIcon(isFavorite: Boolean) {
+        binding.ivFavorite.setImageResource(
+            if (isFavorite) R.drawable.ic_favorite_selected else R.drawable.ic_favorite_unselected
+        )
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
+    }
 private fun shareVacancyLink(link: String?) = link?.let {
     Intent(Intent.ACTION_SEND).apply {
         type = "text/plain"
