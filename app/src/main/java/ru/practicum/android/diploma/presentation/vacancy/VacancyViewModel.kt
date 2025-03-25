@@ -40,20 +40,16 @@ class VacancyViewModel(
                     is Resource.Error -> when (resource.errorType) {
                         ErrorType.NOT_FOUND -> VacancyState.NothingFound
                         ErrorType.NO_INTERNET -> {
-                            val localVacancy =
-                                favoriteVacanciesInteractor.getVacancyFavoriteById(vacancyId).firstOrNull()
-                            if (localVacancy != null) {
-                                checkFavoriteStatus(vacancyId)
-                                VacancyState.Content(localVacancy)
-                            } else {
-                                VacancyState.NoInternet
-                            }
+                            favoriteVacanciesInteractor.getVacancyFavoriteById(vacancyId).firstOrNull()
+                                ?.let { localVacancy ->
+                                    checkFavoriteStatus(vacancyId)
+                                    VacancyState.Content(localVacancy)
+                                } ?: VacancyState.NoInternet
                         }
 
                         else -> VacancyState.ServerError
                     }
-                }
-            )
+                })
         }
     }
 
