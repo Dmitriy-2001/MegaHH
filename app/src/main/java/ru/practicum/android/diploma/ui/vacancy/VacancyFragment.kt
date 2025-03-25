@@ -16,7 +16,7 @@ import ru.practicum.android.diploma.R
 import ru.practicum.android.diploma.databinding.FragmentVacancyBinding
 import ru.practicum.android.diploma.presentation.vacancy.VacancyState
 import ru.practicum.android.diploma.presentation.vacancy.VacancyViewModel
-import ru.practicum.android.diploma.util.setVisibility
+import ru.practicum.android.diploma.util.gone
 import ru.practicum.android.diploma.util.show
 
 class VacancyFragment : Fragment() {
@@ -53,11 +53,15 @@ class VacancyFragment : Fragment() {
         binding.toolbar.setOnClickListener { findNavController().navigateUp() }
 
         viewModel.getVacancyState().observe(viewLifecycleOwner) { state ->
-            errorPlaceholders.setVisibility(false)
-            contentFields.setVisibility(state is VacancyState.Content)
+            errorPlaceholders.gone()
+            contentFields.gone()
 
             when (state) {
-                is VacancyState.Content -> bindContent(state)
+                is VacancyState.Content -> {
+                    contentFields.show()
+                    bindContent(state)
+                }
+
                 is VacancyState.NothingFound -> binding.placeholderVacancyNotFound.root.show()
                 is VacancyState.NoInternet -> binding.placeholderNoInternet.root.show()
                 is VacancyState.ServerError -> binding.placeholderServerError.root.show()

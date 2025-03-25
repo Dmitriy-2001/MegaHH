@@ -21,7 +21,6 @@ import ru.practicum.android.diploma.presentation.search.SearchScreenState
 import ru.practicum.android.diploma.presentation.search.SearchVacancyViewModel
 import ru.practicum.android.diploma.util.Debouncer
 import ru.practicum.android.diploma.util.gone
-import ru.practicum.android.diploma.util.setVisibility
 import ru.practicum.android.diploma.util.show
 
 class SearchVacancyFragment : Fragment() {
@@ -70,13 +69,13 @@ class SearchVacancyFragment : Fragment() {
         binding.searchOrClearIcon.setOnClickListener {
             if (binding.searchEditText.text.isNotBlank()) {
                 binding.searchEditText.text.clear()
-                showNotSearchedPlaceholder()
+                binding.placeholderNotSearched.show()
             }
         }
 
         with(binding.searchEditText) {
             doOnTextChanged { text, _, _, _ ->
-                errorPlaceholders.setVisibility(false)
+                errorPlaceholders.gone()
                 hideCountNotification()
                 updateSearchIcon(text.toString())
 
@@ -87,7 +86,7 @@ class SearchVacancyFragment : Fragment() {
                         }
                     }
                 } else {
-                    showNotSearchedPlaceholder()
+                    binding.placeholderNotSearched.show()
                 }
             }
 
@@ -112,7 +111,7 @@ class SearchVacancyFragment : Fragment() {
         binding.recyclerViewVacancy.adapter = vacancyAdapter
 
         viewModel.getSearchScreenState().observe(viewLifecycleOwner) { state ->
-            errorPlaceholders.setVisibility(false)
+            errorPlaceholders.gone()
             hideCountNotification()
 
             when (state) {
@@ -130,7 +129,7 @@ class SearchVacancyFragment : Fragment() {
         val text = binding.searchEditText.text.toString()
         updateSearchIcon(text)
         if (text.isNotBlank()) {
-            hideNotSearchedPlaceholder()
+            binding.placeholderNotSearched.gone()
         }
     }
 
@@ -143,13 +142,9 @@ class SearchVacancyFragment : Fragment() {
     }
 
     private fun startSearch(query: String) {
-        hideNotSearchedPlaceholder()
+        binding.placeholderNotSearched.gone()
         viewModel.searchVacancies(query)
     }
-
-    private fun showNotSearchedPlaceholder() = binding.placeholderNotSearched.show()
-
-    private fun hideNotSearchedPlaceholder() = binding.placeholderNotSearched.gone()
 
     private fun openFilter() {
         val directions = SearchVacancyFragmentDirections.actionVacancySearchFragmentToFilterFragment()
@@ -197,9 +192,13 @@ class SearchVacancyFragment : Fragment() {
                     val bottomNav = requireActivity().findViewById<View>(R.id.bottomNavigationView)
                     val bottomNavDivider = requireActivity().findViewById<View>(R.id.bottomNavDivider)
 
-                    val visibility = if (isKeyboardVisible) View.GONE else View.VISIBLE
-                    bottomNav?.visibility = visibility
-                    bottomNavDivider?.visibility = visibility
+                    if (isKeyboardVisible) {
+                        bottomNav.gone()
+                        bottomNavDivider.gone()
+                    } else {
+                        bottomNav.show()
+                        bottomNavDivider.show()
+                    }
                 }
             }
         }

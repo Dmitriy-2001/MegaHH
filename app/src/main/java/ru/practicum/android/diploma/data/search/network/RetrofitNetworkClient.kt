@@ -16,25 +16,20 @@ class RetrofitNetworkClient(private val vacancyService: HHApi, private val conte
     // T — это тип данных, который будет возвращен из метода doRequest
 
     override fun <R, T> doRequest(dto: R, clazz: Class<T>): Flow<Resource<T>> = flow {
-        try {
-            if (!checkInternetConnection(context)) {
-                return@flow emit(Resource.Error(ErrorType.NO_INTERNET))
-            }
+        if (!checkInternetConnection(context)) {
+            emit(Resource.Error(ErrorType.NO_INTERNET))
+        } else {
+            try {
+                val response = when (dto) {
+                    is SearchVacanciesRequest -> vacancyService.searchVacancy(dto.page, dto.perPage, dto.text)
+                    is GetVacancyDetailsRequest -> vacancyService.getVacancyDetails(dto.id)
+                    else -> throw IllegalArgumentException("Unknown request type")
+                }
 
-            val response = when (dto) {
-                is SearchVacanciesRequest -> vacancyService.searchVacancy(dto.page, dto.perPage, dto.text)
-                is GetVacancyDetailsRequest -> vacancyService.getVacancyDetails(dto.id)
-                else -> throw IllegalArgumentException("Unknown request type")
-            }
-
-            // Обертываем успешный ответ в Resource.Success
-            emit(Resource.Success(response as T))
-
-        } catch (e: HttpException) {
-            if (e.code() == NOT_FOUND_CODE) {
-                emit(Resource.Error(ErrorType.NOT_FOUND))
-            } else {
-                emit(Resource.Error(ErrorType.SERVER_ERROR))
+                emit(Resource.Success(response as T))
+            } catch (e: HttpException) {
+                val errorType = if (e.code() == NOT_FOUND_CODE) ErrorType.NOT_FOUND else ErrorType.SERVER_ERROR
+                emit(Resource.Error(errorType))
             }
         }
     }
