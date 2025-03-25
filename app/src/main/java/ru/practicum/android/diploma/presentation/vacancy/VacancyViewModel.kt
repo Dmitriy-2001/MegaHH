@@ -10,7 +10,6 @@ import ru.practicum.android.diploma.domain.favorites.api.FavoriteVacanciesIntera
 import ru.practicum.android.diploma.domain.search.ErrorType
 import ru.practicum.android.diploma.domain.search.Resource
 import ru.practicum.android.diploma.domain.search.api.VacanciesInteractor
-import ru.practicum.android.diploma.domain.search.models.VacancyModel
 
 class VacancyViewModel(
     val vacancyId: String,
