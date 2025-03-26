@@ -97,7 +97,7 @@
         <item name="android:layout_marginTop">@dimen/eight</item>
         <item name="android:paddingHorizontal">@dimen/sixteen</item>
         <item name="android:paddingVertical">@dimen/four</item>
-        <item name="android:elevation">4dp</item>
+        <item name="android:elevation">@dimen/four</item>
     </style>
 
     <style name="RVCard">

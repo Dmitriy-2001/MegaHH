@@ -14,6 +14,7 @@ import org.koin.androidx.viewmodel.ext.android.viewModel
 import org.koin.core.parameter.parametersOf
 import ru.practicum.android.diploma.R
 import ru.practicum.android.diploma.databinding.FragmentVacancyBinding
+import ru.practicum.android.diploma.domain.search.models.VacancyModel
 import ru.practicum.android.diploma.presentation.vacancy.VacancyState
 import ru.practicum.android.diploma.presentation.vacancy.VacancyViewModel
 import ru.practicum.android.diploma.util.gone
@@ -39,6 +40,8 @@ class VacancyFragment : Fragment() {
         )
     }
 
+    private var currentVacancy: VacancyModel? = null
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -58,6 +61,7 @@ class VacancyFragment : Fragment() {
 
             when (state) {
                 is VacancyState.Content -> {
+                    currentVacancy = state.data
                     contentFields.show()
                     bindContent(state)
                 }
@@ -67,6 +71,15 @@ class VacancyFragment : Fragment() {
                 is VacancyState.ServerError -> binding.placeholderServerError.root.show()
             }
         }
+
+        viewModel.getIsFavorite().observe(viewLifecycleOwner) { isFavorite ->
+            updateFavoriteIcon(isFavorite)
+        }
+
+        binding.ivFavorite.setOnClickListener {
+            viewModel.changeFavoriteState()
+        }
+
     }
 
     private fun bindContent(state: VacancyState.Content) = with(binding) {
@@ -91,6 +104,12 @@ class VacancyFragment : Fragment() {
         keySkills.text = HtmlCompat.fromHtml(
             state.data.keySkills.joinToString("<br>• ", prefix = "• "),
             HtmlCompat.FROM_HTML_MODE_LEGACY
+        )
+    }
+
+    private fun updateFavoriteIcon(isFavorite: Boolean) {
+        binding.ivFavorite.setImageResource(
+            if (isFavorite) R.drawable.ic_favorite_selected else R.drawable.ic_favorite_unselected
         )
     }
 
