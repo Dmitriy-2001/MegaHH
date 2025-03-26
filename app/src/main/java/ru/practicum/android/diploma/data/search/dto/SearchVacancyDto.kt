@@ -20,6 +20,7 @@ data class Employer(
     val name: String,
     @SerializedName("logo_urls")
     val logoUrls: LogoUrls?,
+    val alternateUrl: String?
 )
 
 data class LogoUrls(

@@ -1,7 +1,9 @@
 package ru.practicum.android.diploma.ui.vacancy
 
+import android.content.Intent
 import android.os.Bundle
-import android.text.method.LinkMovementMethod
+import android.text.Html
+import android.text.Html.FROM_HTML_MODE_COMPACT
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -64,6 +66,10 @@ class VacancyFragment : Fragment() {
                     currentVacancy = state.data
                     contentFields.show()
                     bindContent(state)
+
+                    binding.ivShare.setOnClickListener {
+                        shareVacancyLink(state.data.alternateUrl)
+                    }
                 }
 
                 is VacancyState.NothingFound -> binding.placeholderVacancyNotFound.root.show()
@@ -95,22 +101,24 @@ class VacancyFragment : Fragment() {
 
         experience.text = state.data.experience
         employmentForm.text = state.data.employmentForm
-        description.apply {
-            text = HtmlCompat.fromHtml(state.data.description, HtmlCompat.FROM_HTML_MODE_LEGACY)
-            movementMethod = LinkMovementMethod.getInstance()
-        }
+        description.text = Html.fromHtml(state.data.description, FROM_HTML_MODE_COMPACT)
 
-        keySkillsTitle.visibility = if (state.data.keySkills.isNotEmpty()) View.VISIBLE else View.GONE
-        keySkills.text = HtmlCompat.fromHtml(
-            state.data.keySkills.joinToString("<br>• ", prefix = "• "),
-            HtmlCompat.FROM_HTML_MODE_LEGACY
-        )
+        if (state.data.keySkills.isNotEmpty()) keySkillsTitle.show() else keySkillsTitle.gone()
+        val listHtml = state.data.keySkills.joinToString(separator = "<br>• ") { it }
+        keySkills.text = HtmlCompat.fromHtml("• $listHtml", HtmlCompat.FROM_HTML_MODE_COMPACT)
     }
 
     private fun updateFavoriteIcon(isFavorite: Boolean) {
         binding.ivFavorite.setImageResource(
             if (isFavorite) R.drawable.ic_favorite_selected else R.drawable.ic_favorite_unselected
         )
+    }
+
+    private fun shareVacancyLink(link: String?) = link?.let {
+        Intent(Intent.ACTION_SEND).apply {
+            type = "text/plain"
+            putExtra(Intent.EXTRA_TEXT, link)
+        }.also { startActivity(it) }
     }
 
     override fun onDestroyView() {
