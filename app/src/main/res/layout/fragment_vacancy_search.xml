@@ -52,7 +52,7 @@
                 style="@style/SearchEditText" />
 
             <ImageView
-                android:id="@+id/search_icon"
+                android:id="@+id/search_or_clear_icon"
                 android:layout_width="@dimen/twenty_four"
                 android:layout_height="@dimen/twenty_four"
                 android:layout_alignParentEnd="true"
@@ -103,4 +103,36 @@
         app:layout_constraintTop_toBottomOf="@id/search_container"
         app:layout_constraintVertical_bias="0.5" />
 
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recycler_view_vacancy"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/zero"
+        android:layout_weight="1"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/search_result_notification" />
+
+    <include
+        android:id="@+id/placeholder_no_internet"
+        layout="@layout/no_internet_error"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        app:layout_constraintTop_toBottomOf="@id/search_container" />
+
+    <include
+        android:id="@+id/placeholder_empty_list"
+        layout="@layout/empty_list_error"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        app:layout_constraintTop_toBottomOf="@id/search_container" />
+
+    <include
+        android:id="@+id/placeholder_server_error"
+        layout="@layout/server_error_for_search_fragment"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        app:layout_constraintTop_toBottomOf="@id/search_container" />
 </androidx.constraintlayout.widget.ConstraintLayout>
