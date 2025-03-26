@@ -14,7 +14,7 @@ class FavoriteVacanciesInteractorImpl(private val repository: FavoriteVacanciesR
 
     override fun getVacanciesFavorite(): Flow<List<VacancyModel>> = repository.getVacanciesFavorite()
 
-    override fun getVacancyFavoriteById(id: String): Flow<VacancyModel> = repository.getVacancyFavoriteById(id)
+    override fun getVacancyFavoriteById(id: String): Flow<VacancyModel?> = repository.getVacancyFavoriteById(id)
 
     override suspend fun checkIfVacancyIsFavorite(id: String): Boolean = repository.checkIfVacancyIsFavorite(id)
 }

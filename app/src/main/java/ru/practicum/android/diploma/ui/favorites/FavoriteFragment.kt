@@ -13,6 +13,8 @@ import ru.practicum.android.diploma.domain.search.models.VacancyModel
 import ru.practicum.android.diploma.presentation.favorites.FavoriteVacanciesViewModel
 import ru.practicum.android.diploma.presentation.favorites.FavoriteVacancyState
 import ru.practicum.android.diploma.ui.search.VacancyAdapter
+import ru.practicum.android.diploma.util.gone
+import ru.practicum.android.diploma.util.show
 
 class FavoriteFragment : Fragment() {
 
@@ -57,28 +59,28 @@ class FavoriteFragment : Fragment() {
     }
 
     private fun showLoading() {
-        binding.rvFavoriteVacancy.visibility = View.GONE
-        binding.llEmptyList.visibility = View.GONE
-        binding.llError.visibility = View.GONE
+        binding.rvFavoriteVacancy.gone()
+        binding.llEmptyList.gone()
+        binding.llError.gone()
     }
 
     private fun showFavoriteVacanciesRV(data: List<VacancyModel>) {
-        binding.rvFavoriteVacancy.visibility = View.VISIBLE
-        binding.llEmptyList.visibility = View.GONE
-        binding.llError.visibility = View.GONE
+        binding.rvFavoriteVacancy.show()
+        binding.llEmptyList.gone()
+        binding.llError.gone()
         vacancyAdapter?.updateVacancy(data)
     }
 
     private fun showEmptyState() {
-        binding.rvFavoriteVacancy.visibility = View.GONE
-        binding.llEmptyList.visibility = View.VISIBLE
-        binding.llError.visibility = View.GONE
+        binding.llEmptyList.show()
+        binding.rvFavoriteVacancy.gone()
+        binding.llError.gone()
     }
 
     private fun showErrorState() {
-        binding.rvFavoriteVacancy.visibility = View.GONE
-        binding.llEmptyList.visibility = View.GONE
-        binding.llError.visibility = View.VISIBLE
+        binding.rvFavoriteVacancy.gone()
+        binding.llEmptyList.gone()
+        binding.llError.show()
     }
 
     private fun openVacancy(vacancyId: String) {

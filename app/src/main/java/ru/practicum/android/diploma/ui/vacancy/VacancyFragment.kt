@@ -1,16 +1,12 @@
 package ru.practicum.android.diploma.ui.vacancy
 
 import android.content.Intent
-import android.content.Intent
 import android.os.Bundle
 import android.text.Html
-import android.text.Html
 import android.text.Html.FROM_HTML_MODE_COMPACT
-import android.text.method.LinkMovementMethod
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.core.text.HtmlCompat
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
@@ -34,7 +30,13 @@ class VacancyFragment : Fragment() {
     private val viewModel by viewModel<VacancyViewModel> { parametersOf(vacancyId) }
 
     private val contentFields by lazy {
-        listOf(binding.cardViewCompany, binding.experienceTitle, binding.descriptionTitle)
+        listOf(
+            binding.cardViewCompany,
+            binding.experienceTitle,
+            binding.descriptionTitle,
+            binding.ivShare,
+            binding.ivFavorite
+        )
     }
 
     private val errorPlaceholders by lazy {
@@ -85,18 +87,6 @@ class VacancyFragment : Fragment() {
             viewModel.changeFavoriteState()
         }
     }
-}
-private fun toggleFavorite() {
-    val vacancy = currentVacancy ?: return
-    val isFavorite = viewModel.getIsFavorite().value ?: false
-    if (isFavorite) {
-        viewModel.removeFromFavorites(vacancy)
-    } else {
-        viewModel.addToFavorites(vacancy)
-    }
-}
-
-    }
 
     private fun bindContent(state: VacancyState.Content) = with(binding) {
         name.text = state.data.name
@@ -116,11 +106,11 @@ private fun toggleFavorite() {
             append(state.data.workFormat)
         }
 
-        description.text = android.text.Html.fromHtml(state.data.description, android.text.Html.FROM_HTML_MODE_COMPACT)
+        description.text = Html.fromHtml(state.data.description, FROM_HTML_MODE_COMPACT)
 
-        if (state.data.keySkills.isNotEmpty()) keySkillsTitle.visibility = VISIBLE
+        if (state.data.keySkills.isNotEmpty()) keySkillsTitle.show() else keySkillsTitle.gone()
         val listHtml = state.data.keySkills.joinToString(separator = "<br>• ") { it }
-        keySkills.text = androidx.core.text.HtmlCompat.fromHtml("• $listHtml", FROM_HTML_MODE_LEGACY)
+        keySkills.text = Html.fromHtml("• $listHtml", FROM_HTML_MODE_COMPACT)
 
         binding.ivShare.setOnClickListener {
             shareVacancyLink(state.data.alternateUrl)
@@ -133,18 +123,15 @@ private fun toggleFavorite() {
         )
     }
 
+    private fun shareVacancyLink(link: String?) = link?.let {
+        Intent(Intent.ACTION_SEND).apply {
+            type = "text/plain"
+            putExtra(Intent.EXTRA_TEXT, link)
+        }.also { startActivity(it) }
+    }
+
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
     }
-private fun shareVacancyLink(link: String?) = link?.let {
-    Intent(Intent.ACTION_SEND).apply {
-        type = "text/plain"
-        putExtra(Intent.EXTRA_TEXT, link)
-    }.also { startActivity(it) }
-}
-override fun onDestroyView() {
-    super.onDestroyView()
-    _binding = null
-}
 }
