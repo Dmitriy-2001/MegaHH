@@ -64,29 +64,28 @@
         </RelativeLayout>
     </androidx.cardview.widget.CardView>
 
+
+    <!-- Уведомление -->
     <TextView
         android:id="@+id/search_result_notification"
         style="@style/Notification"
+        android:layout_width="wrap_content"
+        android:layout_height="@dimen/zero"
+        android:background="@drawable/bg_notification"
         android:gravity="center"
         android:visibility="gone"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHeight_default="wrap"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/search_container" />
-    <!-- Guideline: горизонтальная, 50% между поиском и низом -->
-    <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/mid_guideline"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        app:layout_constraintGuide_begin="0dp"
-        app:layout_constraintGuide_percent="0.5" />
 
+    <!-- Placeholder, если ничего не искали -->
     <ImageView
         android:id="@+id/placeholder_not_searched"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:gravity="center"
         android:src="@drawable/placeholder_not_searched"
+        android:visibility="visible"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -96,7 +95,7 @@
     <androidx.core.widget.NestedScrollView
         android:id="@+id/nestedScrollView"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
+        android:layout_height="@dimen/zero"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintTop_toBottomOf="@id/search_result_notification">
 
