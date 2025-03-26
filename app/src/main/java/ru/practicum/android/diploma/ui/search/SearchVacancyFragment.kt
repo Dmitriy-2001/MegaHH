@@ -178,7 +178,7 @@ class SearchVacancyFragment : Fragment() {
     }
 
     private fun showVacancies(vacanciesModel: VacanciesModel) {
-        vacancyAdapter?.updateVacancy(vacanciesModel.items ?: emptyList())
+        vacancyAdapter?.addVacancies(vacanciesModel.items ?: emptyList())
 
         val vacanciesCount = vacanciesModel.itemsCount
         if (vacanciesCount != 0) {

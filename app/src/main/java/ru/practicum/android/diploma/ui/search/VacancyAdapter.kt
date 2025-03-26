@@ -27,10 +27,15 @@ class VacancyAdapter(
         return vacancyList.size
     }
 
-    fun updateVacancy(newVacancyList: List<VacancyModel>) {
+    fun addVacancies(newVacancyList: List<VacancyModel>) {
         val oldList = vacancyList.toMutableList()
         oldList.addAll(newVacancyList)
         vacancyList = oldList
+        notifyDataSetChanged()
+    }
+
+    fun updateVacancy(newVacancyList: List<VacancyModel>) {
+        vacancyList = newVacancyList
         notifyDataSetChanged()
     }
 
