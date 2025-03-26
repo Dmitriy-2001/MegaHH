@@ -1,11 +1,12 @@
 package ru.practicum.android.diploma.ui.vacancy
 
+import android.content.Intent
 import android.os.Bundle
-import android.text.method.LinkMovementMethod
+import android.text.Html
+import android.text.Html.FROM_HTML_MODE_COMPACT
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.core.text.HtmlCompat
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
@@ -29,7 +30,13 @@ class VacancyFragment : Fragment() {
     private val viewModel by viewModel<VacancyViewModel> { parametersOf(vacancyId) }
 
     private val contentFields by lazy {
-        listOf(binding.cardViewCompany, binding.experienceTitle, binding.descriptionTitle)
+        listOf(
+            binding.cardViewCompany,
+            binding.experienceTitle,
+            binding.descriptionTitle,
+            binding.ivShare,
+            binding.ivFavorite
+        )
     }
 
     private val errorPlaceholders by lazy {
@@ -79,7 +86,6 @@ class VacancyFragment : Fragment() {
         binding.ivFavorite.setOnClickListener {
             viewModel.changeFavoriteState()
         }
-
     }
 
     private fun bindContent(state: VacancyState.Content) = with(binding) {
@@ -94,23 +100,34 @@ class VacancyFragment : Fragment() {
             .into(companyImage)
 
         experience.text = state.data.experience
-        employmentForm.text = state.data.employmentForm
-        description.apply {
-            text = HtmlCompat.fromHtml(state.data.description, HtmlCompat.FROM_HTML_MODE_LEGACY)
-            movementMethod = LinkMovementMethod.getInstance()
+        employmentForm.text = buildString {
+            append(state.data.employmentForm)
+            if (state.data.workFormat.isNotEmpty()) append(", ")
+            append(state.data.workFormat)
         }
 
-        keySkillsTitle.visibility = if (state.data.keySkills.isNotEmpty()) View.VISIBLE else View.GONE
-        keySkills.text = HtmlCompat.fromHtml(
-            state.data.keySkills.joinToString("<br>• ", prefix = "• "),
-            HtmlCompat.FROM_HTML_MODE_LEGACY
-        )
+        description.text = Html.fromHtml(state.data.description, FROM_HTML_MODE_COMPACT)
+
+        if (state.data.keySkills.isNotEmpty()) keySkillsTitle.show() else keySkillsTitle.gone()
+        val listHtml = state.data.keySkills.joinToString(separator = "<br>• ") { it }
+        keySkills.text = Html.fromHtml("• $listHtml", FROM_HTML_MODE_COMPACT)
+
+        binding.ivShare.setOnClickListener {
+            shareVacancyLink(state.data.alternateUrl)
+        }
     }
 
     private fun updateFavoriteIcon(isFavorite: Boolean) {
         binding.ivFavorite.setImageResource(
             if (isFavorite) R.drawable.ic_favorite_selected else R.drawable.ic_favorite_unselected
         )
+    }
+
+    private fun shareVacancyLink(link: String?) = link?.let {
+        Intent(Intent.ACTION_SEND).apply {
+            type = "text/plain"
+            putExtra(Intent.EXTRA_TEXT, link)
+        }.also { startActivity(it) }
     }
 
     override fun onDestroyView() {

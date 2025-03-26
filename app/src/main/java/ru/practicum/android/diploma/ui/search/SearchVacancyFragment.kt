@@ -178,15 +178,15 @@ class SearchVacancyFragment : Fragment() {
     }
 
     private fun showVacancies(vacanciesModel: VacanciesModel) {
-        vacancyAdapter?.updateVacancy(vacanciesModel.items ?: emptyList())
+        vacancyAdapter?.addVacancies(vacanciesModel.items ?: emptyList())
 
-        val vacanciesCount = vacancyAdapter?.itemCount ?: 0
+        val vacanciesCount = vacanciesModel.itemsCount
         if (vacanciesCount != 0) {
             showCountNotification(message = "Найдено $vacanciesCount вакансий")
             binding.recyclerViewVacancy.show()
         } else {
             showCountNotification(message = "Таких вакансий нет")
-            binding.progressBar.visibility = View.GONE
+            binding.progressBar.gone()
             binding.placeholderEmptyList.root.show()
         }
     }
@@ -196,9 +196,7 @@ class SearchVacancyFragment : Fragment() {
         binding.searchResultNotification.show()
     }
 
-    private fun hideCountNotification() {
-        binding.searchResultNotification.gone()
-    }
+    private fun hideCountNotification() = binding.searchResultNotification.gone()
 
     private fun hideKeyboard() {
         val inputMethodManager =
@@ -238,7 +236,7 @@ class SearchVacancyFragment : Fragment() {
     private fun showLoading() {
         val needToCenteringProgressBar = vacancyAdapter?.itemCount == 0
         if (needToCenteringProgressBar) {
-            binding.recyclerViewVacancy.visibility = View.GONE
+            binding.recyclerViewVacancy.gone()
             val layoutParams = binding.progressBar.layoutParams as MarginLayoutParams
             layoutParams.topMargin = CENTER_OF_SCREEN_DP
             binding.progressBar.layoutParams = layoutParams
@@ -248,39 +246,23 @@ class SearchVacancyFragment : Fragment() {
             binding.progressBar.layoutParams = layoutParams
         }
         hideAllPlaceholders()
-        binding.progressBar.visibility = View.VISIBLE
+        binding.progressBar.show()
     }
 
     private fun showError(state: SearchScreenState) {
-        binding.recyclerViewVacancy.visibility = View.GONE
-        binding.progressBar.visibility = View.GONE
+        binding.recyclerViewVacancy.gone()
+        binding.progressBar.gone()
+
         when (state) {
-            is SearchScreenState.Error -> showErrorMessage()
-            is SearchScreenState.NoInternet -> showNoInternetMessage()
-            is SearchScreenState.NothingFound -> showNothingFoundMessage()
+            is SearchScreenState.Error -> binding.placeholderServerError.root.show()
+            is SearchScreenState.NoInternet -> binding.placeholderNoInternet.root.show()
+            is SearchScreenState.NothingFound -> binding.placeholderEmptyList.root.show()
             else -> {}
         }
     }
 
-    private fun showErrorMessage() {
-        binding.placeholderServerError.root.show()
-        binding.recyclerViewVacancy.gone()
-    }
-
-    private fun showNoInternetMessage() {
-        binding.placeholderNoInternet.root.show()
-        binding.recyclerViewVacancy.gone()
-    }
-
-    private fun showNothingFoundMessage() {
-        binding.placeholderEmptyList.root.show()
-        binding.recyclerViewVacancy.gone()
-    }
-
     private fun hideAllPlaceholders() {
-        binding.placeholderServerError.root.gone()
-        binding.placeholderNoInternet.root.gone()
-        binding.placeholderEmptyList.root.gone()
+        errorPlaceholders.gone()
         binding.placeholderNotSearched.gone()
     }
 

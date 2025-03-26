@@ -22,8 +22,8 @@ class FavoriteVacanciesRepositoryImpl(private val favoriteVacancyDao: FavoriteVa
         emit(vacancies)
     }
 
-    override fun getVacancyFavoriteById(id: String): Flow<VacancyModel> = flow {
-        val vacancy = favoriteVacancyDao.getVacancyById(id).mapToVacancyModel()
+    override fun getVacancyFavoriteById(id: String): Flow<VacancyModel?> = flow {
+        val vacancy = favoriteVacancyDao.getVacancyById(id)?.let { it.mapToVacancyModel() }
         emit(vacancy)
     }
 
@@ -42,7 +42,9 @@ class FavoriteVacanciesRepositoryImpl(private val favoriteVacancyDao: FavoriteVa
         description = this.description,
         employmentForm = this.employmentForm,
         experience = this.experience,
-        keySkills = this.keySkills
+        keySkills = this.keySkills,
+        alternateUrl = this.alternateUrl,
+        workFormat = this.workFormat
     )
 
     private fun FavoriteVacancyEntity.mapToVacancyModel() = VacancyModel(
@@ -55,6 +57,8 @@ class FavoriteVacanciesRepositoryImpl(private val favoriteVacancyDao: FavoriteVa
         description = this.description,
         employmentForm = this.employmentForm,
         experience = this.experience,
-        keySkills = this.keySkills
+        keySkills = this.keySkills,
+        alternateUrl = this.alternateUrl,
+        workFormat = this.workFormat
     )
 }

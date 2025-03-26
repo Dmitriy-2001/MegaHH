@@ -54,7 +54,7 @@
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/placeholder_empty_vacancy_list" />
+            android:src="@drawable/placeholder_empty_vacancy_list_for_favorites" />
 
         <TextView
             android:id="@+id/tv_placeholder"
@@ -85,7 +85,7 @@
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/placeholder_error" />
+            android:src="@drawable/placeholder_error_for_favorites" />
 
         <TextView
             android:id="@+id/tv_error"

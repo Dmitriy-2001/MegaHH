@@ -13,7 +13,7 @@
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:contentInsetStartWithNavigation="0dp"
+            app:contentInsetStartWithNavigation="@dimen/zero"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
@@ -110,13 +110,13 @@
 
         <androidx.cardview.widget.CardView
             android:id="@+id/card_view_company"
-            android:layout_width="0dp"
+            android:layout_width="@dimen/zero"
             android:layout_height="@dimen/eighty"
             android:layout_marginTop="@dimen/sixteen"
             android:backgroundTint="@color/light_gray"
             android:orientation="vertical"
             app:cardCornerRadius="@dimen/radius"
-            app:cardElevation="0dp"
+            app:cardElevation="@dimen/zero"
             app:layout_constraintEnd_toEndOf="@id/right_guideline"
             app:layout_constraintStart_toStartOf="@id/left_guideline"
             app:layout_constraintTop_toBottomOf="@id/salary">
@@ -209,7 +209,7 @@
         <TextView
             android:id="@+id/description"
             style="@style/TextRegula16"
-            android:layout_width="0dp"
+            android:layout_width="@dimen/zero"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/sixteen"
             android:textColor="?attr/colorOnPrimary"
@@ -234,7 +234,7 @@
         <TextView
             android:id="@+id/key_skills"
             style="@style/TextRegula16"
-            android:layout_width="0dp"
+            android:layout_width="@dimen/zero"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/sixteen"
             android:textColor="?attr/colorOnPrimary"
