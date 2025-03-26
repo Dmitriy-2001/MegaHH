@@ -151,6 +151,11 @@ class SearchVacancyFragment : Fragment() {
         } else {
             binding.searchOrClearIcon.setImageResource(R.drawable.ic_search)
         }
+        binding.searchOrClearIcon.setOnClickListener {
+            if (text.isNotBlank()) {
+                stopSearch()
+            }
+        }
     }
 
     private fun startSearch() {
@@ -276,6 +281,16 @@ class SearchVacancyFragment : Fragment() {
         binding.placeholderNoInternet.root.gone()
         binding.placeholderEmptyList.root.gone()
         binding.placeholderNotSearched.gone()
+    }
+
+    private fun stopSearch() {
+        binding.searchEditText.text.clear()
+        binding.progressBar.visibility = View.GONE
+        binding.recyclerViewVacancy.visibility = View.GONE
+        binding.searchResultNotification.visibility = View.GONE
+        binding.placeholderServerError.root.gone()
+        binding.placeholderNoInternet.root.gone()
+        binding.placeholderEmptyList.root.gone()
     }
 
     override fun onDestroyView() {
