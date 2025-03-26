@@ -90,7 +90,6 @@ class SearchVacancyFragment : Fragment() {
                     }
                 } else {
                     hideVacancies()
-                    showPlaceholder()
                     binding.placeholderNotSearched.show()
                 }
             }
