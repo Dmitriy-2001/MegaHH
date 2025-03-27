@@ -52,6 +52,7 @@ dependencies {
     // UI layer libraries
     implementation(libs.ui.material)
     implementation(libs.ui.constraintLayout)
+    implementation(libs.cardview)
 
     // region Unit tests
     testImplementation(libs.unitTests.junit)
@@ -86,4 +87,7 @@ dependencies {
 
     // Coroutines
     implementation(libs.kotlinx.coroutines.android)
+
+    // удалить после тестов
+    implementation("com.squareup.okhttp3:logging-interceptor:4.11.0")
 }

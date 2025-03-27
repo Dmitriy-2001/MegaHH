@@ -3,7 +3,7 @@ package ru.practicum.android.diploma.data.filter.impl
 import android.content.SharedPreferences
 import com.google.gson.Gson
 import ru.practicum.android.diploma.data.filter.storage.FilterStateStorage
-import ru.practicum.android.diploma.domain.models.FilterParams
+import ru.practicum.android.diploma.domain.filter.models.FilterParams
 
 class FilterStateStorageImpl(val prefs: SharedPreferences, val gson: Gson) : FilterStateStorage {
 
