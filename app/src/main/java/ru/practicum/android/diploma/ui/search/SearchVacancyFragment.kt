@@ -11,6 +11,7 @@ import android.view.ViewGroup.MarginLayoutParams
 import android.view.ViewTreeObserver
 import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputMethodManager
+import android.widget.Toast
 import androidx.core.widget.doAfterTextChanged
 import androidx.core.widget.doBeforeTextChanged
 import androidx.core.widget.doOnTextChanged
@@ -202,6 +203,9 @@ class SearchVacancyFragment : Fragment() {
     private fun showVacancies(vacanciesModel: VacanciesModel) {
         vacancyAdapter?.addVacancies(vacanciesModel.items ?: emptyList())
 
+        val loadedCount = vacanciesModel.items?.size ?: 0
+        if (loadedCount == 0 || loadedCount % COUNT_OF_VACANCIES != 0) binding.progressBar.gone()
+
         val vacanciesCount = vacanciesModel.itemsCount
         if (vacanciesCount != 0) {
             showCountNotification(message = "Найдено $vacanciesCount вакансий")
@@ -272,14 +276,24 @@ class SearchVacancyFragment : Fragment() {
     }
 
     private fun showError(state: SearchScreenState) {
-        binding.recyclerViewVacancy.gone()
         binding.progressBar.gone()
 
-        when (state) {
-            is SearchScreenState.Error -> binding.placeholderServerError.root.show()
-            is SearchScreenState.NoInternet -> binding.placeholderNoInternet.root.show()
-            is SearchScreenState.NothingFound -> binding.placeholderEmptyList.root.show()
-            else -> {}
+        if (vacancyAdapter?.itemCount != 0) {
+            Toast.makeText(
+                context,
+                resources.getString(R.string.unable_to_load_new_page),
+                Toast.LENGTH_SHORT
+            ).show()
+
+        } else {
+            binding.recyclerViewVacancy.gone()
+
+            when (state) {
+                is SearchScreenState.Error -> binding.placeholderServerError.root.show()
+                is SearchScreenState.NoInternet -> binding.placeholderNoInternet.root.show()
+                is SearchScreenState.NothingFound -> binding.placeholderEmptyList.root.show()
+                else -> {}
+            }
         }
     }
 
@@ -309,5 +323,6 @@ class SearchVacancyFragment : Fragment() {
         private const val DEBOUNCE_DELAY_MS = 2000L
         private const val KEYBOARD_THRESHOLD_RATIO = 0.15
         private const val CENTER_OF_SCREEN_DP = 700
+        private const val COUNT_OF_VACANCIES = 10
     }
 }
