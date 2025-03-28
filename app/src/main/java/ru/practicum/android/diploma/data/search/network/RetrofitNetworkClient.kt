@@ -21,7 +21,13 @@ class RetrofitNetworkClient(private val vacancyService: HHApi, private val conte
         } else {
             try {
                 val response = when (dto) {
-                    is SearchVacanciesRequest -> vacancyService.searchVacancy(dto.page, dto.perPage, dto.text)
+                    is SearchVacanciesRequest -> vacancyService.searchVacancy(
+                        dto.page,
+                        dto.perPage,
+                        dto.text,
+                        dto.filter
+                    )
+
                     is GetVacancyDetailsRequest -> vacancyService.getVacancyDetails(dto.id)
                     else -> throw IllegalArgumentException("Unknown request type")
                 }
