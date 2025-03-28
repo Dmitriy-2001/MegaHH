@@ -36,6 +36,7 @@ class SearchVacancyViewModel(private val interactor: VacanciesInteractor) : View
         if (lastSearchedQuery != text) {
             currentPage = 0
             maxPages = 1
+            lastSearchedQuery = text
         }
         if (lastSearchedQuery.isEmpty()) lastSearchedQuery = text
     }
@@ -59,8 +60,10 @@ class SearchVacancyViewModel(private val interactor: VacanciesInteractor) : View
     }
 
     fun onLastItemReached(text: String) {
-        if (currentPage <= maxPages && isNextPageLoading.not()) {
-            currentPage++
+        if (currentPage < (maxPages - 1) && isNextPageLoading.not()) {
+            println("currentPage: $currentPage")
+            println("maxPages: $maxPages")
+            currentPage += 1
             searchVacancies(text)
         }
     }

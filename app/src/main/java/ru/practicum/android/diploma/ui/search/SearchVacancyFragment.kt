@@ -11,6 +11,7 @@ import android.view.ViewGroup.MarginLayoutParams
 import android.view.ViewTreeObserver
 import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputMethodManager
+import android.widget.Toast
 import androidx.core.widget.doOnTextChanged
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
@@ -250,14 +251,24 @@ class SearchVacancyFragment : Fragment() {
     }
 
     private fun showError(state: SearchScreenState) {
-        binding.recyclerViewVacancy.gone()
         binding.progressBar.gone()
 
-        when (state) {
-            is SearchScreenState.Error -> binding.placeholderServerError.root.show()
-            is SearchScreenState.NoInternet -> binding.placeholderNoInternet.root.show()
-            is SearchScreenState.NothingFound -> binding.placeholderEmptyList.root.show()
-            else -> {}
+        if (vacancyAdapter?.itemCount != 0){
+            Toast.makeText(
+                context,
+                resources.getString(R.string.unable_to_load_new_page),
+                Toast.LENGTH_SHORT
+            ).show()
+
+        } else {
+            binding.recyclerViewVacancy.gone()
+
+            when (state) {
+                is SearchScreenState.Error -> binding.placeholderServerError.root.show()
+                is SearchScreenState.NoInternet -> binding.placeholderNoInternet.root.show()
+                is SearchScreenState.NothingFound -> binding.placeholderEmptyList.root.show()
+                else -> {}
+            }
         }
     }
 
