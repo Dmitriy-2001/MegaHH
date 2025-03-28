@@ -33,7 +33,7 @@ class SearchVacancyFragment : Fragment() {
     private var _binding: FragmentVacancySearchBinding? = null
     private val binding get() = _binding!!
 
-    private lateinit var debouncer: Debouncer
+    private var debouncer: Debouncer? = null
 
     private var vacancyAdapter: VacancyAdapter? = null
     private var isKeyboardVisible = false
@@ -88,7 +88,7 @@ class SearchVacancyFragment : Fragment() {
                 updateSearchIcon(text.toString())
 
                 if (text.toString().isNotBlank()) {
-                    debouncer.debounce {
+                    debouncer?.debounce {
                         val queryString = binding.searchEditText.text.toString()
                         if (queryString.isNotBlank()) {
                             query = queryString
