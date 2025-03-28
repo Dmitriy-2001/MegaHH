@@ -22,7 +22,6 @@ class VacanciesRepositoryImpl(private val networkClient: NetworkClient) : Vacanc
             )
         ).mapResource { it.convertToModel() }
 
-
     override fun getVacancyDetailsById(id: String): Flow<Resource<VacancyModel>> =
         networkClient.doRequest<GetVacancyDetailsRequest, GetVacancyDetailsResponse>(GetVacancyDetailsRequest(id))
             .mapResource {

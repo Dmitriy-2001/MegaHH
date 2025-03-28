@@ -8,6 +8,7 @@ import kotlinx.coroutines.launch
 import ru.practicum.android.diploma.domain.search.ErrorType
 import ru.practicum.android.diploma.domain.search.Resource
 import ru.practicum.android.diploma.domain.search.api.VacanciesInteractor
+import ru.practicum.android.diploma.domain.search.models.VacanciesModel
 
 class SearchVacancyViewModel(private val interactor: VacanciesInteractor) : ViewModel() {
 
@@ -21,30 +22,39 @@ class SearchVacancyViewModel(private val interactor: VacanciesInteractor) : View
 
     fun searchVacancies(text: String) {
         viewModelScope.launch {
-            isNextPageLoading = true
-            if (lastSearchedQuery != text) {
-                currentPage = 0
-                maxPages = 1
-            }
-            if (lastSearchedQuery.isEmpty()) lastSearchedQuery = text
+            prepareForSearch(text)
             searchScreenState.postValue(SearchScreenState.Loading)
             interactor.searchVacancies(text, currentPage).collect { resource ->
-                when (resource) {
-                    is Resource.Success -> {
-                        searchScreenState.postValue(SearchScreenState.Content(resource.data))
-                        if (currentPage == 0) maxPages = resource.data.pages
-                    }
-
-                    is Resource.Error -> searchScreenState.postValue(
-                        when (resource.errorType) {
-                            ErrorType.NOT_FOUND -> SearchScreenState.NothingFound
-                            ErrorType.NO_INTERNET -> SearchScreenState.NoInternet
-                            ErrorType.SERVER_ERROR -> SearchScreenState.Error
-                        }
-                    )
-                }
+                handleSearchResult(resource)
             }
             isNextPageLoading = false
+        }
+    }
+
+    private fun prepareForSearch(text: String) {
+        isNextPageLoading = true
+        if (lastSearchedQuery != text) {
+            currentPage = 0
+            maxPages = 1
+        }
+        if (lastSearchedQuery.isEmpty()) lastSearchedQuery = text
+    }
+
+    private fun handleSearchResult(resource: Resource<VacanciesModel>) {
+        when (resource) {
+            is Resource.Success -> {
+                searchScreenState.postValue(SearchScreenState.Content(resource.data))
+                if (currentPage == 0) maxPages = resource.data.pages
+            }
+            is Resource.Error -> {
+                searchScreenState.postValue(
+                    when (resource.errorType) {
+                        ErrorType.NOT_FOUND -> SearchScreenState.NothingFound
+                        ErrorType.NO_INTERNET -> SearchScreenState.NoInternet
+                        ErrorType.SERVER_ERROR -> SearchScreenState.Error
+                    }
+                )
+            }
         }
     }
 
