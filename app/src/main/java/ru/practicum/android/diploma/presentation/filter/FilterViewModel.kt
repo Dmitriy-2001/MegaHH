@@ -20,8 +20,10 @@ class FilterViewModel(private val interactor: FilterInteractor) : ViewModel() {
 
     fun getFilterParameters() {
         val filterParams = interactor.getFilterParametersFromStorage()
-        if (interactor.isFilterEmpty())
-            filterScreenState.postValue(FilterScreenState.NoFilterSelected) else
+        if (interactor.isFilterEmpty()) {
+            filterScreenState.postValue(FilterScreenState.NoFilterSelected)
+        } else {
             filterScreenState.postValue(FilterScreenState.Content(filterParams))
+        }
     }
 }

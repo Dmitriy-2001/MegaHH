@@ -8,12 +8,12 @@ import org.koin.dsl.module
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import ru.practicum.android.diploma.data.favorites.db.AppDatabase
+import ru.practicum.android.diploma.data.filter.impl.FilterStateStorageImpl
+import ru.practicum.android.diploma.data.filter.storage.FilterStateStorage
 import ru.practicum.android.diploma.data.search.network.HHApi
 import ru.practicum.android.diploma.data.search.network.NetworkClient
 import ru.practicum.android.diploma.data.search.network.RetrofitNetworkClient
 import ru.practicum.android.diploma.util.okHttpClient
-import ru.practicum.android.diploma.data.filter.impl.FilterStateStorageImpl
-import ru.practicum.android.diploma.data.filter.storage.FilterStateStorage
 
 private const val BASE_URL_HH = "https://api.hh.ru/"
 
