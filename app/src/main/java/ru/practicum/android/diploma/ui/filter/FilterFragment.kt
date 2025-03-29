@@ -56,6 +56,11 @@ class FilterFragment : Fragment() {
         }
     }
 
+    override fun onResume() {
+        super.onResume()
+        viewModel.updateFilterParameters()
+    }
+
     private fun openIndustry() {
         val directions = FilterFragmentDirections.actionFilterFragmentToIndustryFragment()
         findNavController().navigate(directions)

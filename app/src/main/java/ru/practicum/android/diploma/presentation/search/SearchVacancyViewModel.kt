@@ -24,6 +24,13 @@ class SearchVacancyViewModel(
     private val searchScreenState = MutableLiveData<SearchScreenState>()
     fun getSearchScreenState(): LiveData<SearchScreenState> = searchScreenState
 
+    private val isFilterEmptyState = MutableLiveData<Boolean>()
+    fun getIsFilterEmptyState(): LiveData<Boolean> = isFilterEmptyState
+
+    init {
+        updateFilters()
+    }
+
     fun searchVacancies(text: String) {
         viewModelScope.launch {
             prepareForSearch(text)
@@ -36,6 +43,8 @@ class SearchVacancyViewModel(
             isNextPageLoading = false
         }
     }
+
+    fun updateFilters() = viewModelScope.launch { isFilterEmptyState.postValue(filterInteractor.isFilterEmpty()) }
 
     private fun prepareForSearch(text: String) {
         isNextPageLoading = true
