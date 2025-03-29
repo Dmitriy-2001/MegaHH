@@ -11,6 +11,7 @@ import android.view.ViewGroup.MarginLayoutParams
 import android.view.ViewTreeObserver
 import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputMethodManager
+import android.widget.TextView
 import androidx.core.widget.doAfterTextChanged
 import androidx.core.widget.doBeforeTextChanged
 import androidx.core.widget.doOnTextChanged
@@ -42,14 +43,6 @@ class SearchVacancyFragment : Fragment() {
     private var query = ""
 
     private val viewModel by viewModel<SearchVacancyViewModel>()
-
-    private val errorPlaceholders by lazy {
-        listOf(
-            binding.placeholderEmptyList.root,
-            binding.placeholderNoInternet.root,
-            binding.placeholderServerError.root
-        )
-    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -83,14 +76,13 @@ class SearchVacancyFragment : Fragment() {
 
         with(binding.searchEditText) {
             doOnTextChanged { text, _, _, _ ->
-                errorPlaceholders.gone()
-                hideCountNotification()
+                setStartTextEditState()
                 updateSearchIcon(text.toString())
 
                 if (text.toString().isNotBlank()) {
                     debouncer?.debounce {
                         val queryString = binding.searchEditText.text.toString()
-                        if (queryString.isNotBlank()) {
+                        if (queryString.isNotBlank() && query != queryString) {
                             query = queryString
                             startSearch()
                         }
@@ -137,9 +129,6 @@ class SearchVacancyFragment : Fragment() {
         }
 
         viewModel.getSearchScreenState().observe(viewLifecycleOwner) { state ->
-            errorPlaceholders.gone()
-            hideCountNotification()
-
             when (state) {
                 is SearchScreenState.Content -> showVacancies(state.data)
                 is SearchScreenState.Loading -> showLoading()
@@ -148,44 +137,20 @@ class SearchVacancyFragment : Fragment() {
         }
     }
 
-    override fun onResume() {
-        super.onResume()
-        val text = binding.searchEditText.text.toString()
-        updateSearchIcon(text)
-        if (text.isNotBlank()) {
-            binding.placeholderNotSearched.gone()
-        }
-    }
-
-    private fun updateSearchIcon(text: String) {
-        if (text.isNotBlank()) {
-            binding.searchOrClearIcon.setImageResource(R.drawable.ic_clear)
+    private fun showLoading() {
+        val needToCenteringProgressBar = vacancyAdapter?.itemCount == 0
+        if (needToCenteringProgressBar) {
+            binding.recyclerViewVacancy.gone()
+            val layoutParams = binding.progressBar.layoutParams as MarginLayoutParams
+            layoutParams.topMargin = CENTER_OF_SCREEN_DP
+            binding.progressBar.layoutParams = layoutParams
         } else {
-            binding.searchOrClearIcon.setImageResource(R.drawable.ic_search)
+            val layoutParams = binding.progressBar.layoutParams as MarginLayoutParams
+            layoutParams.topMargin = 0
+            binding.progressBar.layoutParams = layoutParams
         }
-    }
-
-    private fun startSearch() {
         hideAllPlaceholders()
-        hideKeyboard()
-        hideCountNotification()
-        vacancyAdapter?.clearVacancy()
-        viewModel.searchVacancies(query)
-    }
-
-    private fun openFilter() {
-        val directions = SearchVacancyFragmentDirections.actionVacancySearchFragmentToFilterFragment()
-        findNavController().navigate(directions)
-    }
-
-    private fun openVacancy(vacancyId: String) {
-        val directions = SearchVacancyFragmentDirections.actionVacancySearchFragmentToVacancyFragment(vacancyId)
-        findNavController().navigate(directions)
-    }
-
-    private fun hideVacancies() {
-        binding.recyclerViewVacancy.gone()
-        binding.searchResultNotification.gone()
+        binding.progressBar.show()
     }
 
     private fun showVacancies(vacanciesModel: VacanciesModel) {
@@ -194,13 +159,46 @@ class SearchVacancyFragment : Fragment() {
         val vacanciesCount = vacanciesModel.itemsCount
         if (vacanciesCount != 0) {
             showCountNotification(message = "Найдено $vacanciesCount вакансий")
-            binding.recyclerViewVacancy.show()
+            setContentState()
         } else {
-            showCountNotification(message = "Таких вакансий нет")
-            binding.progressBar.gone()
-            binding.placeholderEmptyList.root.show()
+            setNothingFoundState()
         }
     }
+
+    private fun showError(state: SearchScreenState) = when (state) {
+        is SearchScreenState.Error -> setServerErrorState()
+        is SearchScreenState.NoInternet -> setNoInternetState()
+        is SearchScreenState.NothingFound -> setNothingFoundState()
+        else -> {}
+    }
+
+    // Вспомогательные методы
+    private fun startSearch() {
+        hideAllPlaceholders()
+        hideKeyboard()
+        hideCountNotification()
+        vacancyAdapter?.clearVacancy()
+        viewModel.searchVacancies(query)
+    }
+
+    private fun hideVacancies() {
+        binding.recyclerViewVacancy.gone()
+        binding.searchResultNotification.gone()
+    }
+
+    private fun updateSearchIcon(text: String) =
+        if (text.isNotBlank()) {
+            binding.searchOrClearIcon.setImageResource(R.drawable.ic_clear)
+        } else {
+            binding.searchOrClearIcon.setImageResource(R.drawable.ic_search)
+        }
+
+    private fun hideAllPlaceholders() = listOf(
+        binding.placeholderEmptyList.root,
+        binding.placeholderNoInternet.root,
+        binding.placeholderServerError.root,
+        binding.placeholderNotSearched
+    ).gone()
 
     private fun showCountNotification(message: String) {
         binding.searchResultNotification.text = message
@@ -209,6 +207,69 @@ class SearchVacancyFragment : Fragment() {
 
     private fun hideCountNotification() = binding.searchResultNotification.gone()
 
+    // Преднастроенные состояния экрана
+    private fun setDefaultEmptyState() {
+//        query = ""
+        hideVacancies()
+        listOf(
+            binding.placeholderEmptyList.root,
+            binding.placeholderNoInternet.root,
+            binding.placeholderServerError.root,
+            binding.progressBar
+        ).gone()
+        binding.placeholderNotSearched.show()
+    }
+
+    private fun setStartTextEditState() {
+        hideCountNotification()
+        listOf(
+            binding.placeholderEmptyList.root,
+            binding.placeholderNoInternet.root,
+            binding.placeholderServerError.root,
+        ).gone()
+    }
+
+    private fun setServerErrorState() {
+        hideVacancies()
+        listOf(
+            binding.progressBar,
+            binding.placeholderEmptyList.root,
+            binding.placeholderNoInternet.root,
+            binding.placeholderNotSearched
+        ).gone()
+        binding.placeholderServerError.root.show()
+    }
+
+    private fun setNoInternetState() {
+        hideVacancies()
+        listOf(
+            binding.progressBar,
+            binding.placeholderNotSearched,
+            binding.placeholderServerError.root,
+            binding.placeholderEmptyList.root
+        ).gone()
+        binding.placeholderNoInternet.root.show()
+    }
+
+    private fun setNothingFoundState() {
+        hideVacancies()
+        showCountNotification(message = "Таких вакансий нет")
+        listOf(
+            binding.progressBar,
+            binding.placeholderNotSearched,
+            binding.placeholderServerError.root,
+            binding.placeholderNoInternet.root
+        ).gone()
+        binding.placeholderEmptyList.root.show()
+    }
+
+    private fun setContentState() {
+        hideAllPlaceholders()
+        binding.progressBar.gone()
+        binding.recyclerViewVacancy.show()
+    }
+
+    // Методы для работы с клавиатурой
     private fun hideKeyboard() {
         val inputMethodManager =
             requireContext().getSystemService(Context.INPUT_METHOD_SERVICE) as? InputMethodManager
@@ -244,46 +305,18 @@ class SearchVacancyFragment : Fragment() {
         binding.root.viewTreeObserver.addOnGlobalLayoutListener(keyboardListener)
     }
 
-    private fun showLoading() {
-        val needToCenteringProgressBar = vacancyAdapter?.itemCount == 0
-        if (needToCenteringProgressBar) {
-            binding.recyclerViewVacancy.gone()
-            val layoutParams = binding.progressBar.layoutParams as MarginLayoutParams
-            layoutParams.topMargin = CENTER_OF_SCREEN_DP
-            binding.progressBar.layoutParams = layoutParams
-        } else {
-            val layoutParams = binding.progressBar.layoutParams as MarginLayoutParams
-            layoutParams.topMargin = 0
-            binding.progressBar.layoutParams = layoutParams
-        }
-        hideAllPlaceholders()
-        binding.progressBar.show()
+    // Навигация
+    private fun openFilter() {
+        val directions = SearchVacancyFragmentDirections.actionVacancySearchFragmentToFilterFragment()
+        findNavController().navigate(directions)
     }
 
-    private fun showError(state: SearchScreenState) {
-        binding.recyclerViewVacancy.gone()
-        binding.progressBar.gone()
-
-        when (state) {
-            is SearchScreenState.Error -> binding.placeholderServerError.root.show()
-            is SearchScreenState.NoInternet -> binding.placeholderNoInternet.root.show()
-            is SearchScreenState.NothingFound -> binding.placeholderEmptyList.root.show()
-            else -> {}
-        }
+    private fun openVacancy(vacancyId: String) {
+        val directions = SearchVacancyFragmentDirections.actionVacancySearchFragmentToVacancyFragment(vacancyId)
+        findNavController().navigate(directions)
     }
 
-    private fun hideAllPlaceholders() {
-        errorPlaceholders.gone()
-        binding.placeholderNotSearched.gone()
-    }
-
-    private fun setDefaultEmptyState() {
-        errorPlaceholders.gone()
-        hideVacancies()
-        binding.progressBar.gone()
-        binding.placeholderNotSearched.show()
-    }
-
+    // Методы фрагмента
     override fun onDestroyView() {
         super.onDestroyView()
 
@@ -294,9 +327,20 @@ class SearchVacancyFragment : Fragment() {
         _binding = null
     }
 
+    override fun onResume() {
+        super.onResume()
+//        val text = binding.searchEditText.text.toString()
+//        updateSearchIcon(text)
+//        if (text.isNotBlank()) {
+//            binding.placeholderNotSearched.gone()
+//        }
+    }
+
     companion object {
+        const val SEARCH_TEXT = "SEARCH_TEXT"
         private const val DEBOUNCE_DELAY_MS = 2000L
         private const val KEYBOARD_THRESHOLD_RATIO = 0.15
         private const val CENTER_OF_SCREEN_DP = 700
+
     }
 }

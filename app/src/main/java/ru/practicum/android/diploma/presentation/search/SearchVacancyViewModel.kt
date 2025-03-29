@@ -9,6 +9,7 @@ import ru.practicum.android.diploma.domain.search.ErrorType
 import ru.practicum.android.diploma.domain.search.Resource
 import ru.practicum.android.diploma.domain.search.api.VacanciesInteractor
 import ru.practicum.android.diploma.domain.search.models.VacanciesModel
+import ru.practicum.android.diploma.util.SingleEventLiveData
 
 class SearchVacancyViewModel(private val interactor: VacanciesInteractor) : ViewModel() {
 
@@ -17,8 +18,8 @@ class SearchVacancyViewModel(private val interactor: VacanciesInteractor) : View
     private var isNextPageLoading = false
     private var lastSearchedQuery = ""
 
-    private val searchScreenState = MutableLiveData<SearchScreenState>()
-    fun getSearchScreenState(): LiveData<SearchScreenState> = searchScreenState
+    private val searchScreenState = SingleEventLiveData<SearchScreenState>()
+    fun getSearchScreenState(): SingleEventLiveData<SearchScreenState> = searchScreenState
 
     fun searchVacancies(text: String) {
         viewModelScope.launch {
