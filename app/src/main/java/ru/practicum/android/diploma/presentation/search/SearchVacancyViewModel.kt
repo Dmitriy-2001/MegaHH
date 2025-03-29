@@ -5,12 +5,16 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.launch
+import ru.practicum.android.diploma.domain.filter.api.FilterInteractor
 import ru.practicum.android.diploma.domain.search.ErrorType
 import ru.practicum.android.diploma.domain.search.Resource
 import ru.practicum.android.diploma.domain.search.api.VacanciesInteractor
 import ru.practicum.android.diploma.domain.search.models.VacanciesModel
 
-class SearchVacancyViewModel(private val interactor: VacanciesInteractor) : ViewModel() {
+class SearchVacancyViewModel(
+    private val interactor: VacanciesInteractor,
+    private val filterInteractor: FilterInteractor
+) : ViewModel() {
 
     private var currentPage = 0
     private var maxPages = 1
@@ -20,16 +24,27 @@ class SearchVacancyViewModel(private val interactor: VacanciesInteractor) : View
     private val searchScreenState = MutableLiveData<SearchScreenState>()
     fun getSearchScreenState(): LiveData<SearchScreenState> = searchScreenState
 
+    private val isFilterEmptyState = MutableLiveData<Boolean>()
+    fun getIsFilterEmptyState(): LiveData<Boolean> = isFilterEmptyState
+
+    init {
+        updateFilters()
+    }
+
     fun searchVacancies(text: String) {
         viewModelScope.launch {
             prepareForSearch(text)
             searchScreenState.postValue(SearchScreenState.Loading)
-            interactor.searchVacancies(text, currentPage).collect { resource ->
+            val filter =
+                if (!filterInteractor.isFilterEmpty()) filterInteractor.getFilterParametersFromStorage() else null
+            interactor.searchVacancies(text, currentPage, filter).collect { resource ->
                 handleSearchResult(resource)
             }
             isNextPageLoading = false
         }
     }
+
+    fun updateFilters() = viewModelScope.launch { isFilterEmptyState.postValue(filterInteractor.isFilterEmpty()) }
 
     private fun prepareForSearch(text: String) {
         isNextPageLoading = true
@@ -46,6 +61,7 @@ class SearchVacancyViewModel(private val interactor: VacanciesInteractor) : View
                 searchScreenState.postValue(SearchScreenState.Content(resource.data))
                 if (currentPage == 0) maxPages = resource.data.pages
             }
+
             is Resource.Error -> {
                 searchScreenState.postValue(
                     when (resource.errorType) {
