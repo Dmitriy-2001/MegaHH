@@ -20,6 +20,8 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import ru.practicum.android.diploma.R
+import ru.practicum.android.diploma.R.drawable.ic_parameters
+import ru.practicum.android.diploma.R.drawable.ic_parameters_active
 import ru.practicum.android.diploma.databinding.FragmentVacancySearchBinding
 import ru.practicum.android.diploma.domain.search.models.VacanciesModel
 import ru.practicum.android.diploma.presentation.search.SearchScreenState
@@ -80,6 +82,14 @@ class SearchVacancyFragment : Fragment() {
         }
 
         var isBackspaceClicked = false
+
+        viewModel.getIsFilterEmptyState().observe(viewLifecycleOwner) { isFilterEmpty ->
+            if (isFilterEmpty) {
+                binding.parameters.setImageResource(ic_parameters)
+            } else {
+                binding.parameters.setImageResource(ic_parameters_active)
+            }
+        }
 
         with(binding.searchEditText) {
             doOnTextChanged { text, _, _, _ ->
@@ -155,6 +165,7 @@ class SearchVacancyFragment : Fragment() {
         if (text.isNotBlank()) {
             binding.placeholderNotSearched.gone()
         }
+        viewModel.updateFilters()
     }
 
     private fun updateSearchIcon(text: String) {
