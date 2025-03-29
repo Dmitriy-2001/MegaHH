@@ -4,6 +4,7 @@ import retrofit2.http.GET
 import retrofit2.http.Headers
 import retrofit2.http.Path
 import retrofit2.http.Query
+import retrofit2.http.QueryMap
 import ru.practicum.android.diploma.BuildConfig
 import ru.practicum.android.diploma.data.search.dto.response.GetVacancyDetailsResponse
 import ru.practicum.android.diploma.data.search.dto.response.SearchVacanciesResponse
@@ -14,7 +15,8 @@ interface HHApi {
     suspend fun searchVacancy(
         @Query("page") page: Int?,
         @Query("per_page") perPage: Int?,
-        @Query("text") text: String
+        @Query("text") text: String,
+        @QueryMap filter: Map<String, String>
     ): SearchVacanciesResponse
 
     @Headers(authHeader, userAgentHeader)

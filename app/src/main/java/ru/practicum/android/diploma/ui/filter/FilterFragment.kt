@@ -6,13 +6,18 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
+import org.koin.androidx.viewmodel.ext.android.viewModel
 import ru.practicum.android.diploma.databinding.FragmentFilterBinding
+import ru.practicum.android.diploma.presentation.filter.FilterScreenState
+import ru.practicum.android.diploma.presentation.filter.FilterViewModel
 
 class FilterFragment : Fragment() {
 
     private var _binding: FragmentFilterBinding? = null
     private val binding: FragmentFilterBinding
         get() = requireNotNull(_binding) { "Binding is null" }
+
+    private val viewModel by viewModel<FilterViewModel>()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -35,6 +40,25 @@ class FilterFragment : Fragment() {
         }
         binding.industryArrow.setOnClickListener { openIndustry() }
         binding.workplaceArrow.setOnClickListener { openWorkplace() }
+
+        binding.testButton.setOnClickListener {
+            viewModel.saveSalaryToFilter("700")
+        }
+
+        viewModel.getFilterScreenState().observe(viewLifecycleOwner) { state ->
+            when (state) {
+                is FilterScreenState.Content -> {
+                    binding.testEditText.setText(state.filterParams.salary ?: "")
+                }
+
+                is FilterScreenState.NoFilterSelected -> {}
+            }
+        }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        viewModel.updateFilterParameters()
     }
 
     private fun openIndustry() {

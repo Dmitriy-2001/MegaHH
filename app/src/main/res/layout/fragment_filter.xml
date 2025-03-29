@@ -7,7 +7,6 @@
 
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/toolbar"
-        app:titleTextAppearance="@style/TitleMedium22"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:contentInsetStartWithNavigation="0dp"
@@ -17,6 +16,7 @@
         app:navigationIcon="@drawable/ic_arrow_back"
         app:tint="?attr/colorOnPrimary"
         app:title="@string/filter_settings"
+        app:titleTextAppearance="@style/TitleMedium22"
         app:titleTextColor="?attr/colorOnPrimary" />
 
     <com.google.android.material.textfield.TextInputLayout
@@ -56,5 +56,20 @@
             app:layout_constraintEnd_toEndOf="@id/industry"
             tools:ignore="MissingConstraints,SpeakableTextPresentCheck" />
     </com.google.android.material.textfield.TextInputLayout>
+
+    <Button
+        android:id="@+id/testButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:backgroundTint="@color/blue"
+        android:text="Тестовая кнопка для отправки фильтров"
+        app:layout_constraintTop_toBottomOf="@id/industry"
+        tools:ignore="MissingConstraints" />
+
+    <EditText
+        android:id="@+id/testEditText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/testButton" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
