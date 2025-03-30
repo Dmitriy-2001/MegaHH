@@ -1,5 +1,6 @@
 package ru.practicum.android.diploma.presentation.filter
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -29,13 +30,14 @@ class WorkplaceViewModel(
     }
 
     fun loadCountries() {
+        _state.value = WorkplaceState.Loading
         viewModelScope.launch {
-            _state.postValue(WorkplaceState.Loading)
             try {
                 val result = filterDictionaryInteractor.loadCountries()
                 _countries.postValue(result)
                 _state.postValue(WorkplaceState.CountriesLoaded)
             } catch (e: IOException) {
+                Log.e("WorkplaceVM", "Failed to load countries", e)
                 _state.postValue(WorkplaceState.Error)
             }
         }
