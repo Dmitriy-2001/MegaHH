@@ -6,6 +6,8 @@ import retrofit2.http.Path
 import retrofit2.http.Query
 import retrofit2.http.QueryMap
 import ru.practicum.android.diploma.BuildConfig
+import ru.practicum.android.diploma.data.search.dto.CountryDto
+import ru.practicum.android.diploma.data.search.dto.RegionDto
 import ru.practicum.android.diploma.data.search.dto.response.GetVacancyDetailsResponse
 import ru.practicum.android.diploma.data.search.dto.response.SearchVacanciesResponse
 
@@ -24,6 +26,15 @@ interface HHApi {
     suspend fun getVacancyDetails(
         @Path("vacancy_id") vacancyId: String
     ): GetVacancyDetailsResponse
+
+
+    @Headers(authHeader, userAgentHeader)
+    @GET("/areas/countries")
+    suspend fun getCountries(): List<CountryDto>
+
+    @Headers(authHeader, userAgentHeader)
+    @GET("/areas")
+    suspend fun getAllRegions(): List<RegionDto>
 
     companion object {
         private const val authHeader = "Authorization: Bearer ${BuildConfig.HH_ACCESS_TOKEN}"
