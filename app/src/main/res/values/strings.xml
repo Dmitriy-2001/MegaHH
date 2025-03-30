@@ -29,4 +29,6 @@
     <string name="no_internet_error">Нет интернета</string>
     <string name="server_error">Ошибка сервера</string>
     <string name="vacancy_not_found">Вакансия не найдена или удалена</string>
+    <string name="industry_hint">Введите отрасль</string>
+    <string name="choose">Выбрать</string>
 </resources>
