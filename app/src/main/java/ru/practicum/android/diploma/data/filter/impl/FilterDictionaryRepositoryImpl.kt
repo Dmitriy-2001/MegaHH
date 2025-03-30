@@ -15,6 +15,7 @@ class FilterDictionaryRepositoryImpl(private val networkClient: NetworkClient, p
     }
 
     private fun CountryDto.toFilterParam() = FilterParam(
-        id = this.id, name = this.name
+        id = this.id,
+        name = this.name
     )
 }

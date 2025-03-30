@@ -1,7 +1,6 @@
 package ru.practicum.android.diploma.ui.filter
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -23,7 +22,6 @@ class CountryFragment : Fragment() {
 
     private val viewModel by viewModel<WorkplaceViewModel>()
     private var adapter: CountryAdapter? = null
-
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         _binding = FragmentCountryBinding.inflate(inflater, container, false)

@@ -26,7 +26,6 @@ interface HHApi {
         @Path("vacancy_id") vacancyId: String
     ): GetVacancyDetailsResponse
 
-
     @Headers(authHeader, userAgentHeader)
     @GET("/areas/countries")
     suspend fun getCountries(): List<CountryDto>

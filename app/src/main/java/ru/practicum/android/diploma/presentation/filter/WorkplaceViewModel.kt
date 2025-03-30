@@ -8,9 +8,11 @@ import kotlinx.coroutines.launch
 import ru.practicum.android.diploma.domain.filter.api.FilterDictionaryInteractor
 import ru.practicum.android.diploma.domain.filter.api.FilterInteractor
 import ru.practicum.android.diploma.domain.filter.models.FilterParam
+import java.io.IOException
 
 class WorkplaceViewModel(
-    private val filterInteractor: FilterInteractor, private val filterDictionaryInteractor: FilterDictionaryInteractor
+    private val filterInteractor: FilterInteractor,
+    private val filterDictionaryInteractor: FilterDictionaryInteractor
 ) : ViewModel() {
 
     private val _selectedCountry = MutableLiveData<FilterParam?>()
@@ -33,7 +35,7 @@ class WorkplaceViewModel(
                 val result = filterDictionaryInteractor.loadCountries()
                 _countries.postValue(result)
                 _state.postValue(WorkplaceState.CountriesLoaded)
-            } catch (e: Exception) {
+            } catch (e: IOException) {
                 _state.postValue(WorkplaceState.Error)
             }
         }
