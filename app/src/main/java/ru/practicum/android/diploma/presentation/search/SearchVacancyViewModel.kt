@@ -24,7 +24,6 @@ class SearchVacancyViewModel(
     private val searchScreenState = MutableLiveData<SearchScreenState>()
     fun getSearchScreenState(): LiveData<SearchScreenState> = searchScreenState
 
-
     private val isFilterEmptyState = MutableLiveData<Boolean>()
     fun getIsFilterEmptyState(): LiveData<Boolean> = isFilterEmptyState
 
