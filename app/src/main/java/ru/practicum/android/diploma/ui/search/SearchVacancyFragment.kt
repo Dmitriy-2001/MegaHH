@@ -11,6 +11,8 @@ import android.view.ViewGroup.MarginLayoutParams
 import android.view.ViewTreeObserver
 import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputMethodManager
+import androidx.core.widget.doAfterTextChanged
+import androidx.core.widget.doBeforeTextChanged
 import androidx.core.widget.doOnTextChanged
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
@@ -35,9 +37,7 @@ class SearchVacancyFragment : Fragment() {
     private var _binding: FragmentVacancySearchBinding? = null
     private val binding get() = _binding!!
 
-    private val debouncer: Debouncer by lazy {
-        Debouncer(viewLifecycleOwner.lifecycleScope, DEBOUNCE_DELAY_MS)
-    }
+    private var debouncer: Debouncer? = null
 
     private var vacancyAdapter: VacancyAdapter? = null
     private var isKeyboardVisible = false
@@ -67,6 +67,7 @@ class SearchVacancyFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        debouncer = Debouncer(viewLifecycleOwner.lifecycleScope, DEBOUNCE_DELAY_MS)
         findNavController().currentBackStackEntry?.savedStateHandle?.getLiveData<Boolean>(
             SHOULD_REFRESH_SEARCH
         )?.observe(viewLifecycleOwner) { shouldRefresh ->
@@ -86,9 +87,11 @@ class SearchVacancyFragment : Fragment() {
         binding.searchOrClearIcon.setOnClickListener {
             if (binding.searchEditText.text.isNotBlank()) {
                 binding.searchEditText.text.clear()
-                binding.placeholderNotSearched.show()
+                setDefaultEmptyState()
             }
         }
+
+        var isBackspaceClicked = false
 
         viewModel.getIsFilterEmptyState().observe(viewLifecycleOwner) { isFilterEmpty ->
             if (isFilterEmpty) {
@@ -105,7 +108,7 @@ class SearchVacancyFragment : Fragment() {
                 updateSearchIcon(text.toString())
 
                 if (text.toString().isNotBlank()) {
-                    debouncer.debounce {
+                    debouncer?.debounce {
                         val queryString = binding.searchEditText.text.toString()
                         if (queryString.isNotBlank()) {
                             query = queryString
@@ -113,8 +116,16 @@ class SearchVacancyFragment : Fragment() {
                         }
                     }
                 } else {
-                    hideVacancies()
-                    binding.placeholderNotSearched.show()
+                    setDefaultEmptyState()
+                }
+            }
+
+            doBeforeTextChanged { _, _, count, after ->
+                isBackspaceClicked = after < count
+            }
+            doAfterTextChanged { s ->
+                if (isBackspaceClicked && s.toString().isEmpty()) {
+                    setDefaultEmptyState()
                 }
             }
 
@@ -288,6 +299,13 @@ class SearchVacancyFragment : Fragment() {
     private fun hideAllPlaceholders() {
         errorPlaceholders.gone()
         binding.placeholderNotSearched.gone()
+    }
+
+    private fun setDefaultEmptyState() {
+        errorPlaceholders.gone()
+        hideVacancies()
+        binding.progressBar.gone()
+        binding.placeholderNotSearched.show()
     }
 
     override fun onDestroyView() {
