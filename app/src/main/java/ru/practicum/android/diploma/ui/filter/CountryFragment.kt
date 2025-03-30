@@ -1,14 +1,18 @@
 package ru.practicum.android.diploma.ui.filter
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.LinearLayoutManager
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import ru.practicum.android.diploma.databinding.FragmentCountryBinding
 import ru.practicum.android.diploma.domain.filter.models.FilterParam
+import ru.practicum.android.diploma.presentation.filter.WorkplaceState
 import ru.practicum.android.diploma.presentation.filter.WorkplaceViewModel
 
 class CountryFragment : Fragment() {
@@ -37,13 +41,34 @@ class CountryFragment : Fragment() {
             findNavController().navigateUp()
         }
 
+        adapter = CountryAdapter(emptyList()) { country ->
+            onCountrySelected(country)
+        }
+        binding.rvCountries.layoutManager = LinearLayoutManager(requireContext())
+        binding.rvCountries.adapter = adapter
+
         viewModel.countries.observe(viewLifecycleOwner) { countryList ->
             adapter?.updateItems(countryList)
         }
 
-        if (viewModel.countries.value.isNullOrEmpty()) {
-            viewModel.loadCountries()
+        viewModel.state.observe(viewLifecycleOwner) { state ->
+            when (state) {
+                is WorkplaceState.Error -> {
+                    binding.rvCountries.isVisible = false
+                    binding.llError.isVisible = true
+                }
+
+                is WorkplaceState.CountriesLoaded -> {
+                    binding.rvCountries.isVisible = true
+                    binding.llError.isVisible = false
+                }
+
+                else -> Unit
+            }
         }
+
+        viewModel.loadCountries()
+
     }
 
     private fun onCountrySelected(country: FilterParam) {

@@ -8,7 +8,6 @@ import kotlinx.coroutines.launch
 import ru.practicum.android.diploma.domain.filter.api.FilterDictionaryInteractor
 import ru.practicum.android.diploma.domain.filter.api.FilterInteractor
 import ru.practicum.android.diploma.domain.filter.models.FilterParam
-import ru.practicum.android.diploma.domain.filter.models.Region
 
 class WorkplaceViewModel(
     private val filterInteractor: FilterInteractor, private val filterDictionaryInteractor: FilterDictionaryInteractor

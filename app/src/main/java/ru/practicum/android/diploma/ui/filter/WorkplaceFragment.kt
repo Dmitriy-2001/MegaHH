@@ -6,17 +6,13 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
-import org.koin.androidx.viewmodel.ext.android.viewModel
 import ru.practicum.android.diploma.databinding.FragmentWorkplaceBinding
-import ru.practicum.android.diploma.presentation.filter.WorkplaceViewModel
 
 class WorkplaceFragment : Fragment() {
 
     private var _binding: FragmentWorkplaceBinding? = null
     private val binding: FragmentWorkplaceBinding
         get() = requireNotNull(_binding) { "Binding is null" }
-
-    private val viewModel by viewModel<WorkplaceViewModel>()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -32,12 +28,6 @@ class WorkplaceFragment : Fragment() {
         binding.toolbar.setOnClickListener { findNavController().navigateUp() }
         binding.countryArrow.setOnClickListener { openCountry() }
         binding.regionArrow.setOnClickListener { openRegion() }
-
-        viewModel.selectedCountry.observe(viewLifecycleOwner) { country ->
-            binding.country.editText?.setText(country?.name ?: "")
-        }
-
-        viewModel.loadCountries()
     }
 
     override fun onDestroyView() {

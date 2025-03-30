@@ -21,10 +21,47 @@
         app:titleTextColor="?attr/colorOnPrimary" />
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recyclerViewCountries"
+        android:id="@+id/rvCountries"
         android:layout_width="match_parent"
-        android:layout_height="60dp"
+        android:layout_height="@dimen/zero"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/toolbar"
         tools:listitem="@layout/item_filter_option" />
+
+    <LinearLayout
+        android:id="@+id/ll_error"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/sixteen"
+        android:layout_marginTop="@dimen/hundred_seventy_two"
+        android:layout_marginRight="@dimen/sixteen"
+        android:layout_marginBottom="@dimen/hundred_seventy_two"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/toolbar">
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/server_error_for_filters" />
+
+        <TextView
+            android:id="@+id/tv_error"
+            style="@style/TitleMedium22"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/sixteen"
+            android:gravity="center"
+            android:maxWidth="@dimen/two_hundred_sixty_eight"
+            android:text="@string/unable_to_get_list"
+            android:textAlignment="center"
+            android:textColor="?attr/colorOnPrimary" />
+    </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
