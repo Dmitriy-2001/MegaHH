@@ -24,6 +24,6 @@ val repositoryModule = module {
     }
 
     single<FilterDictionaryRepository> {
-        FilterDictionaryRepositoryImpl(get())
+        FilterDictionaryRepositoryImpl(get(), get())
     }
 }
