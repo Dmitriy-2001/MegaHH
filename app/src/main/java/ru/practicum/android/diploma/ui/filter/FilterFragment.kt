@@ -158,10 +158,18 @@ class FilterFragment : Fragment() {
         )
 
         // Обновляем цвет текста
-        binding.industry.setTextColor(ContextCompat.getColor(requireContext(),
-            if (hasIndustry) R.color.black else R.color.gray))
-        binding.workplace.setTextColor(ContextCompat.getColor(requireContext(),
-            if (hasWorkplace) R.color.black else R.color.gray))
+        binding.industry.setTextColor(
+            ContextCompat.getColor(
+                requireContext(),
+                if (hasIndustry) R.color.black else R.color.gray
+            )
+        )
+        binding.workplace.setTextColor(
+            ContextCompat.getColor(
+                requireContext(),
+                if (hasWorkplace) R.color.black else R.color.gray
+            )
+        )
     }
 
     private fun clearIndustry() {
@@ -247,8 +255,10 @@ class FilterFragment : Fragment() {
         if (currentState is FilterScreenState.Content) {
             val currentFilters = currentState.filterParams
             val salaryChanged = currentSalaryText != (currentFilters.salary ?: "")
-            val checkboxChanged = binding.hideWithoutSalary.isChecked != (currentFilters.doNotShowWithoutSalary ?: false)
-            val industryChanged = binding.industry.text.toString() != (currentFilters.industry?.name ?: getString(R.string.industry))
+            val checkboxChanged =
+                binding.hideWithoutSalary.isChecked != (currentFilters.doNotShowWithoutSalary ?: false)
+            val industryChanged =
+                binding.industry.text.toString() != (currentFilters.industry?.name ?: getString(R.string.industry))
             val workplaceChanged = binding.workplace.text.toString() != when {
                 currentFilters.area != null -> currentFilters.area.name
                 currentFilters.country != null -> currentFilters.country.name

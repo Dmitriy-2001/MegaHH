@@ -6,7 +6,6 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.launch
 import ru.practicum.android.diploma.domain.filter.api.FilterInteractor
-import ru.practicum.android.diploma.domain.filter.models.FilterParams
 
 class FilterViewModel(private val interactor: FilterInteractor) : ViewModel() {
     private val filterScreenState = MutableLiveData<FilterScreenState>()
