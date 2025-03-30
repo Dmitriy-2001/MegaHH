@@ -262,11 +262,16 @@ class FilterFragment : Fragment() {
     private fun checkContentStateChanges(currentState: FilterScreenState.Content) {
         val currentFilters = currentState.filterParams
         val salaryChanged = currentSalaryText != currentFilters.salary ?: ""
-        val checkboxChanged = binding.hideWithoutSalary.isChecked != currentFilters.doNotShowWithoutSalary ?: false
-        val industryChanged = binding.industry.text.toString() != currentFilters.industry?.name ?: getString(R.string.industry)
-        val workplaceChanged = binding.workplace.text.toString() != getWorkplaceText(currentFilters)
+        val checkboxChanged =
+            binding.hideWithoutSalary.isChecked != currentFilters.doNotShowWithoutSalary ?: false
+        val industryChanged =
+            binding.industry.text.toString() != currentFilters.industry?.name
+                ?: getString(R.string.industry)
+        val workplaceChanged =
+            binding.workplace.text.toString() != getWorkplaceText(currentFilters)
 
-        binding.applyFilters.isVisible = salaryChanged || checkboxChanged || industryChanged || workplaceChanged
+        binding.applyFilters.isVisible =
+            salaryChanged || checkboxChanged || industryChanged || workplaceChanged
     }
 
     private fun getWorkplaceText(filterParams: FilterParams): String {
