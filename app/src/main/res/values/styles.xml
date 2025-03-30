@@ -24,7 +24,7 @@
 
     <style name="TextRegular12">
         <item name="android:fontFamily">@font/ys_medium</item>
-        <item name="android:textSize">@dimen/big_text</item>
+        <item name="android:textSize">@dimen/small_text</item>
     </style>
 
     <style name="BottomMenuStyle" parent="Widget.MaterialComponents.BottomNavigationView.Colored">
@@ -123,5 +123,13 @@
         <item name="android:layout_height">wrap_content</item>
         <item name="android:layout_gravity">center</item>
         <item name="android:layout_marginTop">@dimen/one_hundred_thirty_five</item>
+    </style>
+
+    <style name="CheckBoxTheme" parent="Theme.MaterialComponents.Light">
+        <item name="colorControlNormal">@color/blue</item>
+        <item name="colorControlActivated">@color/blue</item>
+        <item name="colorControlHighlight">@color/blue</item>
+        <item name="android:colorAccent">@color/blue</item>
+        <item name="colorOnPrimary">@color/white</item>
     </style>
 </resources>

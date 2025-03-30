@@ -6,21 +6,52 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.launch
 import ru.practicum.android.diploma.domain.filter.api.FilterInteractor
+import ru.practicum.android.diploma.domain.filter.models.FilterParams
 
 class FilterViewModel(private val interactor: FilterInteractor) : ViewModel() {
     private val filterScreenState = MutableLiveData<FilterScreenState>()
+    private var searchQuery: String? = null
+
     fun getFilterScreenState(): LiveData<FilterScreenState> = filterScreenState
 
     init {
         updateFilterParameters()
     }
 
-    fun saveSalaryToFilter(salary: String) = viewModelScope.launch { interactor.setSalaryToStorage(salary) }
+    fun setSearchQuery(query: String) {
+        this.searchQuery = query
+    }
 
-    fun saveDoNotShowWithoutSalaryToFilter(doNotShowWithoutSalary: Boolean) =
-        viewModelScope.launch {
-            interactor.setDoNotShowWithoutSalaryToStorage(doNotShowWithoutSalary)
-        }
+    fun getSearchQuery(): String? = searchQuery
+
+    fun isFilterEmpty(): Boolean {
+        return interactor.isFilterEmpty()
+    }
+
+    fun saveFilters(
+        salary: String?,
+        doNotShowWithoutSalary: Boolean
+    ) = viewModelScope.launch {
+        salary?.let {
+            if (it.isNotEmpty()) {
+                interactor.setSalaryToStorage(it)
+            } else {
+                interactor.setSalaryToStorage("")
+            }
+        } ?: interactor.setSalaryToStorage("")
+
+        interactor.setDoNotShowWithoutSalaryToStorage(doNotShowWithoutSalary)
+        updateFilterParameters()
+    }
+
+    fun resetFilters() = viewModelScope.launch {
+        interactor.setIndustryToStorage(null)
+        interactor.setCountryToStorage(null)
+        interactor.setRegionToStorage(null)
+        interactor.setSalaryToStorage("")
+        interactor.setDoNotShowWithoutSalaryToStorage(false)
+        updateFilterParameters()
+    }
 
     fun updateFilterParameters() = viewModelScope.launch {
         val filterParams = interactor.getFilterParametersFromStorage()

@@ -24,6 +24,8 @@ import ru.practicum.android.diploma.databinding.FragmentVacancySearchBinding
 import ru.practicum.android.diploma.domain.search.models.VacanciesModel
 import ru.practicum.android.diploma.presentation.search.SearchScreenState
 import ru.practicum.android.diploma.presentation.search.SearchVacancyViewModel
+import ru.practicum.android.diploma.ui.filter.FilterFragment
+import ru.practicum.android.diploma.ui.filter.FilterFragment.Companion.SHOULD_REFRESH_SEARCH
 import ru.practicum.android.diploma.util.Debouncer
 import ru.practicum.android.diploma.util.gone
 import ru.practicum.android.diploma.util.show
@@ -65,6 +67,14 @@ class SearchVacancyFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        findNavController().currentBackStackEntry?.savedStateHandle?.getLiveData<Boolean>(
+            SHOULD_REFRESH_SEARCH
+        )?.observe(viewLifecycleOwner) { shouldRefresh ->
+            if (shouldRefresh && binding.searchEditText.text.isNotBlank()) {
+                viewModel.searchVacancies(binding.searchEditText.text.toString())
+                findNavController().currentBackStackEntry?.savedStateHandle?.remove<Boolean>(SHOULD_REFRESH_SEARCH)
+            }
+        }
         observeKeyboardVisibility()
 
         binding.parameters.setOnClickListener {
@@ -175,7 +185,10 @@ class SearchVacancyFragment : Fragment() {
 
     private fun openFilter() {
         val directions = SearchVacancyFragmentDirections.actionVacancySearchFragmentToFilterFragment()
-        findNavController().navigate(directions)
+        val args = Bundle().apply {
+            putString(FilterFragment.SEARCH_QUERY_ARG, binding.searchEditText.text.toString())
+        }
+        findNavController().navigate(directions.actionId, args)
     }
 
     private fun openVacancy(vacancyId: String) {
