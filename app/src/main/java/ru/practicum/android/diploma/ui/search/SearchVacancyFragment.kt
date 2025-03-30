@@ -11,7 +11,6 @@ import android.view.ViewGroup.MarginLayoutParams
 import android.view.ViewTreeObserver
 import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputMethodManager
-import android.widget.TextView
 import androidx.core.widget.doAfterTextChanged
 import androidx.core.widget.doBeforeTextChanged
 import androidx.core.widget.doOnTextChanged
@@ -70,7 +69,7 @@ class SearchVacancyFragment : Fragment() {
         binding.searchOrClearIcon.setOnClickListener {
             if (binding.searchEditText.text.isNotBlank()) {
                 binding.searchEditText.text.clear()
-                setDefaultEmptyState()
+                viewModel.clearSearchQuery()
             }
         }
 
@@ -87,18 +86,18 @@ class SearchVacancyFragment : Fragment() {
         with(binding.searchEditText) {
             doOnTextChanged { text, _, _, _ ->
                 setStartTextEditState()
-                updateSearchIcon(text.toString())
+                val queryString = text.toString()
+                updateSearchIcon(queryString)
 
-                if (text.toString().isNotBlank()) {
-                    debouncer?.debounce {
-                        val queryString = binding.searchEditText.text.toString()
-                        if (queryString.isNotBlank() && query != queryString) {
+                when {
+                    queryString.isNotBlank() && query != queryString -> debouncer?.debounce {
+                        if (binding.searchEditText.text.toString().isNotBlank()) {
                             query = queryString
                             startSearch()
                         }
                     }
-                } else {
-                    setDefaultEmptyState()
+
+                    queryString.isBlank() -> viewModel.clearSearchQuery()
                 }
             }
 
@@ -107,7 +106,7 @@ class SearchVacancyFragment : Fragment() {
             }
             doAfterTextChanged { s ->
                 if (isBackspaceClicked && s.toString().isEmpty()) {
-                    setDefaultEmptyState()
+                    viewModel.clearSearchQuery()
                 }
             }
 
@@ -142,11 +141,13 @@ class SearchVacancyFragment : Fragment() {
             when (state) {
                 is SearchScreenState.Content -> showVacancies(state.data)
                 is SearchScreenState.Loading -> showLoading()
+                is SearchScreenState.DefaultEmptyState -> setDefaultEmptyState()
                 else -> showError(state)
             }
         }
     }
 
+    // Обработка статусов из LiveData
     private fun showLoading() {
         val needToCenteringProgressBar = vacancyAdapter?.itemCount == 0
         if (needToCenteringProgressBar) {
@@ -219,7 +220,6 @@ class SearchVacancyFragment : Fragment() {
 
     // Преднастроенные состояния экрана
     private fun setDefaultEmptyState() {
-//        query = ""
         hideVacancies()
         listOf(
             binding.placeholderEmptyList.root,
@@ -339,18 +339,11 @@ class SearchVacancyFragment : Fragment() {
 
     override fun onResume() {
         super.onResume()
-//        val text = binding.searchEditText.text.toString()
-//        updateSearchIcon(text)
-//        if (text.isNotBlank()) {
-//            binding.placeholderNotSearched.gone()
-//        }
     }
 
     companion object {
-        const val SEARCH_TEXT = "SEARCH_TEXT"
         private const val DEBOUNCE_DELAY_MS = 2000L
         private const val KEYBOARD_THRESHOLD_RATIO = 0.15
         private const val CENTER_OF_SCREEN_DP = 700
-
     }
 }
