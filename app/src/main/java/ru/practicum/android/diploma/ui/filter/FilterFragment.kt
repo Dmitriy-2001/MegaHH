@@ -115,7 +115,7 @@ class FilterFragment : Fragment() {
         }
 
         binding.salaryInput.addTextChangedListener(object : TextWatcher {
-            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) = Unit
 
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
                 currentSalaryText = s?.toString() ?: ""
@@ -124,7 +124,7 @@ class FilterFragment : Fragment() {
                 checkFiltersChanged()
             }
 
-            override fun afterTextChanged(s: Editable?) {}
+            override fun afterTextChanged(s: Editable?) = Unit
         })
     }
 
@@ -157,7 +157,6 @@ class FilterFragment : Fragment() {
             if (hasWorkplace) R.drawable.ic_clear else R.drawable.ic_arrow_forward
         )
 
-        // Обновляем цвет текста
         binding.industry.setTextColor(
             ContextCompat.getColor(
                 requireContext(),
@@ -218,25 +217,26 @@ class FilterFragment : Fragment() {
 
     private fun displayFilterContent(filterParams: FilterParams) {
         binding.industry.text = filterParams.industry?.name ?: getString(R.string.industry)
-
-        filterParams.area?.let { area ->
-            binding.workplace.text = area.name
-        } ?: filterParams.country?.let { country ->
-            binding.workplace.text = country.name
-        } ?: run {
-            binding.workplace.text = getString(R.string.workplace)
-        }
-
+        updateWorkplaceText(filterParams)
         binding.salaryInput.setText(filterParams.salary ?: "")
         binding.hideWithoutSalary.isChecked = filterParams.doNotShowWithoutSalary ?: false
+        binding.resetFilters.isVisible = hasActiveFilters(filterParams)
+    }
 
-        val hasActiveFilters = filterParams.industry != null ||
+    private fun updateWorkplaceText(filterParams: FilterParams) {
+        binding.workplace.text = when {
+            filterParams.area != null -> filterParams.area.name
+            filterParams.country != null -> filterParams.country.name
+            else -> getString(R.string.workplace)
+        }
+    }
+
+    private fun hasActiveFilters(filterParams: FilterParams): Boolean {
+        return filterParams.industry != null ||
             filterParams.area != null ||
             filterParams.country != null ||
             !filterParams.salary.isNullOrEmpty() ||
             filterParams.doNotShowWithoutSalary == true
-
-        binding.resetFilters.isVisible = hasActiveFilters
     }
 
     private fun resetFilterUI() {
@@ -253,33 +253,44 @@ class FilterFragment : Fragment() {
     private fun checkFiltersChanged() {
         val currentState = viewModel.getFilterScreenState().value
         if (currentState is FilterScreenState.Content) {
-            val currentFilters = currentState.filterParams
-            val salaryChanged = currentSalaryText != (currentFilters.salary ?: "")
-            val checkboxChanged =
-                binding.hideWithoutSalary.isChecked != (currentFilters.doNotShowWithoutSalary ?: false)
-            val industryChanged =
-                binding.industry.text.toString() != (currentFilters.industry?.name ?: getString(R.string.industry))
-            val workplaceChanged = binding.workplace.text.toString() != when {
-                currentFilters.area != null -> currentFilters.area.name
-                currentFilters.country != null -> currentFilters.country.name
-                else -> getString(R.string.workplace)
-            }
-
-            binding.applyFilters.isVisible = salaryChanged || checkboxChanged || industryChanged || workplaceChanged
+            checkContentStateChanges(currentState)
         } else {
-            val hasFilters = currentSalaryText.isNotEmpty() ||
-                binding.hideWithoutSalary.isChecked ||
-                binding.industry.text.toString() != getString(R.string.industry) ||
-                binding.workplace.text.toString() != getString(R.string.workplace)
-
-            binding.applyFilters.isVisible = hasFilters
+            checkDefaultStateChanges()
         }
     }
 
+    private fun checkContentStateChanges(currentState: FilterScreenState.Content) {
+        val currentFilters = currentState.filterParams
+        val salaryChanged = currentSalaryText != currentFilters.salary ?: ""
+        val checkboxChanged = binding.hideWithoutSalary.isChecked != currentFilters.doNotShowWithoutSalary ?: false
+        val industryChanged = binding.industry.text.toString() != currentFilters.industry?.name ?: getString(R.string.industry)
+        val workplaceChanged = binding.workplace.text.toString() != getWorkplaceText(currentFilters)
+
+        binding.applyFilters.isVisible = salaryChanged || checkboxChanged || industryChanged || workplaceChanged
+    }
+
+    private fun getWorkplaceText(filterParams: FilterParams): String {
+        return when {
+            filterParams.area != null -> filterParams.area.name
+            filterParams.country != null -> filterParams.country.name
+            else -> getString(R.string.workplace)
+        }
+    }
+
+    private fun checkDefaultStateChanges() {
+        val hasFilters = currentSalaryText.isNotEmpty() ||
+            binding.hideWithoutSalary.isChecked ||
+            binding.industry.text.toString() != getString(R.string.industry) ||
+            binding.workplace.text.toString() != getString(R.string.workplace)
+
+        binding.applyFilters.isVisible = hasFilters
+    }
+
     private fun navigateBackToSearchWithRefresh() {
-        val searchQuery = viewModel.getSearchQuery()
+        viewModel.getSearchQuery()
         findNavController().previousBackStackEntry?.savedStateHandle?.set(
-            SHOULD_REFRESH_SEARCH, true
+            SHOULD_REFRESH_SEARCH,
+            true
         )
         findNavController().navigateUp()
     }
