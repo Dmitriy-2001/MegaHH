@@ -8,7 +8,6 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import ru.practicum.android.diploma.databinding.FragmentWorkplaceBinding
-import ru.practicum.android.diploma.presentation.filter.FilterViewModel
 import ru.practicum.android.diploma.presentation.filter.WorkplaceViewModel
 
 class WorkplaceFragment : Fragment() {
@@ -38,12 +37,7 @@ class WorkplaceFragment : Fragment() {
             binding.country.editText?.setText(country?.name ?: "")
         }
 
-        viewModel.selectedRegion.observe(viewLifecycleOwner) { region ->
-            binding.region.editText?.setText(region?.name ?: "")
-        }
-
         viewModel.loadCountries()
-        viewModel.loadRegions()
     }
 
     override fun onDestroyView() {
