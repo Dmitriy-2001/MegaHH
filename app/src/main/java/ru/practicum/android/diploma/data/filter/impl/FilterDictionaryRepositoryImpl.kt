@@ -11,10 +11,10 @@ import ru.practicum.android.diploma.domain.search.Resource
 
 class FilterDictionaryRepositoryImpl(private val networkClient: NetworkClient) : FilterDictionaryRepository {
     // Здесь методы получения словарей для фильтрации (регионы, страны, индустрии)
-    override fun getIndustries(id: String): Flow<Resource<List<FilterParam>>> =
-        networkClient.doRequest<IndustryRequest, IndustryResponse>(IndustryRequest(id))
+    override fun getIndustries(): Flow<Resource<List<FilterParam>>> =
+        networkClient.doRequest<IndustryRequest, List<IndustryResponse>>(IndustryRequest)
             .mapResource { response ->
-                response.industries.map { industry ->
+                response.map { industry ->
                     FilterParam(id = industry.id, name = industry.name)
                 }
             }

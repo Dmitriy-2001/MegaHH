@@ -1,8 +1,10 @@
 package ru.practicum.android.diploma.presentation.search
 
+import ru.practicum.android.diploma.domain.filter.models.FilterParam
+
 sealed interface IndustryScreenState {
     data object Loading : IndustryScreenState
-    data object Content : IndustryScreenState
+    data class Content(val data: List<FilterParam>) : IndustryScreenState
     data object NothingFound : IndustryScreenState
     data object NoInternet : IndustryScreenState
     data object Error : IndustryScreenState

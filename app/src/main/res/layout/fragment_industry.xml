@@ -61,10 +61,10 @@
         android:layout_height="@dimen/zero"
         android:layout_marginTop="@dimen/sixteen"
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-        app:layout_constraintBottom_toTopOf=""
+        app:layout_constraintBottom_toTopOf="@id/button_choice"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/search_container"
-        tools:listitem="@layout/item_industry"></androidx.recyclerview.widget.RecyclerView>
+        tools:listitem="@layout/item_industry"/>
 
     <ImageView
         android:id="@+id/error_image"

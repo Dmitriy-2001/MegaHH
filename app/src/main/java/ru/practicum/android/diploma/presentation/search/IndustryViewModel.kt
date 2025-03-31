@@ -10,7 +10,6 @@ import ru.practicum.android.diploma.domain.filter.api.FilterInteractor
 import ru.practicum.android.diploma.domain.filter.models.FilterParam
 import ru.practicum.android.diploma.domain.search.ErrorType
 import ru.practicum.android.diploma.domain.search.Resource
-import java.io.IOException
 
 class IndustryViewModel(
     private val filterInteractor: FilterInteractor,
@@ -19,9 +18,6 @@ class IndustryViewModel(
 
         private val _selectedIndustry = MutableLiveData<FilterParam?>()
         val selectedIndustry: LiveData<FilterParam?> = _selectedIndustry
-
-        private val _industry = MutableLiveData<List<FilterParam>>()
-        val industry: LiveData<List<FilterParam>> = _industry
 
         private val _state = MutableLiveData<IndustryScreenState>()
         val state: LiveData<IndustryScreenState> = _state
@@ -37,8 +33,7 @@ class IndustryViewModel(
                 .collect { resource ->
                     when (resource) {
                         is Resource.Success -> {
-                            _industry.postValue(resource.data)
-                            _state.postValue(IndustryScreenState.Content)
+                            _state.postValue(IndustryScreenState.Content(resource.data))
                         }
                         is Resource.Error -> {
                             when (resource.errorType) {

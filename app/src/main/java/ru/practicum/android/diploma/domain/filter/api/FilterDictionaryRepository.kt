@@ -6,5 +6,5 @@ import ru.practicum.android.diploma.domain.search.Resource
 
 interface FilterDictionaryRepository {
     // Здесь методы получения словарей для фильтрации (регионы, страны, индустрии)
-    fun getIndustries(id: String): Flow<Resource<List<FilterParam>>>
+    fun getIndustries(): Flow<Resource<List<FilterParam>>>
 }
