@@ -29,4 +29,7 @@
     <string name="no_internet_error">Нет интернета</string>
     <string name="server_error">Ошибка сервера</string>
     <string name="vacancy_not_found">Вакансия не найдена или удалена</string>
+    <string name="region_hint">Введите регион</string>
+    <string name="region_not_found">Такого региона нет</string>
+    <string name="empty_list_region">Не удалось получить список</string>
 </resources>
