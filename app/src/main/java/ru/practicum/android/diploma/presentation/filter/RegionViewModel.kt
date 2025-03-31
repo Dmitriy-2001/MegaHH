@@ -4,8 +4,6 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import ru.practicum.android.diploma.domain.filter.api.FilterDictionaryInteractor
 import ru.practicum.android.diploma.domain.filter.api.FilterInteractor
@@ -42,7 +40,7 @@ class RegionViewModel(
     }
 
     fun saveFilterParams(region: RegionModel) {
-        CoroutineScope(Dispatchers.IO).launch {
+        viewModelScope.launch {
             val regionParam = FilterParam(region.id, region.name)
             filterInteractor.setRegionToStorage(regionParam)
 
