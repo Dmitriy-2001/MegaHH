@@ -1,9 +1,12 @@
 package ru.practicum.android.diploma.data.search.network.utils
 
+import ru.practicum.android.diploma.data.filter.dto.RegionDto
 import ru.practicum.android.diploma.data.search.dto.Salary
 import ru.practicum.android.diploma.data.search.dto.response.GetVacancyDetailsResponse
 import ru.practicum.android.diploma.data.search.dto.response.SearchVacanciesResponse
+import ru.practicum.android.diploma.domain.filter.models.FilterParam
 import ru.practicum.android.diploma.domain.filter.models.FilterParams
+import ru.practicum.android.diploma.domain.filter.models.RegionModel
 import ru.practicum.android.diploma.domain.search.models.VacanciesModel
 import ru.practicum.android.diploma.domain.search.models.VacancyModel
 import java.text.DecimalFormat
@@ -56,6 +59,16 @@ object Convertor {
         "salary" to this.salary,
         "only_with_salary" to this.doNotShowWithoutSalary
     ).filterValues { it != null } as Map<String, String>
+
+    fun RegionDto.toModel(countriesCache: List<FilterParam>? = null): RegionModel {
+        val countryName = countriesCache?.find { it.id == this.parentId }?.name ?: "Unknown Country"
+        return RegionModel(
+            id = this.id,
+            name = this.name,
+            parentId = this.parentId,
+            countryName = countryName
+        )
+    }
 
     private fun getSalaryString(salary: Salary?) = buildString {
         salary?.from?.let { append("от ${formatSalary(it)} ") }
