@@ -13,6 +13,8 @@ import ru.practicum.android.diploma.R
 import ru.practicum.android.diploma.domain.search.models.VacancyModel
 import ru.practicum.android.diploma.util.dpToPx
 
+private const val CORNER_RADIUS_DP = 12f
+
 class VacancyViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
     private val nameAndCityTextView: TextView = itemView.findViewById(R.id.name_and_city)
     private val employerTextView: TextView = itemView.findViewById(R.id.employer)
@@ -28,12 +30,19 @@ class VacancyViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         employerTextView.text = vacancy.employer
         salaryAndCurrencyTextView.text = vacancy.salary
         val context = itemView.context
-        val cornerRadiusPx = dpToPx(12f, context)
+        val cornerRadiusPx = dpToPx(CORNER_RADIUS_DP, context)
         Glide.with(itemView)
             .load(vacancy.logoUrl)
             .placeholder(R.drawable.placeholder_rv)
-            .centerCrop()
-            .transform(RoundedCorners(cornerRadiusPx))
+            .apply(
+                RequestOptions()
+                    .transform(
+                        MultiTransformation(
+                            CenterCrop(),
+                            RoundedCorners(cornerRadiusPx)
+                        )
+                    )
+            )
             .into(logoUrlImageView)
     }
 }
