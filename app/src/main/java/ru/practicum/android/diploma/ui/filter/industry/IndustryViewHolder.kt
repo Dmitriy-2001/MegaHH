@@ -6,7 +6,7 @@ import com.google.android.material.radiobutton.MaterialRadioButton
 import ru.practicum.android.diploma.R
 import ru.practicum.android.diploma.domain.filter.models.FilterParam
 
-class IndustryViewHolder(itemView : View):RecyclerView.ViewHolder(itemView) {
+class IndustryViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
     private val industryRadioButton = itemView.findViewById<MaterialRadioButton>(R.id.industry_radio_button)
 
     fun bind(industry: FilterParam, isSelected: Boolean, onClick: (FilterParam) -> Unit) {

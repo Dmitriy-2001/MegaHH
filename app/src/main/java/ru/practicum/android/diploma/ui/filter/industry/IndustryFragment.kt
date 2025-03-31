@@ -56,11 +56,9 @@ class IndustryFragment : Fragment() {
         binding.industryList.adapter = adapter
 
         viewModel.state.observe(viewLifecycleOwner) { state ->
-
             binding.placeholderNotFound.root.gone()
             binding.placeholderNoInternet.root.gone()
             binding.placeholderEmptyList.root.gone()
-
             when (state) {
                 is IndustryScreenState.Content -> {
                     if (state.data.isEmpty()) {
@@ -90,15 +88,12 @@ class IndustryFragment : Fragment() {
             }
         }
 
-        viewModel.selectedIndustry.observe(viewLifecycleOwner) { selectedIndustry ->
-            adapter.updateItems(adapter.items, selectedIndustry)
-        }
+        viewModel.selectedIndustry.observe(viewLifecycleOwner) { selectedIndustry -> adapter.updateItems(adapter.items, selectedIndustry) }
 
         binding.toolbar.setOnClickListener { findNavController().navigateUp() }
 
         binding.buttonChoice.setOnClickListener {
-            findNavController().navigateUp()
-        }
+            findNavController().navigateUp() }
     }
 
     private fun updateSearchIcon(query: String) {
@@ -112,7 +107,6 @@ class IndustryFragment : Fragment() {
 
     private fun showError(screenState: IndustryScreenState) {
         binding.industryList.gone()
-
         when (screenState) {
             is IndustryScreenState.Error -> binding.placeholderEmptyList.root.show()
             is IndustryScreenState.NoInternet -> binding.placeholderNoInternet.root.show()
