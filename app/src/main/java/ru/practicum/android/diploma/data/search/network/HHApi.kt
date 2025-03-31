@@ -6,10 +6,9 @@ import retrofit2.http.Path
 import retrofit2.http.Query
 import retrofit2.http.QueryMap
 import ru.practicum.android.diploma.BuildConfig
-import ru.practicum.android.diploma.data.search.dto.IndustryItemDto
 import ru.practicum.android.diploma.data.filter.dto.RegionDto
 import ru.practicum.android.diploma.data.search.dto.response.GetVacancyDetailsResponse
-import ru.practicum.android.diploma.data.search.dto.response.IndustryResponse
+import ru.practicum.android.diploma.data.filter.dto.response.IndustryResponse
 import ru.practicum.android.diploma.data.search.dto.response.SearchVacanciesResponse
 
 interface HHApi {

@@ -66,5 +66,3 @@ class IndustryViewModel(
         _state.postValue(IndustryScreenState.Content(filteredList))
     }
 }
-
-

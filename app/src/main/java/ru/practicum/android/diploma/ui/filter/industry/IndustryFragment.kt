@@ -70,7 +70,6 @@ class IndustryFragment : Fragment() {
                         showContent(state.data)
                     }
                 }
-
                 else -> showError(state)
             }
         }
@@ -111,7 +110,6 @@ class IndustryFragment : Fragment() {
         }
     }
 
-
     private fun showError(screenState: IndustryScreenState) {
         binding.industryList.gone()
 
@@ -140,6 +138,3 @@ class IndustryFragment : Fragment() {
         inputMethodManager?.hideSoftInputFromWindow(binding.searchEditText.windowToken, 0)
     }
 }
-
-
-

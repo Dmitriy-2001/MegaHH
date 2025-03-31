@@ -1,4 +1,4 @@
-package ru.practicum.android.diploma.data.search.dto.response
+package ru.practicum.android.diploma.data.filter.dto.response
 
 data class IndustryResponse(
     val id: String,
