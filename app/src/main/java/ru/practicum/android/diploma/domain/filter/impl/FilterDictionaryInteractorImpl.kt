@@ -1,8 +1,11 @@
 package ru.practicum.android.diploma.domain.filter.impl
 
+import kotlinx.coroutines.flow.Flow
 import ru.practicum.android.diploma.domain.filter.api.FilterDictionaryInteractor
 import ru.practicum.android.diploma.domain.filter.api.FilterDictionaryRepository
 import ru.practicum.android.diploma.domain.filter.models.FilterParam
+import ru.practicum.android.diploma.domain.filter.models.RegionModel
+import ru.practicum.android.diploma.domain.search.Resource
 
 class FilterDictionaryInteractorImpl(
     private val repository: FilterDictionaryRepository
@@ -11,4 +14,6 @@ class FilterDictionaryInteractorImpl(
     override suspend fun loadCountries(): List<FilterParam> {
         return repository.getCountries()
     }
+
+    override fun getRegions(): Flow<Resource<List<RegionModel>>> = repository.getRegions()
 }
