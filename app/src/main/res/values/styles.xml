@@ -24,7 +24,7 @@
 
     <style name="TextRegular12">
         <item name="android:fontFamily">@font/ys_medium</item>
-        <item name="android:textSize">@dimen/big_text</item>
+        <item name="android:textSize">@dimen/small_text</item>
     </style>
 
     <style name="BottomMenuStyle" parent="Widget.MaterialComponents.BottomNavigationView.Colored">
@@ -124,4 +124,33 @@
         <item name="android:layout_gravity">center</item>
         <item name="android:layout_marginTop">@dimen/one_hundred_thirty_five</item>
     </style>
+
+    <style name="TextInputLayoutStyle">
+        <item name="android:layout_width">@dimen/zero</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:paddingTop">@dimen/eight</item>
+        <item name="boxStrokeColor">?attr/colorPrimary</item>
+        <item name="boxStrokeWidth">@dimen/zero</item>
+        <item name="android:textColorHint">@color/gray</item>
+        <item name="hintTextAppearance">@style/TextRegular12</item>
+        <item name="android:enabled">false</item>
+    </style>
+
+    <style name="TextInputEditTextStyle">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:paddingTop">@dimen/eight</item>
+        <item name="android:textAppearance">@style/TextRegula16</item>
+        <item name="android:textColor">?attr/colorOnPrimary</item>
+    </style>
+
+    <style name="FilterImageButton">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="backgroundTint">?attr/colorPrimary</item>
+        <item name="tint">?attr/colorOnPrimary</item>
+        <item name="android:src">@drawable/ic_arrow_forward</item>
+    </style>
+
+
 </resources>
