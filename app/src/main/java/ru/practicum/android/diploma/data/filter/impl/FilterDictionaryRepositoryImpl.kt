@@ -27,7 +27,6 @@ class FilterDictionaryRepositoryImpl(private val networkClient: NetworkClient) :
                 }
             }
 
-
     private inline fun <R, reified T> NetworkClient.doRequest(dto: R): Flow<Resource<T>> {
         return doRequest(dto, T::class.java)
     }

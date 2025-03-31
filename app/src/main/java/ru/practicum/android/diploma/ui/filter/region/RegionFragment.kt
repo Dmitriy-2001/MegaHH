@@ -52,7 +52,6 @@ class RegionFragment : Fragment() {
         binding.recyclerViewRegions.layoutManager = LinearLayoutManager(requireContext())
         binding.recyclerViewRegions.adapter = regionAdapter
 
-
         viewModel.getScreenState().observe(viewLifecycleOwner) { screenState ->
             errorPlaceholders.gone()
 
@@ -70,7 +69,6 @@ class RegionFragment : Fragment() {
                 else -> showError(screenState)
             }
         }
-
 
         binding.searchEditText.addTextChangedListener { text ->
             val query = text.toString()
