@@ -1,9 +1,11 @@
 package ru.practicum.android.diploma.presentation.filter
 
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import ru.practicum.android.diploma.domain.filter.api.FilterDictionaryInteractor
 import ru.practicum.android.diploma.domain.filter.api.FilterInteractor
@@ -18,13 +20,17 @@ class RegionViewModel(
     private val filterInteractor: FilterInteractor
 ) : ViewModel() {
 
-    private val _screenState = MutableStateFlow<RegionScreenState>(RegionScreenState.Loading)
-    val screenState: StateFlow<RegionScreenState> get() = _screenState
+    private val _screenState = MutableLiveData<RegionScreenState>(RegionScreenState.Loading)
+    fun getScreenState(): LiveData<RegionScreenState> = _screenState
 
     private val filterParams: FilterParams
         get() = filterInteractor.getFilterParametersFromStorage()
 
     private val parentId: String? = filterParams.country?.id
+
+    init {
+        loadRegions()
+    }
 
     fun loadRegions(query: String = "") {
         viewModelScope.launch {
@@ -36,10 +42,13 @@ class RegionViewModel(
     }
 
     fun saveFilterParams(region: RegionModel) {
-        val regionParam = FilterParam(region.id, region.name)
-        filterInteractor.setRegionToStorage(regionParam)
-        val countryParam = FilterParam(region.parentId ?: "", region.countryName)
-        filterInteractor.setCountryToStorage(countryParam)
+        CoroutineScope(Dispatchers.IO).launch {
+            val regionParam = FilterParam(region.id, region.name)
+            filterInteractor.setRegionToStorage(regionParam)
+
+            val countryParam = FilterParam(region.parentId, region.countryName)
+            filterInteractor.setCountryToStorage(countryParam)
+        }
     }
 
     private fun handleRegionResult(resource: Resource<List<RegionModel>>, query: String) {

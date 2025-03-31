@@ -8,5 +8,5 @@ import ru.practicum.android.diploma.domain.search.Resource
 
 class FilterDictionaryInteractorImpl(private val repository: FilterDictionaryRepository) :
     FilterDictionaryInteractor {
-    override suspend fun getRegions(): Flow<Resource<List<RegionModel>>> = repository.getRegions()
+    override fun getRegions(): Flow<Resource<List<RegionModel>>> = repository.getRegions()
 }

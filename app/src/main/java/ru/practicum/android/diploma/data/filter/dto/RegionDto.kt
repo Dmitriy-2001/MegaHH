@@ -6,6 +6,6 @@ data class RegionDto(
     val id: String,
     val name: String,
     @SerializedName("parent_id")
-    val parentId: String?,
+    val parentId: String,
     val areas: List<RegionDto>
 )

@@ -6,10 +6,8 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
-import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import ru.practicum.android.diploma.R
 import ru.practicum.android.diploma.databinding.FragmentRegionBinding
@@ -54,27 +52,25 @@ class RegionFragment : Fragment() {
         binding.recyclerViewRegions.layoutManager = LinearLayoutManager(requireContext())
         binding.recyclerViewRegions.adapter = regionAdapter
 
-        lifecycleScope.launch {
-            viewModel.screenState.collect { screenState ->
-                errorPlaceholders.gone()
 
-                when (screenState) {
-                    is RegionScreenState.Content -> {
-                        if (screenState.data.isEmpty()) {
-                            binding.placeholderNoRegion.root.show()
-                            binding.recyclerViewRegions.gone()
-                        } else {
-                            regionAdapter?.updateRegion(screenState.data)
-                            binding.recyclerViewRegions.show()
-                        }
+        viewModel.getScreenState().observe(viewLifecycleOwner) { screenState ->
+            errorPlaceholders.gone()
+
+            when (screenState) {
+                is RegionScreenState.Content -> {
+                    if (screenState.data.isEmpty()) {
+                        binding.placeholderNoRegion.root.show()
+                        binding.recyclerViewRegions.gone()
+                    } else {
+                        regionAdapter?.updateRegion(screenState.data)
+                        binding.recyclerViewRegions.show()
                     }
-
-                    else -> showError(screenState)
                 }
+
+                else -> showError(screenState)
             }
         }
 
-        viewModel.loadRegions()
 
         binding.searchEditText.addTextChangedListener { text ->
             val query = text.toString()
