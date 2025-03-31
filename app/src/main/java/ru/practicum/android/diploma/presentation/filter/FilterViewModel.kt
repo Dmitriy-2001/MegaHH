@@ -23,33 +23,19 @@ class FilterViewModel(private val interactor: FilterInteractor) : ViewModel() {
 
     fun getSearchQuery(): String? = searchQuery
 
-    fun isFilterEmpty(): Boolean {
-        return interactor.isFilterEmpty()
+    fun isFilterEmpty() = interactor.isFilterEmpty()
+
+    fun saveSalaryToStorage(salary: String) = viewModelScope.launch {
+        interactor.setSalaryToStorage(salary)
     }
 
-    fun saveFilters(
-        salary: String?,
-        doNotShowWithoutSalary: Boolean
-    ) = viewModelScope.launch {
-        salary?.let {
-            if (it.isNotEmpty()) {
-                interactor.setSalaryToStorage(it)
-            } else {
-                interactor.setSalaryToStorage("")
-            }
-        } ?: interactor.setSalaryToStorage("")
-
+    fun saveDoNotShowWithoutSalaryToStorage(doNotShowWithoutSalary: Boolean) = viewModelScope.launch {
         interactor.setDoNotShowWithoutSalaryToStorage(doNotShowWithoutSalary)
-        updateFilterParameters()
     }
 
     fun resetFilters() = viewModelScope.launch {
-        interactor.setIndustryToStorage(null)
-        interactor.setCountryToStorage(null)
-        interactor.setRegionToStorage(null)
-        interactor.setSalaryToStorage("")
-        interactor.setDoNotShowWithoutSalaryToStorage(false)
-        updateFilterParameters()
+        interactor.resetFilters()
+        filterScreenState.postValue(FilterScreenState.NoFilterSelected)
     }
 
     fun updateFilterParameters() = viewModelScope.launch {

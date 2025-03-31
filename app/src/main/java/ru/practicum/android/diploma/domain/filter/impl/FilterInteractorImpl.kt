@@ -19,4 +19,5 @@ class FilterInteractorImpl(private val repository: FilterRepository) : FilterInt
     override fun isFilterEmpty() = repository.isFilterEmpty()
 
     override fun getFilterParametersFromStorage() = repository.getFilterParametersFromStorage()
+    override fun resetFilters() = repository.resetFilters()
 }
