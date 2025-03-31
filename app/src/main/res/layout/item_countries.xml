@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:gravity="center_vertical"
@@ -17,8 +18,8 @@
         android:layout_weight="@dimen/one"
         android:fontFamily="@font/ys_regular"
         android:text="@string/russia"
-        android:textColor="@color/black"
-        android:textSize="@dimen/medium_text" />
+        android:textSize="@dimen/medium_text"
+        app:titleTextColor="?attr/colorOnPrimary" />
 
     <ImageView
         android:id="@+id/iv_arrow"
@@ -26,5 +27,6 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/ten"
         android:layout_marginTop="@dimen/five"
-        android:src="@drawable/ic_arrow_forward" />
+        android:src="@drawable/ic_arrow_forward"
+        app:titleTextColor="?attr/colorOnPrimary" />
 </LinearLayout>
