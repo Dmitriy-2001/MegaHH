@@ -1,4 +1,4 @@
-package ru.practicum.android.diploma.ui.filter
+package ru.practicum.android.diploma.ui.filter.country
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -35,16 +35,24 @@ class CountryFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        setupToolbar()
+        setupRecyclerView()
+        observeViewModel()
+    }
+
+    private fun setupToolbar() {
         binding.toolbar.setOnClickListener {
             findNavController().navigateUp()
         }
+    }
 
-        adapter = CountryAdapter(emptyList()) { country ->
-            onCountrySelected(country)
-        }
+    private fun setupRecyclerView() {
+        adapter = CountryAdapter(emptyList()) { country -> onCountrySelected(country) }
         binding.rvCountries.layoutManager = LinearLayoutManager(requireContext())
         binding.rvCountries.adapter = adapter
+    }
 
+    private fun observeViewModel() {
         viewModel.countries.observe(viewLifecycleOwner) { countryList ->
             adapter?.updateItems(countryList)
         }
@@ -64,7 +72,6 @@ class CountryFragment : Fragment() {
                 else -> Unit
             }
         }
-
     }
 
     private fun onCountrySelected(country: FilterParam) {

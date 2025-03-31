@@ -1,21 +1,17 @@
-package ru.practicum.android.diploma.ui.filter
+package ru.practicum.android.diploma.ui.filter.country
 
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import ru.practicum.android.diploma.R
 import ru.practicum.android.diploma.domain.filter.models.FilterParam
 
 class CountryAdapter(
-    private var items: List<FilterParam>,
-    private val onClick: (FilterParam) -> Unit
-) : RecyclerView.Adapter<CountryAdapter.CountryViewHolder>() {
+    private var items: List<FilterParam>, private val onClick: (FilterParam) -> Unit
+) : RecyclerView.Adapter<CountryViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CountryViewHolder {
-        val view = LayoutInflater.from(parent.context)
-            .inflate(R.layout.item_filter_option, parent, false)
+        val view = LayoutInflater.from(parent.context).inflate(R.layout.item_countries, parent, false)
         return CountryViewHolder(view)
     }
 
@@ -30,12 +26,5 @@ class CountryAdapter(
     fun updateItems(newItems: List<FilterParam>) {
         items = newItems
         notifyDataSetChanged()
-    }
-
-    class CountryViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        private val nameText: TextView = itemView.findViewById(R.id.tv_option_name)
-        fun bind(param: FilterParam) {
-            nameText.text = param.name
-        }
     }
 }
