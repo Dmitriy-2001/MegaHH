@@ -1,25 +1,26 @@
 package ru.practicum.android.diploma.data.filter.impl
 
-import ru.practicum.android.diploma.data.search.dto.CountryDto
-import ru.practicum.android.diploma.data.search.network.HHApi
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
+import ru.practicum.android.diploma.data.filter.dto.CountryDto
 import ru.practicum.android.diploma.data.filter.dto.RegionDto
+import ru.practicum.android.diploma.data.filter.dto.request.GetCountriesRequest
 import ru.practicum.android.diploma.data.filter.dto.request.GetRegionRequest
 import ru.practicum.android.diploma.data.search.network.NetworkClient
 import ru.practicum.android.diploma.data.search.network.utils.Convertor.toModel
 import ru.practicum.android.diploma.domain.filter.api.FilterDictionaryRepository
 import ru.practicum.android.diploma.domain.filter.models.FilterParam
-import ru.practicum.android.diploma.domain.filter.models.FilterParam
 import ru.practicum.android.diploma.domain.filter.models.RegionModel
 import ru.practicum.android.diploma.domain.search.Resource
 
-class FilterDictionaryRepositoryImpl(private val networkClient: NetworkClient, private val hhApi: HHApi) :
+class FilterDictionaryRepositoryImpl(private val networkClient: NetworkClient) :
     FilterDictionaryRepository {
     // Здесь методы получения словарей для фильтрации (регионы, страны, индустрии)
 
-    override suspend fun getCountries(): List<FilterParam> {
-        return hhApi.getCountries().map { it.toFilterParam() }
+    override fun getCountries(): Flow<Resource<List<FilterParam>>> {
+        return networkClient.doRequest(GetCountriesRequest, List::class.java).mapResource { rawList ->
+            (rawList).filterIsInstance<CountryDto>().map { it.toFilterParam() }
+        }
     }
 
     private fun CountryDto.toFilterParam() = FilterParam(

@@ -5,15 +5,15 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.launch
 import ru.practicum.android.diploma.domain.filter.api.FilterDictionaryInteractor
 import ru.practicum.android.diploma.domain.filter.api.FilterInteractor
 import ru.practicum.android.diploma.domain.filter.models.FilterParam
-import java.io.IOException
+import ru.practicum.android.diploma.domain.search.Resource
 
 class CountriesViewModel(
-    private val filterInteractor: FilterInteractor,
-    private val filterDictionaryInteractor: FilterDictionaryInteractor
+    private val filterInteractor: FilterInteractor, private val filterDictionaryInteractor: FilterDictionaryInteractor
 ) : ViewModel() {
 
     private val _selectedCountry = MutableLiveData<FilterParam?>()
@@ -22,23 +22,36 @@ class CountriesViewModel(
     private val _countries = MutableLiveData<List<FilterParam>>()
     val countries: LiveData<List<FilterParam>> = _countries
 
-    private val _state = MutableLiveData<WorkplaceState>()
-    val state: LiveData<WorkplaceState> = _state
+    private val _screenState = MutableLiveData<CountryScreenState>()
+    val screenState: LiveData<CountryScreenState> = _screenState
 
     init {
-        _selectedCountry.value = filterInteractor.getFilterParametersFromStorage().country
+        loadCountries()
     }
 
     fun loadCountries() {
-        _state.value = WorkplaceState.Loading
+        _screenState.value = CountryScreenState.Loading
+
         viewModelScope.launch {
-            try {
-                val result = filterDictionaryInteractor.loadCountries()
-                _countries.postValue(result)
-                _state.postValue(WorkplaceState.CountriesLoaded)
-            } catch (e: IOException) {
-                Log.e("WorkplaceVM", "Failed to load countries", e)
-                _state.postValue(WorkplaceState.Error)
+            filterDictionaryInteractor.loadCountries().catch { e ->
+                Log.e("CountriesVM", "Exception: ${e.message}", e)
+                _screenState.postValue(CountryScreenState.Error)
+            }.collect { result ->
+                handleCountriesResult(result)
+            }
+        }
+    }
+
+    private fun handleCountriesResult(resource: Resource<List<FilterParam>>) {
+        when (resource) {
+            is Resource.Success -> {
+                _countries.postValue(resource.data)
+                _screenState.postValue(CountryScreenState.CountriesLoaded)
+            }
+
+            is Resource.Error -> {
+                Log.e("CountriesVM", "Failed to load countries: ${resource.errorType}")
+                _screenState.postValue(CountryScreenState.Error)
             }
         }
     }

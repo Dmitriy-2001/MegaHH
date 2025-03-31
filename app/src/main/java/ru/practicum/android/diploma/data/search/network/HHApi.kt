@@ -6,7 +6,7 @@ import retrofit2.http.Path
 import retrofit2.http.Query
 import retrofit2.http.QueryMap
 import ru.practicum.android.diploma.BuildConfig
-import ru.practicum.android.diploma.data.search.dto.CountryDto
+import ru.practicum.android.diploma.data.filter.dto.CountryDto
 import ru.practicum.android.diploma.data.filter.dto.RegionDto
 import ru.practicum.android.diploma.data.search.dto.response.GetVacancyDetailsResponse
 import ru.practicum.android.diploma.data.search.dto.response.SearchVacanciesResponse

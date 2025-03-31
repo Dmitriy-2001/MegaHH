@@ -11,8 +11,8 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import ru.practicum.android.diploma.databinding.FragmentCountryBinding
 import ru.practicum.android.diploma.domain.filter.models.FilterParam
-import ru.practicum.android.diploma.presentation.filter.WorkplaceState
 import ru.practicum.android.diploma.presentation.filter.CountriesViewModel
+import ru.practicum.android.diploma.presentation.filter.CountryScreenState
 
 class CountryFragment : Fragment() {
 
@@ -49,14 +49,14 @@ class CountryFragment : Fragment() {
             adapter?.updateItems(countryList)
         }
 
-        viewModel.state.observe(viewLifecycleOwner) { state ->
+        viewModel.screenState.observe(viewLifecycleOwner) { state ->
             when (state) {
-                is WorkplaceState.Error -> {
+                is CountryScreenState.Error -> {
                     binding.rvCountries.isVisible = false
                     binding.llError.isVisible = true
                 }
 
-                is WorkplaceState.CountriesLoaded -> {
+                is CountryScreenState.CountriesLoaded -> {
                     binding.rvCountries.isVisible = true
                     binding.llError.isVisible = false
                 }
@@ -64,8 +64,6 @@ class CountryFragment : Fragment() {
                 else -> Unit
             }
         }
-
-        viewModel.loadCountries()
 
     }
 

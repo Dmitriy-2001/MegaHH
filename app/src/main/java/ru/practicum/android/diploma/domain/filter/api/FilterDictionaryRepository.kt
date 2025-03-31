@@ -10,6 +10,5 @@ interface FilterDictionaryRepository {
     fun getRegions(): Flow<Resource<List<RegionModel>>>
     // Здесь методы получения словарей для фильтрации (регионы, страны, индустрии)
 
-    suspend fun getCountries(): List<FilterParam>
-
+    fun getCountries(): Flow<Resource<List<FilterParam>>>
 }

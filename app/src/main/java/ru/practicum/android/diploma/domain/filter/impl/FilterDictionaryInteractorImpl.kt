@@ -11,7 +11,7 @@ class FilterDictionaryInteractorImpl(
     private val repository: FilterDictionaryRepository
 ) : FilterDictionaryInteractor {
 
-    override suspend fun loadCountries(): List<FilterParam> {
+    override fun loadCountries(): Flow<Resource<List<FilterParam>>> {
         return repository.getCountries()
     }
 

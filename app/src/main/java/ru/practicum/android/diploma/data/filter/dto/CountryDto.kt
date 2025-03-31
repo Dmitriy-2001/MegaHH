@@ -1,4 +1,4 @@
-package ru.practicum.android.diploma.data.search.dto
+package ru.practicum.android.diploma.data.filter.dto
 
 data class CountryDto(
     val id: String,
