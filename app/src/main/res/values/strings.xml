@@ -9,6 +9,8 @@
     <string name="unable_to_get_favorite_vacancy">Не удалось получить список вакансий</string>
     <string name="filter_settings">Настройки фильтрации</string>
     <string name="workplace">Место работы</string>
+    <string name="country">Страна</string>
+    <string name="region">Регион</string>
     <string name="industry">Индустрия</string>
     <string name="industry_option">Выбор отрасли</string>
     <string name="workplace_option">Выбор места работы</string>
