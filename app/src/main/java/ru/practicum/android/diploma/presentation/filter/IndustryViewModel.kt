@@ -1,4 +1,4 @@
-package ru.practicum.android.diploma.presentation.search
+package ru.practicum.android.diploma.presentation.filter
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -37,6 +37,7 @@ class IndustryViewModel(
                     when (resource) {
                         is Resource.Success -> {
                             _state.postValue(IndustryScreenState.Content(resource.data))
+                            allIndustries = resource.data
                         }
 
                         is Resource.Error -> {

@@ -6,7 +6,7 @@ import ru.practicum.android.diploma.presentation.favorites.FavoriteVacanciesView
 import ru.practicum.android.diploma.presentation.filter.FilterViewModel
 import ru.practicum.android.diploma.presentation.filter.RegionViewModel
 import ru.practicum.android.diploma.presentation.filter.WorkplaceViewModel
-import ru.practicum.android.diploma.presentation.search.IndustryViewModel
+import ru.practicum.android.diploma.presentation.filter.IndustryViewModel
 import ru.practicum.android.diploma.presentation.search.SearchVacancyViewModel
 import ru.practicum.android.diploma.presentation.vacancy.VacancyViewModel
 

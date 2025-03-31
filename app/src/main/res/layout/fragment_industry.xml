@@ -136,15 +136,15 @@
 
     <include
         android:id="@+id/placeholder_empty_list"
-        layout="@layout/empty_list_error"
+        layout="@layout/empty_list_region_error"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:visibility="gone"
         app:layout_constraintTop_toBottomOf="@id/search_container" />
 
     <include
-        android:id="@+id/placeholder_server_error"
-        layout="@layout/server_error_for_search_fragment"
+        android:id="@+id/placeholder_not_found"
+        layout="@layout/industry_not_found"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:visibility="gone"
