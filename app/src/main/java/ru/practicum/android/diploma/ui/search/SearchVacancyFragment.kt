@@ -168,58 +168,31 @@ class SearchVacancyFragment : Fragment() {
     private fun showVacancies(vacanciesModel: VacanciesModel) {
         vacancyAdapter?.addVacancies(vacanciesModel.items ?: emptyList())
 
+        val loadedCount = vacanciesModel.items?.size ?: 0
+        if (loadedCount == 0 || loadedCount % COUNT_OF_VACANCIES != 0) binding.progressBar.gone()
+
         val vacanciesCount = vacanciesModel.itemsCount
+
         if (vacanciesCount != 0) {
             showCountNotification(message = "Найдено $vacanciesCount вакансий")
             setContentState()
         } else {
             setNothingFoundState()
         }
-
-
-
-        //
-        vacancyAdapter?.addVacancies(vacanciesModel.items ?: emptyList())
-
-        val loadedCount = vacanciesModel.items?.size ?: 0
-        if (loadedCount == 0 || loadedCount % COUNT_OF_VACANCIES != 0) binding.progressBar.gone()
-
-        val vacanciesCount = vacanciesModel.itemsCount
-        if (vacanciesCount != 0) {
-            showCountNotification(message = "Найдено $vacanciesCount вакансий")
-            binding.recyclerViewVacancy.show()
-        } else {
-            showCountNotification(message = "Таких вакансий нет")
-            binding.progressBar.gone()
-            binding.placeholderEmptyList.root.show()
-        }
     }
 
-    private fun showError(state: SearchScreenState) = when (state) {
-        is SearchScreenState.Error -> setServerErrorState()
-        is SearchScreenState.NoInternet -> setNoInternetState()
-        is SearchScreenState.NothingFound -> setNothingFoundState()
-        else -> {}
-
-
-// Анин вариает
-
-        binding.progressBar.gone()
-
-            if (vacancyAdapter?.itemCount != 0) {
-            android.widget.Toast.makeText(
+    private fun showError(state: SearchScreenState) {
+        if (vacancyAdapter?.itemCount != 0) {
+            Toast.makeText(
                 context,
-                resources.getString(ru.practicum.android.diploma.R.string.unable_to_load_new_page),
-                android.widget.Toast.LENGTH_SHORT
+                resources.getString(R.string.unable_to_load_new_page),
+                Toast.LENGTH_SHORT
             ).show()
-
         } else {
-            binding.recyclerViewVacancy.gone()
-
             when (state) {
-                is SearchScreenState.Error -> binding.placeholderServerError.root.show()
-                is SearchScreenState.NoInternet -> binding.placeholderNoInternet.root.show()
-                is SearchScreenState.NothingFound -> binding.placeholderEmptyList.root.show()
+                is SearchScreenState.Error -> setServerErrorState()
+                is SearchScreenState.NoInternet -> setNoInternetState()
+                is SearchScreenState.NothingFound -> setNothingFoundState()
                 else -> {}
             }
         }
