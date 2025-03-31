@@ -11,7 +11,7 @@ import ru.practicum.android.diploma.domain.filter.api.FilterInteractor
 import ru.practicum.android.diploma.domain.filter.models.FilterParam
 import java.io.IOException
 
-class WorkplaceViewModel(
+class CountriesViewModel(
     private val filterInteractor: FilterInteractor,
     private val filterDictionaryInteractor: FilterDictionaryInteractor
 ) : ViewModel() {

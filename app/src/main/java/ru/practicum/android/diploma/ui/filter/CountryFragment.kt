@@ -12,7 +12,7 @@ import org.koin.androidx.viewmodel.ext.android.viewModel
 import ru.practicum.android.diploma.databinding.FragmentCountryBinding
 import ru.practicum.android.diploma.domain.filter.models.FilterParam
 import ru.practicum.android.diploma.presentation.filter.WorkplaceState
-import ru.practicum.android.diploma.presentation.filter.WorkplaceViewModel
+import ru.practicum.android.diploma.presentation.filter.CountriesViewModel
 
 class CountryFragment : Fragment() {
 
@@ -20,7 +20,7 @@ class CountryFragment : Fragment() {
     private val binding: FragmentCountryBinding
         get() = requireNotNull(_binding) { "Binding is null" }
 
-    private val viewModel by viewModel<WorkplaceViewModel>()
+    private val viewModel by viewModel<CountriesViewModel>()
     private var adapter: CountryAdapter? = null
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
