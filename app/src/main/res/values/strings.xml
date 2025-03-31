@@ -7,8 +7,11 @@
     <string name="vacancy">Вакансия</string>
     <string name="empty_list">Список пуст</string>
     <string name="unable_to_get_favorite_vacancy">Не удалось получить список вакансий</string>
+    <string name="unable_to_load_new_page">Не удалось загрузить новую страницу</string>
     <string name="filter_settings">Настройки фильтрации</string>
     <string name="workplace">Место работы</string>
+    <string name="country">Страна</string>
+    <string name="region">Регион</string>
     <string name="industry">Индустрия</string>
     <string name="industry_option">Выбор отрасли</string>
     <string name="workplace_option">Выбор места работы</string>
@@ -19,7 +22,7 @@
     <string name="dev_2">Селин Эглендже</string>
     <string name="dev_3">Михаил Тресцов</string>
     <string name="dev_4">Катерина Скорова</string>
-    <string name="dev_5">Анна Киритцева</string>
+    <string name="dev_5">Анна Кирицева</string>
     <string name="dev_6">Алдун Сардарлы</string>
     <string name="experience_title">Требуемый опыт</string>
     <string name="description_title">Описание вакансии</string>
@@ -31,4 +34,7 @@
     <string name="vacancy_not_found">Вакансия не найдена или удалена</string>
     <string name="industry_hint">Введите отрасль</string>
     <string name="choose">Выбрать</string>
+    <string name="region_hint">Введите регион</string>
+    <string name="region_not_found">Такого региона нет</string>
+    <string name="empty_list_region">Не удалось получить список</string>
 </resources>

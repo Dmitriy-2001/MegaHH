@@ -4,7 +4,9 @@ import android.view.View
 
 fun List<View>.show() = this.forEach { it.show() }
 
-fun List<View>.gone() = this.forEach { it.gone() }
+fun List<View>.gone() = this.forEach {
+    it.gone()
+}
 
 fun View.show() {
     this.visibility = View.VISIBLE

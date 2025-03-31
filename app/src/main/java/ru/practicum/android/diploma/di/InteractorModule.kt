@@ -22,6 +22,7 @@ val interactorModule = module {
     single<FilterInteractor> {
         FilterInteractorImpl(get())
     }
+
     single<FilterDictionaryInteractor> {
         FilterDictionaryInteractorImpl(get())
     }

@@ -44,6 +44,7 @@ class SearchVacancyViewModel(
         }
     }
 
+    fun clearSearchQuery() = searchScreenState.postValue(SearchScreenState.DefaultEmptyState)
     fun updateFilters() = viewModelScope.launch { isFilterEmptyState.postValue(filterInteractor.isFilterEmpty()) }
 
     private fun prepareForSearch(text: String) {
@@ -51,6 +52,7 @@ class SearchVacancyViewModel(
         if (lastSearchedQuery != text) {
             currentPage = 0
             maxPages = 1
+            lastSearchedQuery = text
         }
         if (lastSearchedQuery.isEmpty()) lastSearchedQuery = text
     }
@@ -75,8 +77,8 @@ class SearchVacancyViewModel(
     }
 
     fun onLastItemReached(text: String) {
-        if (currentPage <= maxPages && isNextPageLoading.not()) {
-            currentPage++
+        if (currentPage < maxPages && isNextPageLoading.not()) {
+            currentPage += 1
             searchVacancies(text)
         }
     }
