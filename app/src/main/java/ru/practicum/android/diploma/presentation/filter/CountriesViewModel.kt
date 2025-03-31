@@ -13,7 +13,8 @@ import ru.practicum.android.diploma.domain.filter.models.FilterParam
 import ru.practicum.android.diploma.domain.search.Resource
 
 class CountriesViewModel(
-    private val filterInteractor: FilterInteractor, private val filterDictionaryInteractor: FilterDictionaryInteractor
+    private val filterInteractor: FilterInteractor,
+    private val filterDictionaryInteractor: FilterDictionaryInteractor
 ) : ViewModel() {
 
     private val _selectedCountry = MutableLiveData<FilterParam?>()

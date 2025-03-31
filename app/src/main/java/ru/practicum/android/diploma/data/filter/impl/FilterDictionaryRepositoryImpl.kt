@@ -13,18 +13,18 @@ import ru.practicum.android.diploma.domain.filter.models.FilterParam
 import ru.practicum.android.diploma.domain.filter.models.RegionModel
 import ru.practicum.android.diploma.domain.search.Resource
 
-class FilterDictionaryRepositoryImpl(private val networkClient: NetworkClient) :
-    FilterDictionaryRepository {
+class FilterDictionaryRepositoryImpl(private val networkClient: NetworkClient) : FilterDictionaryRepository {
     // Здесь методы получения словарей для фильтрации (регионы, страны, индустрии)
 
     override fun getCountries(): Flow<Resource<List<FilterParam>>> {
         return networkClient.doRequest(GetCountriesRequest, List::class.java).mapResource { rawList ->
-            (rawList).filterIsInstance<CountryDto>().map { it.toFilterParam() }
+            rawList.filterIsInstance<CountryDto>().map { it.toFilterParam() }
         }
     }
 
     private fun CountryDto.toFilterParam() = FilterParam(
-        id = this.id, name = this.name
+        id = this.id,
+        name = this.name
     )
 
     private var countriesCache: List<FilterParam> = emptyList()

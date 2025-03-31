@@ -7,7 +7,8 @@ import ru.practicum.android.diploma.R
 import ru.practicum.android.diploma.domain.filter.models.FilterParam
 
 class CountryAdapter(
-    private var items: List<FilterParam>, private val onClick: (FilterParam) -> Unit
+    private var items: List<FilterParam>,
+    private val onClick: (FilterParam) -> Unit
 ) : RecyclerView.Adapter<CountryViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CountryViewHolder {
