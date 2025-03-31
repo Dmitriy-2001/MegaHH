@@ -14,17 +14,20 @@ import ru.practicum.android.diploma.domain.search.Resource
 class IndustryViewModel(
     private val filterInteractor: FilterInteractor,
     private val filterDictionaryInteractor: FilterDictionaryInteractor
-    ) : ViewModel() {
+) : ViewModel() {
 
-        private val _selectedIndustry = MutableLiveData<FilterParam?>()
-        val selectedIndustry: LiveData<FilterParam?> = _selectedIndustry
+    private val _selectedIndustry = MutableLiveData<FilterParam?>()
+    val selectedIndustry: LiveData<FilterParam?> = _selectedIndustry
 
-        private val _state = MutableLiveData<IndustryScreenState>()
-        val state: LiveData<IndustryScreenState> = _state
+    private val _state = MutableLiveData<IndustryScreenState>()
+    val state: LiveData<IndustryScreenState> = _state
 
-        init {
-            _selectedIndustry.value = filterInteractor.getFilterParametersFromStorage().industry
-        }
+    private var allIndustries: List<FilterParam> = emptyList()
+
+    init {
+        _selectedIndustry.value = filterInteractor.getFilterParametersFromStorage().industry
+        getIndustry()
+    }
 
     fun getIndustry() {
         _state.value = IndustryScreenState.Loading
@@ -35,21 +38,32 @@ class IndustryViewModel(
                         is Resource.Success -> {
                             _state.postValue(IndustryScreenState.Content(resource.data))
                         }
+
                         is Resource.Error -> {
                             when (resource.errorType) {
                                 ErrorType.NOT_FOUND -> _state.postValue(IndustryScreenState.NothingFound)
                                 ErrorType.NO_INTERNET -> _state.postValue(IndustryScreenState.NoInternet)
                                 ErrorType.SERVER_ERROR -> _state.postValue(IndustryScreenState.Error)
                             }
+                        }
                     }
                 }
         }
     }
+
+    fun selectIndustry(industry: FilterParam) {
+        _selectedIndustry.value = industry
+        filterInteractor.setIndustryToStorage(industry)
     }
 
-        fun selectCountry(industry: FilterParam) {
-            _selectedIndustry.value = industry
-            filterInteractor.setIndustryToStorage(industry)
+    fun filterIndustries(query: String) {
+        val filteredList = if (query.isBlank()) {
+            allIndustries
+        } else {
+            allIndustries.filter { it.name.contains(query, ignoreCase = true) }
         }
+        _state.postValue(IndustryScreenState.Content(filteredList))
     }
+}
+
 

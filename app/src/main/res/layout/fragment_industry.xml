@@ -57,6 +57,7 @@
     </androidx.cardview.widget.CardView>
 
     <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/industry_list"
         android:layout_width="match_parent"
         android:layout_height="@dimen/zero"
         android:layout_marginTop="@dimen/sixteen"
@@ -94,6 +95,20 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/error_image" />
 
+    <ProgressBar
+        android:id="@+id/progress_bar"
+        android:layout_width="@dimen/forty_eight"
+        android:layout_height="@dimen/forty_eight"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="@dimen/sixteen"
+        android:layout_marginBottom="@dimen/sixteen"
+        android:visibility="gone"
+        app:layout_constraintBottom_toTopOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/search_container"
+        />
+
     <com.google.android.material.button.MaterialButton
         android:id="@+id/button_choice"
         style="@style/Widget.Diploma.PrimaryButton"
@@ -110,6 +125,30 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"/>
+
+    <include
+        android:id="@+id/placeholder_no_internet"
+        layout="@layout/no_internet_error"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        app:layout_constraintTop_toBottomOf="@id/search_container" />
+
+    <include
+        android:id="@+id/placeholder_empty_list"
+        layout="@layout/empty_list_error"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        app:layout_constraintTop_toBottomOf="@id/search_container" />
+
+    <include
+        android:id="@+id/placeholder_server_error"
+        layout="@layout/server_error_for_search_fragment"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        app:layout_constraintTop_toBottomOf="@id/search_container" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

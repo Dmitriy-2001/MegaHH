@@ -28,7 +28,7 @@ interface HHApi {
     ): GetVacancyDetailsResponse
 
     @GET("/industries")
-    suspend fun getIndustries(): IndustryResponse
+    suspend fun getIndustries(): List<IndustryResponse>
 
     companion object {
         private const val authHeader = "Authorization: Bearer ${BuildConfig.HH_ACCESS_TOKEN}"
