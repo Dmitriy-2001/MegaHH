@@ -44,6 +44,7 @@ class SearchVacancyViewModel(
         }
     }
 
+    fun clearSearchQuery() = searchScreenState.postValue(SearchScreenState.DefaultEmptyState)
     fun updateFilters() = viewModelScope.launch { isFilterEmptyState.postValue(filterInteractor.isFilterEmpty()) }
 
     private fun prepareForSearch(text: String) {

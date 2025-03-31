@@ -8,4 +8,5 @@ sealed interface SearchScreenState {
     data object Error : SearchScreenState
     data object NothingFound : SearchScreenState
     data object NoInternet : SearchScreenState
+    data object DefaultEmptyState : SearchScreenState
 }
