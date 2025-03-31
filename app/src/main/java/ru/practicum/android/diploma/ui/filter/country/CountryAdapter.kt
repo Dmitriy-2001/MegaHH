@@ -2,12 +2,9 @@ package ru.practicum.android.diploma.ui.filter.country
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
-
 import androidx.recyclerview.widget.RecyclerView
-
 import ru.practicum.android.diploma.R
 import ru.practicum.android.diploma.domain.filter.models.FilterParam
-
 
 class CountryAdapter(
     private var items: List<FilterParam>,
