@@ -26,7 +26,7 @@ class IndustryFragment : Fragment() {
         get() = requireNotNull(_binding) { "Binding is null" }
 
     private val viewModel by viewModel<IndustryViewModel>()
-    private lateinit var adapter: IndustryAdapter
+    private var adapter: IndustryAdapter? = null
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -45,7 +45,6 @@ class IndustryFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding.toolbar.setNavigationOnClickListener { findNavController().navigateUp() }
-
         adapter = IndustryAdapter(
             emptyList(),
             selectedIndustry = null
@@ -54,7 +53,6 @@ class IndustryFragment : Fragment() {
             binding.buttonChoice.isVisible = true
         }
         binding.industryList.adapter = adapter
-
         viewModel.state.observe(viewLifecycleOwner) { state ->
             binding.placeholderNotFound.root.gone()
             binding.placeholderNoInternet.root.gone()
@@ -68,17 +66,17 @@ class IndustryFragment : Fragment() {
                         showContent(state.data)
                     }
                 }
+
                 else -> showError(state)
             }
         }
 
+        updateSearchIcon(binding.searchEditText.text.toString())
         binding.searchEditText.addTextChangedListener { text ->
             val query = text.toString()
             updateSearchIcon(text.toString())
             viewModel.filterIndustries(query)
         }
-
-        updateSearchIcon(binding.searchEditText.text.toString())
 
         binding.searchOrClearIcon.setOnClickListener {
             if (binding.searchEditText.text.isNotBlank()) {
@@ -88,12 +86,17 @@ class IndustryFragment : Fragment() {
             }
         }
 
-        viewModel.selectedIndustry.observe(viewLifecycleOwner) { selectedIndustry -> adapter.updateItems(adapter.items, selectedIndustry) }
+        viewModel.selectedIndustry.observe(viewLifecycleOwner) { selectedIndustry ->
+            adapter?.updateItems(
+                adapter!!.items,
+                selectedIndustry
+            )
+        }
 
         binding.toolbar.setOnClickListener { findNavController().navigateUp() }
-
         binding.buttonChoice.setOnClickListener {
-            findNavController().navigateUp() }
+            findNavController().navigateUp()
+        }
     }
 
     private fun updateSearchIcon(query: String) {
@@ -118,8 +121,8 @@ class IndustryFragment : Fragment() {
     private fun showContent(industries: List<FilterParam>) {
         binding.progressBar.gone()
         binding.industryList.show()
-        adapter.updateItems(industries, viewModel.selectedIndustry.value)
-        adapter.notifyDataSetChanged()
+        adapter?.updateItems(industries, viewModel.selectedIndustry.value)
+        adapter?.notifyDataSetChanged()
     }
 
     private fun onIndustrySelected(industry: FilterParam) {
