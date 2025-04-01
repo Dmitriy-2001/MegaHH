@@ -71,16 +71,7 @@ class IndustryFragment : Fragment() {
             }
         }
 
-        updateSearchIcon(binding.searchEditText.text.toString())
-        binding.searchEditText.addTextChangedListener { text ->
-            val query = text.toString()
-            updateSearchIcon(text.toString())
-            viewModel.filterIndustries(query)
-        }
-
-        binding.searchOrClearIcon.setOnClickListener {
-            cleanSearch()
-        }
+        setupSearchListeners()
 
         viewModel.selectedIndustry.observe(viewLifecycleOwner) { selectedIndustry ->
             adapter?.items?.let {
@@ -96,17 +87,6 @@ class IndustryFragment : Fragment() {
             viewModel.confirmSelection()
             findNavController().navigateUp()
         }
-
-        binding.searchEditText.setOnEditorActionListener { _, actionId, event ->
-            if (actionId == EditorInfo.IME_ACTION_SEARCH || event?.keyCode == KeyEvent.KEYCODE_ENTER) {
-                hideKeyboard()
-                viewModel.filterIndustries(binding.searchEditText.text.toString())
-                true
-            } else {
-                false
-            }
-        }
-
     }
 
     private fun hidePlaceholders() {
@@ -157,5 +137,26 @@ class IndustryFragment : Fragment() {
         val inputMethodManager =
             requireContext().getSystemService(Context.INPUT_METHOD_SERVICE) as? InputMethodManager
         inputMethodManager?.hideSoftInputFromWindow(binding.searchEditText.windowToken, 0)
+    }
+
+    private fun setupSearchListeners() {
+        updateSearchIcon(binding.searchEditText.text.toString())
+        binding.searchEditText.addTextChangedListener { text ->
+            val query = text.toString()
+            updateSearchIcon(query)
+            viewModel.filterIndustries(query)
+        }
+
+        binding.searchOrClearIcon.setOnClickListener { cleanSearch() }
+
+        binding.searchEditText.setOnEditorActionListener { _, actionId, event ->
+            if (actionId == EditorInfo.IME_ACTION_SEARCH || event?.keyCode == KeyEvent.KEYCODE_ENTER) {
+                hideKeyboard()
+                viewModel.filterIndustries(binding.searchEditText.text.toString())
+                true
+            } else {
+                false
+            }
+        }
     }
 }
