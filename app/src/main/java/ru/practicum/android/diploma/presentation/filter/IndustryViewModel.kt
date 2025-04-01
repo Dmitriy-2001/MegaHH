@@ -53,7 +53,6 @@ class IndustryViewModel(
         }
     }
 
-
     fun selectIndustry(industry: FilterParam) {
         tempSelectedIndustry = industry
     }

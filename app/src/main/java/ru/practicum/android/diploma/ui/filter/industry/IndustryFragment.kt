@@ -56,9 +56,7 @@ class IndustryFragment : Fragment() {
         }
         binding.industryList.adapter = adapter
         viewModel.state.observe(viewLifecycleOwner) { state ->
-            binding.placeholderNotFound.root.gone()
-            binding.placeholderNoInternet.root.gone()
-            binding.placeholderEmptyList.root.gone()
+            hidePlaceholders()
             when (state) {
                 is IndustryScreenState.Content -> {
                     if (state.data.isEmpty()) {
@@ -81,11 +79,7 @@ class IndustryFragment : Fragment() {
         }
 
         binding.searchOrClearIcon.setOnClickListener {
-            if (binding.searchEditText.text.isNotBlank()) {
-                binding.searchEditText.text.clear()
-                binding.placeholderNotFound.root.gone()
-                binding.industryList.show()
-            }
+            cleanSearch()
         }
 
         viewModel.selectedIndustry.observe(viewLifecycleOwner) { selectedIndustry ->
@@ -113,6 +107,20 @@ class IndustryFragment : Fragment() {
             }
         }
 
+    }
+
+    private fun hidePlaceholders() {
+        binding.placeholderNotFound.root.gone()
+        binding.placeholderNoInternet.root.gone()
+        binding.placeholderEmptyList.root.gone()
+    }
+
+    private fun cleanSearch() {
+        if (binding.searchEditText.text.isNotBlank()) {
+            binding.searchEditText.text.clear()
+            binding.placeholderNotFound.root.gone()
+            binding.industryList.show()
+        }
     }
 
     private fun updateSearchIcon(query: String) {
