@@ -46,7 +46,6 @@ class IndustryFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        binding.toolbar.setNavigationOnClickListener { findNavController().navigateUp() }
         adapter = IndustryAdapter(
             emptyList(),
             selectedIndustry = null
@@ -72,6 +71,7 @@ class IndustryFragment : Fragment() {
         }
 
         setupSearchListeners()
+        setupToolbar()
 
         viewModel.selectedIndustry.observe(viewLifecycleOwner) { selectedIndustry ->
             adapter?.items?.let {
@@ -82,7 +82,6 @@ class IndustryFragment : Fragment() {
             }
         }
 
-        binding.toolbar.setOnClickListener { findNavController().navigateUp() }
         binding.buttonChoice.setOnClickListener {
             viewModel.confirmSelection()
             findNavController().navigateUp()
@@ -158,5 +157,10 @@ class IndustryFragment : Fragment() {
                 false
             }
         }
+    }
+
+    private fun setupToolbar() {
+        binding.toolbar.setNavigationOnClickListener { findNavController().navigateUp() }
+        binding.toolbar.setOnClickListener { findNavController().navigateUp() }
     }
 }
