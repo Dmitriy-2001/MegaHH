@@ -69,11 +69,6 @@ class WorkplaceFragment : Fragment() {
         }
     }
 
-    override fun onAttach(context: Context) {
-        super.onAttach(context)
-        viewModel.updateFilterParameters()
-    }
-
     override fun onResume() {
         super.onResume()
         viewModel.updateFilterParameters()
