@@ -58,8 +58,10 @@ class IndustryViewModel(
     }
 
     fun confirmSelection() {
-        _selectedIndustry.value = tempSelectedIndustry
-        filterInteractor.setIndustryToStorage(tempSelectedIndustry)
+        viewModelScope.launch {
+            _selectedIndustry.value = tempSelectedIndustry
+            filterInteractor.setIndustryToStorage(tempSelectedIndustry)
+        }
     }
 
     fun filterIndustries(query: String) {
