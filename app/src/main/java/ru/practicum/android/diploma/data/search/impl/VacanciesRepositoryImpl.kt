@@ -31,11 +31,11 @@ class VacanciesRepositoryImpl(private val networkClient: NetworkClient) : Vacanc
                 it.convertToModel()
             }
 
-    inline fun <R, reified T> NetworkClient.doRequest(dto: R): Flow<Resource<T>> {
+    private inline fun <R, reified T> NetworkClient.doRequest(dto: R): Flow<Resource<T>> {
         return doRequest(dto, T::class.java)
     }
 
-    fun <T, X> Flow<Resource<T>>.mapResource(transform: (T) -> X): Flow<Resource<X>> =
+    private fun <T, X> Flow<Resource<T>>.mapResource(transform: (T) -> X): Flow<Resource<X>> =
         map { resource ->
             when (resource) {
                 is Resource.Success -> Resource.Success(transform(resource.data))

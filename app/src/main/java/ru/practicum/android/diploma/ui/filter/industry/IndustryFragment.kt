@@ -2,9 +2,11 @@ package ru.practicum.android.diploma.ui.filter.industry
 
 import android.content.Context
 import android.os.Bundle
+import android.view.KeyEvent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputMethodManager
 import androidx.core.view.isVisible
 import androidx.core.widget.addTextChangedListener
@@ -87,16 +89,30 @@ class IndustryFragment : Fragment() {
         }
 
         viewModel.selectedIndustry.observe(viewLifecycleOwner) { selectedIndustry ->
-            adapter?.updateItems(
-                adapter!!.items,
-                selectedIndustry
-            )
+            adapter?.items?.let {
+                adapter?.updateItems(
+                    it,
+                    selectedIndustry
+                )
+            }
         }
 
         binding.toolbar.setOnClickListener { findNavController().navigateUp() }
         binding.buttonChoice.setOnClickListener {
+            viewModel.confirmSelection()
             findNavController().navigateUp()
         }
+
+        binding.searchEditText.setOnEditorActionListener { _, actionId, event ->
+            if (actionId == EditorInfo.IME_ACTION_SEARCH || event?.keyCode == KeyEvent.KEYCODE_ENTER) {
+                hideKeyboard()
+                viewModel.filterIndustries(binding.searchEditText.text.toString())
+                true
+            } else {
+                false
+            }
+        }
+
     }
 
     private fun updateSearchIcon(query: String) {

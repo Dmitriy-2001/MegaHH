@@ -23,6 +23,7 @@ class IndustryViewModel(
     val state: LiveData<IndustryScreenState> = _state
 
     private var allIndustries: List<FilterParam> = emptyList()
+    private var tempSelectedIndustry: FilterParam? = null
 
     init {
         _selectedIndustry.value = filterInteractor.getFilterParametersFromStorage().industry
@@ -52,9 +53,14 @@ class IndustryViewModel(
         }
     }
 
+
     fun selectIndustry(industry: FilterParam) {
-        _selectedIndustry.value = industry
-        filterInteractor.setIndustryToStorage(industry)
+        tempSelectedIndustry = industry
+    }
+
+    fun confirmSelection() {
+        _selectedIndustry.value = tempSelectedIndustry
+        filterInteractor.setIndustryToStorage(tempSelectedIndustry)
     }
 
     fun filterIndustries(query: String) {
