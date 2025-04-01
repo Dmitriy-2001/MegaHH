@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="@dimen/sixty"
+    app:cardBackgroundColor="@android:color/transparent"
     app:cardElevation="@dimen/zero">
 
     <LinearLayout
@@ -12,7 +13,6 @@
         android:layout_marginVertical="@dimen/eight"
         android:layout_marginStart="@dimen/sixteen"
         android:layout_marginEnd="@dimen/four"
-        android:background="?attr/colorPrimary"
         android:gravity="center_vertical"
         android:orientation="horizontal">
 

@@ -7,6 +7,7 @@ import retrofit2.HttpException
 import ru.practicum.android.diploma.data.filter.dto.request.GetCountriesRequest
 import ru.practicum.android.diploma.data.filter.dto.request.GetRegionRequest
 import ru.practicum.android.diploma.data.search.dto.request.GetVacancyDetailsRequest
+import ru.practicum.android.diploma.data.filter.dto.request.IndustryRequest
 import ru.practicum.android.diploma.data.search.dto.request.SearchVacanciesRequest
 import ru.practicum.android.diploma.data.search.network.utils.checkInternetConnection
 import ru.practicum.android.diploma.domain.search.ErrorType
@@ -31,7 +32,7 @@ class RetrofitNetworkClient(private val vacancyService: HHApi, private val conte
                     )
 
                     is GetVacancyDetailsRequest -> vacancyService.getVacancyDetails(dto.id)
-
+                    is IndustryRequest -> vacancyService.getIndustries()
                     is GetRegionRequest -> vacancyService.getAreas()
 
                     is GetCountriesRequest -> vacancyService.getCountries()

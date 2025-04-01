@@ -13,5 +13,7 @@ class FilterDictionaryInteractorImpl(
 
     override fun loadCountries(): Flow<Resource<List<FilterParam>>> = repository.getCountries()
 
+    override fun getIndustries(): Flow<Resource<List<FilterParam>>> = repository.getIndustries()
+
     override fun getRegions(): Flow<Resource<List<RegionModel>>> = repository.getRegions()
 }

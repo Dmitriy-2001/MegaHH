@@ -37,6 +37,7 @@ class WorkplaceFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding.toolbar.setOnClickListener { findNavController().navigateUp() }
+        binding.chooseButton.setOnClickListener { findNavController().navigateUp() }
 
         viewModel.getRegionFilter().observe(viewLifecycleOwner) { region ->
             val isEmpty = region.isEmpty()
@@ -51,6 +52,7 @@ class WorkplaceFragment : Fragment() {
                     viewModel.clearRegion()
                 }
             }
+            setChooseButtonVisibility()
         }
 
         viewModel.getCountryFilter().observe(viewLifecycleOwner) { country ->
@@ -66,6 +68,7 @@ class WorkplaceFragment : Fragment() {
                     viewModel.clearCountry()
                 }
             }
+            setChooseButtonVisibility()
         }
     }
 
@@ -87,6 +90,12 @@ class WorkplaceFragment : Fragment() {
     private fun openRegion() {
         val directions = WorkplaceFragmentDirections.actionWorkplaceFragmentToRegionFragment()
         findNavController().navigate(directions)
+    }
+
+    private fun setChooseButtonVisibility() {
+        val isFilterEmpty = binding.regionEditText.text.isNullOrEmpty() &&
+            binding.countryEditText.text.isNullOrEmpty()
+        binding.chooseButton.visibility = if (isFilterEmpty) View.GONE else View.VISIBLE
     }
 
     private fun setIconForButton(button: ImageButton, isEmpty: Boolean) {

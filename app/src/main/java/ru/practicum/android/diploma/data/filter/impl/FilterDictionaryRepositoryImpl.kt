@@ -1,11 +1,12 @@
 package ru.practicum.android.diploma.data.filter.impl
-
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 import ru.practicum.android.diploma.data.filter.dto.CountryDto
 import ru.practicum.android.diploma.data.filter.dto.RegionDto
 import ru.practicum.android.diploma.data.filter.dto.request.GetCountriesRequest
 import ru.practicum.android.diploma.data.filter.dto.request.GetRegionRequest
+import ru.practicum.android.diploma.data.filter.dto.request.IndustryRequest
+import ru.practicum.android.diploma.data.filter.dto.response.IndustryResponse
 import ru.practicum.android.diploma.data.search.network.NetworkClient
 import ru.practicum.android.diploma.data.search.network.utils.Convertor.toFilterParam
 import ru.practicum.android.diploma.data.search.network.utils.Convertor.toModel
@@ -36,6 +37,14 @@ class FilterDictionaryRepositoryImpl(private val networkClient: NetworkClient) :
                 regionDto.toModel(countriesCache)
             }
         }
+
+    override fun getIndustries(): Flow<Resource<List<FilterParam>>> =
+        networkClient.doRequest<IndustryRequest, List<IndustryResponse>>(IndustryRequest)
+            .mapResource { response ->
+                response.map { industry ->
+                    FilterParam(id = industry.id, name = industry.name)
+                }
+            }
 
     private inline fun <R, reified T> NetworkClient.doRequest(dto: R): Flow<Resource<T>> {
         return doRequest(dto, T::class.java)
