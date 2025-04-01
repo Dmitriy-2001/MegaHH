@@ -28,7 +28,6 @@
             android:id="@+id/workplaceInputLayout"
             style="@style/TextInputLayoutStyle"
             android:hint="@string/workplace"
-            app:hintTextAppearance="@style/TextRegula16"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@id/workplaceIcon"
             app:layout_constraintStart_toStartOf="parent"
@@ -57,7 +56,6 @@
             android:id="@+id/industryInputLayout"
             style="@style/TextInputLayoutStyle"
             android:hint="@string/industry"
-            app:hintTextAppearance="@style/TextRegula16"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@id/industryIcon"
             app:layout_constraintStart_toStartOf="parent"
@@ -99,8 +97,7 @@
             android:layout_height="match_parent"
             android:hint="@string/enter_amount"
             android:textColor="@color/black"
-            android:textColorHint="?attr/colorOnSurface"
-            android:textCursorDrawable="@drawable/edit_text_cursor" />
+            android:textColorHint="?attr/colorOnSurface" />
     </com.google.android.material.textfield.TextInputLayout>
 
     <CheckedTextView
