@@ -17,9 +17,3 @@ fun View.show() {
 fun View.gone() {
     this.visibility = View.GONE
 }
-
-fun isSystemDarkMode(app: Application): Boolean {
-    val darkModeFlag =
-        app.resources.configuration.uiMode and Configuration.UI_MODE_NIGHT_MASK
-    return darkModeFlag == Configuration.UI_MODE_NIGHT_YES
-}
