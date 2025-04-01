@@ -16,6 +16,7 @@ import androidx.core.widget.doAfterTextChanged
 import androidx.core.widget.doBeforeTextChanged
 import androidx.core.widget.doOnTextChanged
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.setFragmentResultListener
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -27,8 +28,7 @@ import ru.practicum.android.diploma.databinding.FragmentVacancySearchBinding
 import ru.practicum.android.diploma.domain.search.models.VacanciesModel
 import ru.practicum.android.diploma.presentation.search.SearchScreenState
 import ru.practicum.android.diploma.presentation.search.SearchVacancyViewModel
-import ru.practicum.android.diploma.ui.filter.FilterFragment
-import ru.practicum.android.diploma.ui.filter.FilterFragment.Companion.SHOULD_REFRESH_SEARCH
+import ru.practicum.android.diploma.ui.filter.FilterFragment.Companion.FILTERS_RESULT_KEY
 import ru.practicum.android.diploma.util.Debouncer
 import ru.practicum.android.diploma.util.gone
 import ru.practicum.android.diploma.util.show
@@ -62,14 +62,13 @@ class SearchVacancyFragment : Fragment() {
 
         debouncer = Debouncer(viewLifecycleOwner.lifecycleScope, DEBOUNCE_DELAY_MS)
 
-        findNavController().currentBackStackEntry?.savedStateHandle?.getLiveData<Boolean>(
-            SHOULD_REFRESH_SEARCH
-        )?.observe(viewLifecycleOwner) { shouldRefresh ->
-            if (shouldRefresh && binding.searchEditText.text.isNotBlank()) {
-                viewModel.searchVacancies(binding.searchEditText.text.toString())
-                findNavController().currentBackStackEntry?.savedStateHandle?.remove<Boolean>(SHOULD_REFRESH_SEARCH)
+
+        setFragmentResultListener(FILTERS_RESULT_KEY) { _, bundle ->
+            if (bundle.getBoolean(FILTERS_RESULT_KEY)) {
+                startSearch()
             }
         }
+
         observeKeyboardVisibility()
 
         binding.parameters.setOnClickListener {
@@ -365,6 +364,7 @@ class SearchVacancyFragment : Fragment() {
 
     override fun onResume() {
         super.onResume()
+        viewModel.updateFilters()
     }
 
     companion object {

@@ -159,4 +159,48 @@
         <item name="android:colorAccent">@color/blue</item>
         <item name="colorOnPrimary">@color/white</item>
     </style>
+
+    <style name="filter_salary" parent="@style/ThemeOverlay.AppTheme.TextInputEditText.Outlined">
+        <item name="boxBackgroundColor">?attr/colorSurface</item>
+        <item name="android:focusable">true</item>
+        <item name="android:contextClickable">true</item>
+        <item name="hintTextAppearance">@style/FontYSDisplayRegularSize12Weight400</item>
+        <item name="android:inputType">number</item>
+        <item name="android:maxLines">1</item>
+        <item name="android:ellipsize">end</item>
+        <item name="boxStrokeWidth">@dimen/zero</item>
+        <item name="boxStrokeWidthFocused">@dimen/zero</item>
+        <item name="boxCornerRadiusTopStart">12dp</item>
+        <item name="boxCornerRadiusTopEnd">12dp</item>
+        <item name="boxCornerRadiusBottomStart">12dp</item>
+        <item name="boxCornerRadiusBottomEnd">12dp</item>
+    </style>
+
+    <style name="filter_salary_edit_text">
+        <item name="hintTextAppearance">@style/FontYSDisplayRegularSize12Weight400</item>
+        <item name="hintTextColor">@color/blue</item>
+        <item name="android:textAppearance">@style/FontYSDisplayRegularSize16Weight400</item>
+        <item name="android:focusable">true</item>
+        <item name="android:contextClickable">true</item>
+        <item name="android:inputType">numberSigned</item>
+        <item name="android:maxLength">9</item>
+        <item name="android:maxLines">1</item>
+    </style>
+
+    <style name="ThemeOverlay.AppTheme.TextInputEditText.Outlined" parent="">
+        <item name="colorControlActivated">@color/blue</item>
+    </style>
+
+    <style name="FontYSDisplayRegularSize16Weight400">
+        <item name="fontFamily">@font/ys_regular</item>
+        <item name="android:textSize">16sp</item>
+        <item name="android:fontWeight">400</item>
+    </style>
+
+    <style name="FontYSDisplayRegularSize12Weight400">
+        <item name="fontFamily">@font/ys_regular</item>
+        <item name="android:textSize">12sp</item>
+        <item name="android:fontWeight">400</item>
+        <item name="android:translationY">6dp</item>
+    </style>
 </resources>

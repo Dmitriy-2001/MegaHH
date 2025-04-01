@@ -74,89 +74,55 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="@id/industry" />
 
-    <!-- Поле "Введите сумму" -->
-    <androidx.cardview.widget.CardView
-        android:id="@+id/salary_container"
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/salary"
+        style="@style/filter_salary"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginHorizontal="@dimen/sixteen"
-        android:layout_marginVertical="@dimen/sixteen"
-        android:paddingHorizontal="@dimen/sixteen"
-        android:paddingVertical="@dimen/eight"
-        app:cardBackgroundColor="@android:color/transparent"
-        app:cardElevation="@dimen/zero"
+        android:layout_marginHorizontal="16dp"
+        android:layout_marginTop="24dp"
+        android:hint="Ожидаемая зарплата"
+        android:textColorHint="?attr/colorOnSurface"
+        app:endIconTint="@color/black"
+        app:expandedHintEnabled="false"
+        app:boxBackgroundMode="filled"
+        app:hintTextColor="@color/blue"
         app:layout_constraintTop_toBottomOf="@id/industry">
 
-        <RelativeLayout
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/salary_enter"
+            style="@style/filter_salary_edit_text"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@drawable/bg_search_field"
-            android:paddingVertical="@dimen/eight"
-            android:paddingStart="@dimen/sixteen"
-            android:paddingEnd="@dimen/eight">
+            android:layout_height="match_parent"
+            android:hint="@string/enter_amount"
+            android:textColor="@color/black"
 
-            <TextView
-                android:id="@+id/salary_hint"
-                style="@style/TextRegular12"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/expected_salary"
-                android:textColor="?attr/colorOnSurface" />
+            android:textColorHint="?attr/colorOnSurface"
+            android:textCursorDrawable="@drawable/edit_text_cursor" />
 
-            <EditText
-                android:id="@+id/salary_input"
-                style="@style/TextRegula16"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/salary_hint"
-                android:background="@null"
-                android:hint="@string/enter_amount"
-                android:inputType="number"
-                android:textColor="@color/black"
-                android:textColorHint="?attr/colorOnSurface" />
+    </com.google.android.material.textfield.TextInputLayout>
 
-            <ImageView
-                android:id="@+id/salary_clear"
-                android:layout_width="@dimen/twenty_four"
-                android:layout_height="@dimen/twenty_four"
-                android:layout_alignParentEnd="true"
-                android:layout_centerVertical="true"
-                android:src="@drawable/ic_clear"
-                android:visibility="gone"
-                app:tint="@color/black" />
-        </RelativeLayout>
-    </androidx.cardview.widget.CardView>
 
-    <LinearLayout
-        android:id="@+id/checkbox_container"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+
+
+    <CheckedTextView
+        android:id="@+id/hide_without_salary"
+        android:layout_width="0dp"
+        android:layout_height="60dp"
         android:layout_marginTop="@dimen/sixteen"
-        android:gravity="center_vertical"
-        android:orientation="horizontal"
+        android:checkMark="@drawable/checkbox"
+        android:fontFamily="@font/ys_regular"
+        android:fontWeight="400"
+        android:gravity="start|center_vertical"
         android:paddingVertical="@dimen/six"
-        android:paddingStart="@dimen/sixteen"
-        android:paddingEnd="@dimen/four"
+        android:paddingStart="16dp"
+        android:paddingEnd="16dp"
+        android:text="@string/hide_without_salary"
+        android:textSize="16sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/salary_container">
+        app:layout_constraintTop_toBottomOf="@id/salary" />
 
-        <TextView
-            android:id="@+id/checkbox_text"
-            style="@style/TextRegula16"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="@string/hide_without_salary"
-            android:textColor="?attr/colorOnPrimary" />
-
-        <CheckBox
-            android:id="@+id/hide_without_salary"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:buttonTint="@color/blue"
-            android:theme="@style/CheckBoxTheme" />
-    </LinearLayout>
 
     <!-- Кнопки -->
     <Button
