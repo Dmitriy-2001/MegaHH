@@ -17,13 +17,10 @@ class CountriesViewModel(
     private val filterDictionaryInteractor: FilterDictionaryInteractor
 ) : ViewModel() {
 
-    private val _selectedCountry = MutableLiveData<FilterParam?>()
-    val selectedCountry: LiveData<FilterParam?> = _selectedCountry
-
     private val _countries = MutableLiveData<List<FilterParam>>()
     val countries: LiveData<List<FilterParam>> = _countries
 
-    private val _screenState = MutableLiveData<CountryScreenState>()
+    private val _screenState = MutableLiveData<CountryScreenState>(CountryScreenState.Loading)
     val screenState: LiveData<CountryScreenState> = _screenState
 
     init {
@@ -31,8 +28,6 @@ class CountriesViewModel(
     }
 
     fun loadCountries() {
-        _screenState.value = CountryScreenState.Loading
-
         viewModelScope.launch {
             filterDictionaryInteractor.loadCountries().catch { e ->
                 Log.e("CountriesVM", "Exception: ${e.message}", e)
@@ -58,7 +53,8 @@ class CountriesViewModel(
     }
 
     fun selectCountry(country: FilterParam) {
-        _selectedCountry.value = country
-        filterInteractor.setCountryToStorage(country)
+        viewModelScope.launch {
+            filterInteractor.setCountryToStorage(country)
+        }
     }
 }

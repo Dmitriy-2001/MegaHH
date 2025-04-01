@@ -7,6 +7,7 @@ import ru.practicum.android.diploma.data.filter.dto.RegionDto
 import ru.practicum.android.diploma.data.filter.dto.request.GetCountriesRequest
 import ru.practicum.android.diploma.data.filter.dto.request.GetRegionRequest
 import ru.practicum.android.diploma.data.search.network.NetworkClient
+import ru.practicum.android.diploma.data.search.network.utils.Convertor.toFilterParam
 import ru.practicum.android.diploma.data.search.network.utils.Convertor.toModel
 import ru.practicum.android.diploma.domain.filter.api.FilterDictionaryRepository
 import ru.practicum.android.diploma.domain.filter.models.FilterParam
@@ -21,11 +22,6 @@ class FilterDictionaryRepositoryImpl(private val networkClient: NetworkClient) :
             rawList.filterIsInstance<CountryDto>().map { it.toFilterParam() }
         }
     }
-
-    private fun CountryDto.toFilterParam() = FilterParam(
-        id = this.id,
-        name = this.name
-    )
 
     private var countriesCache: List<FilterParam> = emptyList()
 

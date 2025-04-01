@@ -74,6 +74,11 @@ class WorkplaceFragment : Fragment() {
         viewModel.updateFilterParameters()
     }
 
+    override fun onResume() {
+        super.onResume()
+        viewModel.updateFilterParameters()
+    }
+
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null

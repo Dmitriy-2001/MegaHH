@@ -1,5 +1,6 @@
 package ru.practicum.android.diploma.data.search.network.utils
 
+import ru.practicum.android.diploma.data.filter.dto.CountryDto
 import ru.practicum.android.diploma.data.filter.dto.RegionDto
 import ru.practicum.android.diploma.data.search.dto.Salary
 import ru.practicum.android.diploma.data.search.dto.response.GetVacancyDetailsResponse
@@ -69,6 +70,11 @@ object Convertor {
             countryName = countryName
         )
     }
+
+    fun CountryDto.toFilterParam() = FilterParam(
+        id = this.id,
+        name = this.name
+    )
 
     private fun getSalaryString(salary: Salary?) = buildString {
         salary?.from?.let { append("от ${formatSalary(it)} ") }
