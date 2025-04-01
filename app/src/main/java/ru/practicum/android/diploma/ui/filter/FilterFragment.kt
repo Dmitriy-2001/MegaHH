@@ -89,8 +89,9 @@ class FilterFragment : Fragment() {
 
         binding.hideWithoutSalary.setOnClickListener {
             binding.hideWithoutSalary.toggle()
-            if (initCheckboxValue != binding.hideWithoutSalary.isChecked)
+            if (initCheckboxValue != binding.hideWithoutSalary.isChecked) {
                 viewModel.saveDoNotShowWithoutSalaryToStorage(binding.hideWithoutSalary.isChecked)
+            }
         }
     }
 

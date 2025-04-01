@@ -1,7 +1,5 @@
 package ru.practicum.android.diploma.util
 
-import android.app.Application
-import android.content.res.Configuration
 import android.view.View
 
 fun List<View>.show() = this.forEach { it.show() }
