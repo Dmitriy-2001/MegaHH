@@ -7,6 +7,6 @@ import ru.practicum.android.diploma.domain.filter.models.RegionModel
 
 interface FilterDictionaryInteractor {
     fun getRegions(): Flow<Resource<List<RegionModel>>>
-    // Здесь методы получения словарей для фильтрации (регионы, страны, индустрии)
+    fun loadCountries(): Flow<Resource<List<FilterParam>>>
     fun getIndustries(): Flow<Resource<List<FilterParam>>>
 }
