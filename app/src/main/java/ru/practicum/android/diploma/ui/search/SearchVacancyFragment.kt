@@ -48,6 +48,8 @@ class SearchVacancyFragment : Fragment() {
 
     private val viewModel by viewModel<SearchVacancyViewModel>()
 
+    private var shouldClearOldData = false
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -62,10 +64,10 @@ class SearchVacancyFragment : Fragment() {
 
         debouncer = Debouncer(viewLifecycleOwner.lifecycleScope, DEBOUNCE_DELAY_MS)
 
-
         setFragmentResultListener(FILTERS_RESULT_KEY) { _, bundle ->
-            if (bundle.getBoolean(FILTERS_RESULT_KEY)) {
+            if (bundle.getBoolean(FILTERS_RESULT_KEY) && binding.searchEditText.text.isNotBlank()) {
                 startSearch()
+                shouldClearOldData = true
             }
         }
 
@@ -150,7 +152,12 @@ class SearchVacancyFragment : Fragment() {
 
         viewModel.getSearchScreenState().observe(viewLifecycleOwner) { state ->
             when (state) {
-                is SearchScreenState.Content -> showVacancies(state.data)
+                is SearchScreenState.Content -> if (!shouldClearOldData) {
+                    showVacancies(state.data)
+                } else {
+                    shouldClearOldData = false
+                }
+
                 is SearchScreenState.Loading -> showLoading()
                 is SearchScreenState.DefaultEmptyState -> setDefaultEmptyState()
                 else -> showError(state)
