@@ -6,6 +6,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.launch
 import ru.practicum.android.diploma.domain.filter.api.FilterInteractor
+import ru.practicum.android.diploma.domain.filter.models.FilterParams
 
 class FilterViewModel(private val interactor: FilterInteractor) : ViewModel() {
     private val filterScreenState = MutableLiveData<FilterScreenState>()
@@ -14,7 +15,14 @@ class FilterViewModel(private val interactor: FilterInteractor) : ViewModel() {
     private val isApplyButtonVisible = MutableLiveData<Boolean>()
     fun getIsApplyButtonVisible(): LiveData<Boolean> = isApplyButtonVisible
 
+    private var startFilterParameters = FilterParams()
+
     init {
+        viewModelScope.launch {
+            val params = interactor
+                .getFilterParametersFromStorage()
+            startFilterParameters = params
+        }
         updateFilterParameters()
     }
 
@@ -44,7 +52,7 @@ class FilterViewModel(private val interactor: FilterInteractor) : ViewModel() {
     fun resetFilters() = viewModelScope.launch {
         interactor.resetFilters()
         filterScreenState.postValue(FilterScreenState.NoFilterSelected)
-        isApplyButtonVisible.postValue(false)
+        isApplyButtonVisible.postValue(true)
     }
 
     fun updateFilterParameters() {
@@ -56,6 +64,11 @@ class FilterViewModel(private val interactor: FilterInteractor) : ViewModel() {
                 filterScreenState.postValue(FilterScreenState.Content(filterParams))
             }
         }
-        isApplyButtonVisible.postValue(false)
+    }
+
+    fun checkIfFilterParamsUpdated(filterParameters: FilterParams) {
+        if (this.startFilterParameters != filterParameters) {
+            isApplyButtonVisible.postValue(true)
+        }
     }
 }

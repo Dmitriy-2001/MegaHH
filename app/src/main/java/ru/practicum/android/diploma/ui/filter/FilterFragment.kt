@@ -1,6 +1,5 @@
 package ru.practicum.android.diploma.ui.filter
 
-import android.app.Application
 import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -8,7 +7,6 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputMethodManager
-import androidx.core.content.ContextCompat.getColor
 import androidx.core.os.bundleOf
 import androidx.core.view.isVisible
 import androidx.core.widget.doOnTextChanged
@@ -24,8 +22,6 @@ import ru.practicum.android.diploma.domain.filter.models.FilterParams
 import ru.practicum.android.diploma.presentation.filter.FilterScreenState
 import ru.practicum.android.diploma.presentation.filter.FilterViewModel
 import ru.practicum.android.diploma.util.gone
-import ru.practicum.android.diploma.util.isSystemDarkMode
-import ru.practicum.android.diploma.util.show
 
 class FilterFragment : Fragment() {
 
@@ -63,16 +59,16 @@ class FilterFragment : Fragment() {
     }
 
     private fun setupClickListeners() {
-        binding.industry.setOnClickListener {
-            if (binding.industry.text.toString() != getString(R.string.industry)) {
+        binding.industryIcon.setOnClickListener {
+            if (binding.industryEditText.text.toString().isNotEmpty()) {
                 clearIndustry()
             } else {
                 openIndustry()
             }
         }
 
-        binding.workplace.setOnClickListener {
-            if (binding.workplace.text.toString() != getString(R.string.workplace)) {
+        binding.workplaceIcon.setOnClickListener {
+            if (binding.workplaceEditText.text.toString().isNotEmpty()) {
                 clearWorkplace()
             } else {
                 openWorkplace()
@@ -87,11 +83,9 @@ class FilterFragment : Fragment() {
             viewModel.resetFilters()
         }
 
-//        binding.salaryClear.setOnClickListener {
-//            binding.salaryInput.text?.clear()
-//            viewModel.saveSalaryToStorage("")
-//            updateSalaryHintColor(false)
-//        }
+        viewModel.getIsApplyButtonVisible().observe(viewLifecycleOwner) { state ->
+            binding.applyFilters.isVisible = state
+        }
 
         binding.hideWithoutSalary.setOnClickListener {
             binding.hideWithoutSalary.toggle()
@@ -101,10 +95,6 @@ class FilterFragment : Fragment() {
     }
 
     private fun setupSalaryInput() {
-//        binding.salaryEnter.setOnFocusChangeListener { _, hasFocus ->
-//            updateSalaryHintColor(hasFocus)
-//        }
-
         binding.salaryEnter.setOnEditorActionListener { _, actionId, _ ->
             if (actionId == EditorInfo.IME_ACTION_DONE) {
                 hideKeyboard()
@@ -116,7 +106,6 @@ class FilterFragment : Fragment() {
         }
 
         binding.salaryEnter.doOnTextChanged { text, _, _, _ ->
-           // updateSalaryHintColor(true)
             val currentSalaryText = text?.toString() ?: ""
 
             if (currentSalaryText.isNotEmpty()) {
@@ -136,54 +125,15 @@ class FilterFragment : Fragment() {
         imm.hideSoftInputFromWindow(binding.salaryEnter.windowToken, 0)
     }
 
-//    private fun updateSalaryHintColor(isFocused: Boolean) {
-//        val colorResId = when {
-//            isFocused -> R.color.blue
-//            binding.salaryInput.text.isNotEmpty() -> R.color.black
-//            else -> { R.color.white }
-//            //if (isSystemDarkMode(Application())) R.color.white else R.color.gray
-//        }
-//        binding.salaryHint.setTextColor(getColor(requireContext(), colorResId))
-//    }
-
-    private fun updateFieldArrows() {
-        val hasIndustry = binding.industry.text.toString() != getString(R.string.industry)
-        val hasWorkplace = binding.workplace.text.toString() != getString(R.string.workplace)
-
-        with(binding) {
-            industryArrow.setImageResource(
-                if (hasIndustry) R.drawable.ic_clear else R.drawable.ic_arrow_forward
-            )
-            workplaceArrow.setImageResource(
-                if (hasWorkplace) R.drawable.ic_clear else R.drawable.ic_arrow_forward
-            )
-
-            industry.setTextColor(
-                getColor(
-                    requireContext(),
-                    if (hasIndustry) R.color.black else R.color.gray
-                )
-            )
-            workplace.setTextColor(
-                getColor(
-                    requireContext(),
-                    if (hasWorkplace) R.color.black else R.color.gray
-                )
-            )
-        }
-    }
-
     private fun clearIndustry() {
-        binding.industry.text = getString(R.string.industry)
-        binding.industry.setTextColor(getColor(requireContext(), R.color.gray))
-        binding.industryArrow.setImageResource(R.drawable.ic_arrow_forward)
+        binding.industryEditText.setText("")
+        setIndustry("")
         viewModel.clearIndustry()
     }
 
     private fun clearWorkplace() {
-        binding.workplace.text = getString(R.string.workplace)
-        binding.workplace.setTextColor(getColor(requireContext(), R.color.gray))
-        binding.workplaceArrow.setImageResource(R.drawable.ic_arrow_forward)
+        binding.workplaceEditText.setText("")
+        setWorkplace("")
         viewModel.clearWorkplace()
     }
 
@@ -192,78 +142,68 @@ class FilterFragment : Fragment() {
             when (state) {
                 is FilterScreenState.Content -> {
                     displayFilterContent(state.filterParams)
-//                    if (isInitialLoad) {
-//                        currentSalaryText = state.filterParams.salary ?: ""
-//                        isInitialLoad = false
-//                        updateSalaryHintColor(false)
-//                    }
                 }
 
                 is FilterScreenState.NoFilterSelected -> {
                     resetFilterUI()
-                    //     isInitialLoad = false
                 }
             }
-            updateFieldArrows()
         }
-
-        viewModel.getIsApplyButtonVisible().observe(viewLifecycleOwner) {
-            binding.applyFilters.isVisible = it
-        }
-
-
     }
 
     private fun displayFilterContent(filterParams: FilterParams) {
+        viewModel.checkIfFilterParamsUpdated(filterParams)
+
         initSalary = filterParams.salary ?: ""
         initCheckboxValue = filterParams.doNotShowWithoutSalary ?: false
 
-        binding.industry.text = filterParams.industry?.name ?: getString(R.string.industry)
-        updateWorkplaceText(filterParams)
+        val workplaceText = getWorkplaceText(filterParams)
+
+        binding.industryEditText.setText(filterParams.industry?.name)
+        setIndustry(filterParams.industry?.name)
+
+        binding.workplaceEditText.setText(workplaceText)
+        setWorkplace(workplaceText)
+
         binding.salaryEnter.setText(filterParams.salary ?: "")
         binding.hideWithoutSalary.isChecked = filterParams.doNotShowWithoutSalary ?: false
         binding.resetFilters.isVisible = viewModel.isFilterEmpty().not()
     }
 
-    private fun updateWorkplaceText(filterParams: FilterParams) {
-        binding.workplace.text = when {
-            filterParams.area != null -> filterParams.area.name
-            filterParams.country != null -> filterParams.country.name
-            else -> getString(R.string.workplace)
+    private fun getWorkplaceText(filterParams: FilterParams) = buildString {
+        filterParams.country?.let {
+            append("${it.name}, ")
         }
+        filterParams.area?.let {
+            append(it.name)
+        }
+    }
+
+    private fun setWorkplace(workplaceText: String) {
+        val isEmptyWorkplace = workplaceText.isEmpty()
+        setColorForHint(requireContext(), binding.workplaceInputLayout, isEmptyWorkplace)
+        setIconForButton(binding.workplaceIcon, isEmptyWorkplace)
+    }
+
+    private fun setIndustry(industryText: String?) {
+        val isEmptyIndustry = industryText.isNullOrEmpty()
+        setColorForHint(requireContext(), binding.industryInputLayout, isEmptyIndustry)
+        setIconForButton(binding.industryIcon, isEmptyIndustry)
     }
 
     private fun resetFilterUI() {
         with(binding) {
-            industry.text = getString(R.string.industry)
-            workplace.text = getString(R.string.workplace)
+            industryEditText.setText("")
+            workplaceEditText.setText("")
             salaryEnter.text?.clear()
             hideWithoutSalary.isChecked = false
             resetFilters.gone()
             applyFilters.gone()
         }
-       // updateSalaryHintColor(false)
-        updateFieldArrows()
-    }
-
-    private fun getWorkplaceText(filterParams: FilterParams): String {
-        return when {
-            filterParams.area != null -> filterParams.area.name
-            filterParams.country != null -> filterParams.country.name
-            else -> getString(R.string.workplace)
-        }
     }
 
     private fun navigateBackToSearchWithRefresh() {
         setFragmentResult(FILTERS_RESULT_KEY, bundleOf(FILTERS_RESULT_KEY to true))
-        findNavController().navigateUp()
-
-
-
-//        findNavController().previousBackStackEntry?.savedStateHandle?.set(
-//            SHOULD_REFRESH_SEARCH,
-//            true
-//        )
         findNavController().navigateUp()
     }
 
