@@ -11,9 +11,9 @@
     <string name="unable_to_load_new_page">Не удалось загрузить новую страницу</string>
     <string name="filter_settings">Настройки фильтрации</string>
     <string name="workplace">Место работы</string>
+    <string name="industry">Отрасль</string>
     <string name="country">Страна</string>
     <string name="region">Регион</string>
-    <string name="industry">Индустрия</string>
     <string name="industry_option">Выбор отрасли</string>
     <string name="workplace_option">Выбор места работы</string>
     <string name="region_option">Выбор региона</string>
@@ -41,4 +41,9 @@
     <string name="region_hint">Введите регион</string>
     <string name="region_not_found">Такого региона нет</string>
     <string name="empty_list_region">Не удалось получить список</string>
+    <string name="expected_salary">Ожидаемая зарплата</string>
+    <string name="enter_amount">Введите сумму</string>
+    <string name="hide_without_salary">Не показывать без зарплаты</string>
+    <string name="apply">Применить</string>
+    <string name="reset">Сбросить</string>
 </resources>

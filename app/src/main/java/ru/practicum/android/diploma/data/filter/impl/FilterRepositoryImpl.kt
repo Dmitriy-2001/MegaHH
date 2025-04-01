@@ -32,11 +32,12 @@ class FilterRepositoryImpl(
     }
 
     override fun setDoNotShowWithoutSalaryToStorage(doNotShowWithoutSalary: Boolean) {
-        filterStorage.getFilterParams().copy(doNotShowWithoutSalary = doNotShowWithoutSalary)
+        filterStorage.getFilterParams().copy(doNotShowWithoutSalary = if (doNotShowWithoutSalary) true else null)
             .also { filterStorage.putFilterParams(it) }
     }
 
     override fun isFilterEmpty() = filterStorage.getFilterParams() == FilterParams()
 
     override fun getFilterParametersFromStorage(): FilterParams = filterStorage.getFilterParams()
+    override fun resetFilters() = filterStorage.removeFilterParams()
 }

@@ -16,6 +16,7 @@ import androidx.core.widget.doAfterTextChanged
 import androidx.core.widget.doBeforeTextChanged
 import androidx.core.widget.doOnTextChanged
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.setFragmentResultListener
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -27,6 +28,7 @@ import ru.practicum.android.diploma.databinding.FragmentVacancySearchBinding
 import ru.practicum.android.diploma.domain.search.models.VacanciesModel
 import ru.practicum.android.diploma.presentation.search.SearchScreenState
 import ru.practicum.android.diploma.presentation.search.SearchVacancyViewModel
+import ru.practicum.android.diploma.ui.filter.FilterFragment.Companion.FILTERS_RESULT_KEY
 import ru.practicum.android.diploma.util.Debouncer
 import ru.practicum.android.diploma.util.gone
 import ru.practicum.android.diploma.util.show
@@ -46,6 +48,8 @@ class SearchVacancyFragment : Fragment() {
 
     private val viewModel by viewModel<SearchVacancyViewModel>()
 
+    private var shouldClearOldData = false
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -59,6 +63,14 @@ class SearchVacancyFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         debouncer = Debouncer(viewLifecycleOwner.lifecycleScope, DEBOUNCE_DELAY_MS)
+
+        setFragmentResultListener(FILTERS_RESULT_KEY) { _, bundle ->
+            if (bundle.getBoolean(FILTERS_RESULT_KEY) && binding.searchEditText.text.isNotBlank()) {
+                startSearch()
+                shouldClearOldData = true
+            }
+        }
+
         observeKeyboardVisibility()
 
         binding.parameters.setOnClickListener {
@@ -140,7 +152,12 @@ class SearchVacancyFragment : Fragment() {
 
         viewModel.getSearchScreenState().observe(viewLifecycleOwner) { state ->
             when (state) {
-                is SearchScreenState.Content -> showVacancies(state.data)
+                is SearchScreenState.Content -> if (!shouldClearOldData) {
+                    showVacancies(state.data)
+                } else {
+                    shouldClearOldData = false
+                }
+
                 is SearchScreenState.Loading -> showLoading()
                 is SearchScreenState.DefaultEmptyState -> setDefaultEmptyState()
                 else -> showError(state)
@@ -354,6 +371,7 @@ class SearchVacancyFragment : Fragment() {
 
     override fun onResume() {
         super.onResume()
+        viewModel.updateFilters()
     }
 
     companion object {

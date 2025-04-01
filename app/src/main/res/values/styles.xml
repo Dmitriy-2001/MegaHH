@@ -152,5 +152,39 @@
         <item name="android:src">@drawable/ic_arrow_forward</item>
     </style>
 
+    <style name="CheckBoxTheme" parent="Theme.MaterialComponents.Light">
+        <item name="colorControlNormal">@color/blue</item>
+        <item name="colorControlActivated">@color/blue</item>
+        <item name="colorControlHighlight">@color/blue</item>
+        <item name="android:colorAccent">@color/blue</item>
+        <item name="colorOnPrimary">@color/white</item>
+    </style>
 
+    <style name="filter_salary">
+        <item name="boxBackgroundColor">?attr/colorSurface</item>
+        <item name="android:focusable">true</item>
+        <item name="android:contextClickable">true</item>
+        <item name="hintTextAppearance">@style/TextRegular12</item>
+        <item name="android:inputType">number</item>
+        <item name="android:maxLines">1</item>
+        <item name="android:ellipsize">end</item>
+        <item name="boxStrokeWidth">@dimen/zero</item>
+        <item name="boxStrokeWidthFocused">@dimen/zero</item>
+        <item name="boxCornerRadiusTopStart">@dimen/radius</item>
+        <item name="boxCornerRadiusTopEnd">@dimen/radius</item>
+        <item name="boxCornerRadiusBottomStart">@dimen/radius</item>
+        <item name="boxCornerRadiusBottomEnd">@dimen/radius</item>
+    </style>
+
+    <style name="filter_salary_edit_text">
+        <item name="hintTextAppearance">@style/TextRegular12</item>
+        <item name="hintTextColor">@color/blue</item>
+        <item name="android:textAppearance">@style/TextRegula16</item>
+        <item name="android:focusable">true</item>
+        <item name="android:contextClickable">true</item>
+        <item name="android:inputType">numberSigned</item>
+        <item name="android:maxLength">9</item>
+        <item name="android:maxLines">1</item>
+        <item name="android:textCursorDrawable">@drawable/edit_text_cursor</item>
+    </style>
 </resources>

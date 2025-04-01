@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
@@ -19,57 +18,133 @@
         app:titleTextAppearance="@style/TitleMedium22"
         app:titleTextColor="?attr/colorOnPrimary" />
 
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/workplace"
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/workplaceLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:gravity="center_vertical"
-        android:hint="@string/workplace"
-        app:hintTextColor="@color/black"
         app:layout_constraintTop_toBottomOf="@+id/toolbar">
 
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/workplaceInputLayout"
+            style="@style/TextInputLayoutStyle"
+            android:hint="@string/workplace"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/workplaceIcon"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/workplaceEditText"
+                style="@style/TextInputEditTextStyle" />
+        </com.google.android.material.textfield.TextInputLayout>
+
         <ImageButton
-            android:id="@+id/workplace_arrow"
-            android:layout_width="wrap_content"
-            android:layout_height="@dimen/sixty_four"
-            android:backgroundTint="@color/white"
-            android:src="@drawable/ic_arrow_forward"
-            app:layout_constraintEnd_toEndOf="@id/workplace"
-            tools:ignore="MissingConstraints,SpeakableTextPresentCheck" />
-    </com.google.android.material.textfield.TextInputLayout>
+            android:id="@+id/workplaceIcon"
+            style="@style/FilterImageButton"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/industryLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@+id/workplaceLayout">
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/industryInputLayout"
+            style="@style/TextInputLayoutStyle"
+            android:hint="@string/industry"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/industryIcon"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/industryEditText"
+                style="@style/TextInputEditTextStyle" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <ImageButton
+            android:id="@+id/industryIcon"
+            style="@style/FilterImageButton"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
     <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/industry"
+        android:id="@+id/salary"
+        style="@style/filter_salary"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="center_vertical"
-        android:hint="@string/industry"
-        app:hintTextColor="@color/black"
-        app:layout_constraintTop_toBottomOf="@+id/workplace">
+        android:layout_height="0dp"
+        android:layout_marginHorizontal="@dimen/sixteen"
+        android:layout_marginTop="@dimen/twenty_four"
+        android:hint="@string/expected_salary"
+        android:textColorHint="?attr/colorOnSurface"
+        app:boxBackgroundMode="filled"
+        app:endIconTint="@color/black"
+        app:expandedHintEnabled="false"
+        app:hintTextColor="@color/blue"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/industryLayout">
 
-        <ImageButton
-            android:id="@+id/industry_arrow"
-            android:layout_width="wrap_content"
-            android:layout_height="@dimen/sixty_four"
-            android:backgroundTint="@color/white"
-            android:src="@drawable/ic_arrow_forward"
-            app:layout_constraintEnd_toEndOf="@id/industry"
-            tools:ignore="MissingConstraints,SpeakableTextPresentCheck" />
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/salary_enter"
+            style="@style/filter_salary_edit_text"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:hint="@string/enter_amount"
+            android:textColor="@color/black"
+            android:textColorHint="?attr/colorOnSurface" />
     </com.google.android.material.textfield.TextInputLayout>
 
-    <Button
-        android:id="@+id/testButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:backgroundTint="@color/blue"
-        android:text="Тестовая кнопка для отправки фильтров"
-        app:layout_constraintTop_toBottomOf="@id/industry"
-        tools:ignore="MissingConstraints" />
+    <CheckedTextView
+        android:id="@+id/hide_without_salary"
+        android:layout_width="@dimen/zero"
+        android:layout_height="@dimen/sixty"
+        android:layout_marginTop="@dimen/sixteen"
+        android:checkMark="@drawable/checkbox"
+        android:fontFamily="@font/ys_regular"
+        android:gravity="start|center_vertical"
+        android:paddingVertical="@dimen/six"
+        android:paddingStart="@dimen/sixteen"
+        android:paddingEnd="@dimen/sixteen"
+        android:text="@string/hide_without_salary"
+        android:textSize="@dimen/sixteen"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/salary" />
 
-    <EditText
-        android:id="@+id/testEditText"
+    <!-- Кнопки -->
+    <Button
+        android:id="@+id/apply_filters"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:layout_constraintTop_toBottomOf="@id/testButton" />
+        android:layout_marginStart="@dimen/sixteen"
+        android:layout_marginEnd="@dimen/sixteen"
+        android:layout_marginBottom="@dimen/eight"
+        android:backgroundTint="@color/blue"
+        android:paddingHorizontal="@dimen/eight"
+        android:paddingVertical="@dimen/twenty"
+        android:text="@string/apply"
+        android:textColor="@color/white"
+        android:visibility="gone"
+        app:layout_constraintBottom_toTopOf="@id/reset_filters" />
 
+    <Button
+        android:id="@+id/reset_filters"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/sixteen"
+        android:layout_marginEnd="@dimen/sixteen"
+        android:layout_marginBottom="@dimen/sixteen"
+        android:background="@android:color/transparent"
+        android:paddingHorizontal="@dimen/eight"
+        android:paddingVertical="@dimen/twenty"
+        android:text="@string/reset"
+        android:textColor="@color/red"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>

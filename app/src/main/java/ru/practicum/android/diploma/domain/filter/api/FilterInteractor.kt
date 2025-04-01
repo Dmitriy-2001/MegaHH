@@ -11,4 +11,5 @@ interface FilterInteractor {
     fun setDoNotShowWithoutSalaryToStorage(doNotShowWithoutSalary: Boolean)
     fun isFilterEmpty(): Boolean
     fun getFilterParametersFromStorage(): FilterParams
+    fun resetFilters()
 }
