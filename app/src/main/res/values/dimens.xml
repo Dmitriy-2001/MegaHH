@@ -5,8 +5,10 @@
     <dimen name="big_text">22sp</dimen>
     <dimen name="vacancy_title">32sp</dimen>
     <dimen name="zero">0dp</dimen>
+    <dimen name="one">1</dimen>
     <dimen name="two">2dp</dimen>
     <dimen name="four">4dp</dimen>
+    <dimen name="five">5dp</dimen>
     <dimen name="six">6dp</dimen>
     <dimen name="eight">8dp</dimen>
     <dimen name="nine">9dp</dimen>
@@ -18,7 +20,9 @@
     <dimen name="twenty_four">24dp</dimen>
     <dimen name="thirty_two">32dp</dimen>
     <dimen name="forty_four">44dp</dimen>
+    <dimen name="forty_six">46dp</dimen>
     <dimen name="forty_eight">48dp</dimen>
+    <dimen name="fifty_six">56dp</dimen>
     <dimen name="sixty">60dp</dimen>
     <dimen name="hundred_seventy_two">172dp</dimen>
     <dimen name="two_hundred_sixty_eight">268dp</dimen>

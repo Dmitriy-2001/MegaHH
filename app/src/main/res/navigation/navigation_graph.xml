@@ -62,7 +62,7 @@
 
     <fragment
         android:id="@+id/industryFragment"
-        android:name="ru.practicum.android.diploma.ui.filter.IndustryFragment"
+        android:name="ru.practicum.android.diploma.ui.filter.industry.IndustryFragment"
         android:label="fragment_industry"
         tools:layout="@layout/fragment_industry">
 
@@ -84,7 +84,7 @@
 
     <fragment
         android:id="@+id/countryFragment"
-        android:name="ru.practicum.android.diploma.ui.filter.CountryFragment"
+        android:name="ru.practicum.android.diploma.ui.filter.country.CountryFragment"
         android:label="fragment_country"
         tools:layout="@layout/fragment_country">
 

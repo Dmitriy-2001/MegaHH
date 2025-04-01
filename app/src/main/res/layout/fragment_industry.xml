@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/toolbar"
-        app:titleTextAppearance="@style/TitleMedium22"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:contentInsetStartWithNavigation="0dp"
@@ -16,6 +16,139 @@
         app:navigationIcon="@drawable/ic_arrow_back"
         app:tint="?attr/colorOnPrimary"
         app:title="@string/industry_option"
+        app:titleTextAppearance="@style/TitleMedium22"
         app:titleTextColor="?attr/colorOnPrimary" />
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/search_container"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/seventy_two"
+        app:cardBackgroundColor="@android:color/transparent"
+        app:cardElevation="@dimen/zero"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/toolbar">
+
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="@dimen/sixteen"
+            android:layout_marginVertical="@dimen/eight"
+            android:background="@drawable/bg_search_field"
+            android:paddingVertical="@dimen/four"
+            android:paddingStart="@dimen/sixteen"
+            android:paddingEnd="@dimen/six">
+
+            <EditText
+                android:id="@+id/search_edit_text"
+                style="@style/SearchEditText"
+                android:hint="@string/industry_hint" />
+
+            <ImageView
+                android:id="@+id/search_or_clear_icon"
+                android:layout_width="@dimen/twenty_four"
+                android:layout_height="@dimen/twenty_four"
+                android:layout_alignParentEnd="true"
+                android:layout_centerVertical="true"
+                android:layout_marginEnd="@dimen/eight"
+                android:src="@drawable/ic_search"
+                app:tint="@color/black" />
+        </RelativeLayout>
+    </androidx.cardview.widget.CardView>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/industry_list"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/zero"
+        android:layout_marginTop="@dimen/sixteen"
+        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+        app:layout_constraintBottom_toTopOf="@id/button_choice"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/search_container"
+        tools:listitem="@layout/item_industry"/>
+
+    <ImageView
+        android:id="@+id/error_image"
+        android:layout_width="@dimen/zero"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/sixteen"
+        android:layout_marginEnd="@dimen/sixteen"
+        app:layout_constraintBottom_toTopOf="@id/error_text"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/search_container"
+        app:layout_constraintVertical_chainStyle="packed" />
+
+    <TextView
+        android:id="@+id/error_text"
+        android:layout_width="@dimen/zero"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/forty_six"
+        android:layout_marginTop="@dimen/forty_six"
+        android:layout_marginEnd="@dimen/forty_six"
+        android:gravity="center"
+        android:textAllCaps="false"
+        android:textAppearance="@style/TitleMedium22"
+        android:textColor="?attr/colorOnPrimary"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/error_image" />
+
+    <ProgressBar
+        android:id="@+id/progress_bar"
+        android:layout_width="@dimen/forty_eight"
+        android:layout_height="@dimen/forty_eight"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="@dimen/sixteen"
+        android:layout_marginBottom="@dimen/sixteen"
+        android:visibility="gone"
+        app:layout_constraintBottom_toTopOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/search_container"
+        />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/button_choice"
+        style="@style/Widget.Diploma.PrimaryButton"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/fifty_six"
+        android:layout_marginHorizontal="@dimen/sixteen"
+        android:layout_marginBottom="@dimen/twenty_four"
+        android:gravity="center"
+        android:insetTop="@dimen/zero"
+        android:insetBottom="@dimen/zero"
+        android:text="@string/opt"
+        android:textAllCaps="false"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"/>
+
+    <include
+        android:id="@+id/placeholder_no_internet"
+        layout="@layout/no_internet_error"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        app:layout_constraintTop_toBottomOf="@id/search_container" />
+
+    <include
+        android:id="@+id/placeholder_empty_list"
+        layout="@layout/empty_list_region_error"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        app:layout_constraintTop_toBottomOf="@id/search_container" />
+
+    <include
+        android:id="@+id/placeholder_not_found"
+        layout="@layout/industry_not_found"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        app:layout_constraintTop_toBottomOf="@id/search_container" />
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>
