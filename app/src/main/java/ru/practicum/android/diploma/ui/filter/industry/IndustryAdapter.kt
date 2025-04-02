@@ -20,7 +20,6 @@ class IndustryAdapter(
 
     override fun onBindViewHolder(holder: IndustryViewHolder, position: Int) {
         val item = items[position]
-       items[position] == selectedIndustry
         holder.bind(
             industry = item,
             isSelected = item.id == selectedIndustry?.id,
