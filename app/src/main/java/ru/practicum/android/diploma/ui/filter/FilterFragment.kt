@@ -83,10 +83,6 @@ class FilterFragment : Fragment() {
             viewModel.resetFilters()
         }
 
-        viewModel.getIsApplyButtonVisible().observe(viewLifecycleOwner) { state ->
-            binding.applyFilters.isVisible = state
-        }
-
         binding.hideWithoutSalary.setOnClickListener {
             binding.hideWithoutSalary.toggle()
             if (initCheckboxValue != binding.hideWithoutSalary.isChecked) {
@@ -150,6 +146,14 @@ class FilterFragment : Fragment() {
                 }
             }
         }
+
+        viewModel.getIsApplyButtonVisible().observe(viewLifecycleOwner) { state ->
+            binding.applyFilters.isVisible = state
+        }
+
+        viewModel.getIsResetButtonVisible().observe(viewLifecycleOwner) { state ->
+            binding.resetFilters.isVisible = state
+        }
     }
 
     private fun displayFilterContent(filterParams: FilterParams) {
@@ -168,7 +172,6 @@ class FilterFragment : Fragment() {
 
         binding.salaryEnter.setText(filterParams.salary ?: "")
         binding.hideWithoutSalary.isChecked = filterParams.doNotShowWithoutSalary ?: false
-        binding.resetFilters.isVisible = viewModel.isFilterEmpty().not()
     }
 
     private fun getWorkplaceText(filterParams: FilterParams) = buildString {
