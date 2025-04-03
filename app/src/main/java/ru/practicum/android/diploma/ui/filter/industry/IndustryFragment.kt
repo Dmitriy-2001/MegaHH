@@ -129,6 +129,7 @@ class IndustryFragment : Fragment() {
 
     private fun setServerErrorState() {
         listOf(
+            binding.searchContainer,
             binding.progressBar,
             binding.industryList,
             binding.placeholderNotFound.root,
@@ -139,6 +140,7 @@ class IndustryFragment : Fragment() {
 
     private fun setNoInternetState() {
         listOf(
+            binding.searchContainer,
             binding.progressBar,
             binding.industryList,
             binding.placeholderEmptyList.root,
@@ -149,6 +151,7 @@ class IndustryFragment : Fragment() {
 
     private fun setNothingFoundState() {
         listOf(
+            binding.searchContainer,
             binding.progressBar,
             binding.industryList,
             binding.placeholderEmptyList.root,
