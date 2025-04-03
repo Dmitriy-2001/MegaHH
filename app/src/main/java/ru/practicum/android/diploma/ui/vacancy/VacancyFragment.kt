@@ -104,13 +104,17 @@ class VacancyFragment : Fragment() {
             append(state.data.workFormat)
         }
 
-        description.text = viewModel.formatDescription(state.data.description)
+        viewModel.formattedDescription.observe(viewLifecycleOwner) { formattedDescription ->
+            description.text = formattedDescription
+        }
 
         viewModel.isKeySkillsTitleVisible.observe(viewLifecycleOwner) { isVisible ->
             if (isVisible) keySkillsTitle.show() else keySkillsTitle.gone()
         }
 
-        keySkills.text = viewModel.formatKeySkills(state.data.keySkills)
+        viewModel.formattedKeySkills.observe(viewLifecycleOwner) { formattedSkills ->
+            keySkills.text = formattedSkills
+        }
 
         binding.ivShare.setOnClickListener {
             shareVacancyLink(state.data.alternateUrl)

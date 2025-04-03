@@ -28,6 +28,12 @@ class VacancyViewModel(
     private val _isKeySkillsTitleVisible = MutableLiveData<Boolean>()
     val isKeySkillsTitleVisible: LiveData<Boolean> get() = _isKeySkillsTitleVisible
 
+    private val _formattedKeySkills = MutableLiveData<String>()
+    val formattedKeySkills: LiveData<String> get() = _formattedKeySkills
+
+    private val _formattedDescription = MutableLiveData<String>()
+    val formattedDescription: LiveData<String> get() = _formattedDescription
+
     private var currentJob: Job? = null
 
     init {
@@ -42,6 +48,8 @@ class VacancyViewModel(
                         is Resource.Success -> {
                             checkFavoriteStatus(resource.data.id)
                             _isKeySkillsTitleVisible.value = resource.data.keySkills.isNotEmpty()
+                            formatKeySkills(resource.data.keySkills)
+                            formatDescription(resource.data.description)
                             VacancyState.Content(resource.data)
                         }
 
@@ -63,13 +71,13 @@ class VacancyViewModel(
         }
     }
 
-    fun formatDescription(description: String): String {
-        return Html.fromHtml(description, Html.FROM_HTML_MODE_COMPACT).toString()
+    private fun formatDescription(description: String) {
+        _formattedDescription.value = Html.fromHtml(description, Html.FROM_HTML_MODE_COMPACT).toString()
     }
 
-    fun formatKeySkills(keySkills: List<String>): String {
+    private fun formatKeySkills(keySkills: List<String>) {
         val listHtml = keySkills.joinToString(separator = "<br>• ") { it }
-        return Html.fromHtml("• $listHtml", Html.FROM_HTML_MODE_COMPACT).toString()
+        _formattedKeySkills.value = Html.fromHtml("• $listHtml", Html.FROM_HTML_MODE_COMPACT).toString()
     }
 
     private fun checkFavoriteStatus(id: String) {
