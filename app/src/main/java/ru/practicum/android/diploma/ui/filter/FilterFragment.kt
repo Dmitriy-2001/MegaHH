@@ -21,7 +21,6 @@ import ru.practicum.android.diploma.databinding.FragmentFilterBinding
 import ru.practicum.android.diploma.domain.filter.models.FilterParams
 import ru.practicum.android.diploma.presentation.filter.FilterScreenState
 import ru.practicum.android.diploma.presentation.filter.FilterViewModel
-import ru.practicum.android.diploma.util.gone
 
 class FilterFragment : Fragment() {
 
@@ -124,13 +123,13 @@ class FilterFragment : Fragment() {
 
     private fun clearIndustry() {
         binding.industryEditText.setText("")
-        setIndustry("")
+        setHintAndIconForIndustryText("")
         viewModel.clearIndustry()
     }
 
     private fun clearWorkplace() {
         binding.workplaceEditText.setText("")
-        setWorkplace("")
+        setHintAndIconForWorkplaceText("")
         viewModel.clearWorkplace()
     }
 
@@ -165,10 +164,10 @@ class FilterFragment : Fragment() {
         val workplaceText = getWorkplaceText(filterParams)
 
         binding.industryEditText.setText(filterParams.industry?.name)
-        setIndustry(filterParams.industry?.name)
+        setHintAndIconForIndustryText(filterParams.industry?.name)
 
         binding.workplaceEditText.setText(workplaceText)
-        setWorkplace(workplaceText)
+        setHintAndIconForWorkplaceText(workplaceText)
 
         binding.salaryEnter.setText(filterParams.salary ?: "")
         binding.hideWithoutSalary.isChecked = filterParams.doNotShowWithoutSalary ?: false
@@ -176,20 +175,20 @@ class FilterFragment : Fragment() {
 
     private fun getWorkplaceText(filterParams: FilterParams) = buildString {
         filterParams.country?.let {
-            append("${it.name}, ")
+            append(it.name)
         }
         filterParams.area?.let {
-            append(it.name)
+            append(", ${it.name}")
         }
     }
 
-    private fun setWorkplace(workplaceText: String) {
+    private fun setHintAndIconForWorkplaceText(workplaceText: String) {
         val isEmptyWorkplace = workplaceText.isEmpty()
         setColorForHint(requireContext(), binding.workplaceInputLayout, isEmptyWorkplace)
         setIconForButton(binding.workplaceIcon, isEmptyWorkplace)
     }
 
-    private fun setIndustry(industryText: String?) {
+    private fun setHintAndIconForIndustryText(industryText: String?) {
         val isEmptyIndustry = industryText.isNullOrEmpty()
         setColorForHint(requireContext(), binding.industryInputLayout, isEmptyIndustry)
         setIconForButton(binding.industryIcon, isEmptyIndustry)
@@ -201,8 +200,8 @@ class FilterFragment : Fragment() {
             workplaceEditText.setText("")
             salaryEnter.text?.clear()
             hideWithoutSalary.isChecked = false
-            resetFilters.gone()
-            applyFilters.gone()
+            setHintAndIconForWorkplaceText("")
+            setHintAndIconForIndustryText("")
         }
     }
 
