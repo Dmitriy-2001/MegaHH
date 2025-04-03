@@ -1,14 +1,12 @@
 package ru.practicum.android.diploma.ui.search
 
 import android.content.Context
-import android.graphics.Rect
 import android.os.Bundle
 import android.view.KeyEvent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.ViewGroup.MarginLayoutParams
-import android.view.ViewTreeObserver
 import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputMethodManager
 import android.widget.Toast
@@ -41,8 +39,6 @@ class SearchVacancyFragment : Fragment() {
     private var debouncer: Debouncer? = null
 
     private var vacancyAdapter: VacancyAdapter? = null
-    private var isKeyboardVisible = false
-    private var keyboardListener: ViewTreeObserver.OnGlobalLayoutListener? = null
 
     private var query = ""
 
@@ -71,7 +67,7 @@ class SearchVacancyFragment : Fragment() {
             }
         }
 
-        observeKeyboardVisibility()
+
 
         binding.parameters.setOnClickListener {
             openFilter()
@@ -191,7 +187,8 @@ class SearchVacancyFragment : Fragment() {
         val vacanciesCount = vacanciesModel.itemsCount
 
         if (vacanciesCount != 0) {
-            showCountNotification(message = "Найдено $vacanciesCount вакансий")
+            val message = requireContext().getString(R.string.vacancies_count_found, vacanciesCount)
+            showCountNotification(message = message)
             setContentState()
         } else {
             setNothingFoundState()
@@ -318,35 +315,6 @@ class SearchVacancyFragment : Fragment() {
         inputMethodManager?.hideSoftInputFromWindow(binding.searchEditText.windowToken, 0)
     }
 
-    private fun observeKeyboardVisibility() {
-        keyboardListener = ViewTreeObserver.OnGlobalLayoutListener {
-            _binding?.let { safeBinding ->
-                val rect = Rect()
-                safeBinding.root.getWindowVisibleDisplayFrame(rect)
-                val screenHeight = safeBinding.root.rootView.height
-                val keypadHeight = screenHeight - rect.bottom
-
-                val keyboardNowVisible = keypadHeight > screenHeight * KEYBOARD_THRESHOLD_RATIO
-                if (keyboardNowVisible != isKeyboardVisible) {
-                    isKeyboardVisible = keyboardNowVisible
-
-                    val bottomNav = requireActivity().findViewById<View>(R.id.bottomNavigationView)
-                    val bottomNavDivider = requireActivity().findViewById<View>(R.id.bottomNavDivider)
-
-                    if (isKeyboardVisible) {
-                        bottomNav.gone()
-                        bottomNavDivider.gone()
-                    } else {
-                        bottomNav.show()
-                        bottomNavDivider.show()
-                    }
-                }
-            }
-        }
-
-        binding.root.viewTreeObserver.addOnGlobalLayoutListener(keyboardListener)
-    }
-
     // Навигация
     private fun openFilter() {
         val directions = SearchVacancyFragmentDirections.actionVacancySearchFragmentToFilterFragment()
@@ -358,20 +326,14 @@ class SearchVacancyFragment : Fragment() {
         findNavController().navigate(directions)
     }
 
-    // Методы фрагмента
-    override fun onDestroyView() {
-        super.onDestroyView()
-
-        keyboardListener?.let {
-            _binding?.root?.viewTreeObserver?.removeOnGlobalLayoutListener(it)
-        }
-        keyboardListener = null
-        _binding = null
-    }
-
     override fun onResume() {
         super.onResume()
         viewModel.updateFilters()
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
 
     companion object {
