@@ -81,12 +81,16 @@ object Convertor {
     private fun getSalaryString(salary: Salary?, context: Context) = buildString {
         salary?.from?.let { append(context.getString(R.string.salary_from, formatSalary(it))) }
         salary?.to?.let { append(" " + context.getString(R.string.salary_to, formatSalary(it))) }
-        if (isEmpty()) append(context.getString(R.string.salary_not_specified)) else append(
-            context.getString(
-                R.string.salary_currency,
-                salary?.currency?.symbol
+        if (isEmpty()) {
+            append(context.getString(R.string.salary_not_specified))
+        } else {
+            append(
+                context.getString(
+                    R.string.salary_currency,
+                    salary?.currency?.symbol
+                )
             )
-        )
+        }
     }
 
     private fun formatSalary(salary: Int): String {

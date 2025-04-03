@@ -96,7 +96,7 @@ class RegionFragment : Fragment() {
             }
         }
 
-            binding.toolbar.setOnClickListener { findNavController().navigateUp() }
+        binding.toolbar.setOnClickListener { findNavController().navigateUp() }
     }
 
     private fun updateSearchIcon(query: String) {

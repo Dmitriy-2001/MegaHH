@@ -67,8 +67,6 @@ class SearchVacancyFragment : Fragment() {
             }
         }
 
-
-
         binding.parameters.setOnClickListener {
             openFilter()
         }

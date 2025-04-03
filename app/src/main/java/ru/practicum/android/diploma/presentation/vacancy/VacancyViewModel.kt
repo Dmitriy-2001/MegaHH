@@ -73,7 +73,6 @@ class VacancyViewModel(
     }
 
     private fun checkFavoriteStatus(id: String) {
-
         currentJob?.cancel()
 
         currentJob = viewModelScope.launch {

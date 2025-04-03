@@ -35,7 +35,6 @@ class SearchVacancyViewModel(
     }
 
     fun searchVacancies(text: String) {
-
         currentJob?.cancel()
 
         currentJob = viewModelScope.launch {
