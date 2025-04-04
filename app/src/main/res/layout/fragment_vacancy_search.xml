@@ -24,7 +24,7 @@
         android:backgroundTint="?attr/colorPrimary"
         android:src="@drawable/ic_parameters"
         app:layout_constraintEnd_toEndOf="@id/toolbar"
-        tools:ignore="MissingConstraints,SpeakableTextPresentCheck" />
+        app:layout_constraintTop_toTopOf="parent" />
 
     <!-- Поиск -->
     <androidx.cardview.widget.CardView

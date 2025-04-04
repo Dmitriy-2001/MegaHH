@@ -1,13 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/toolbar"
-        app:titleTextAppearance="@style/TitleMedium22"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:contentInsetStartWithNavigation="0dp"
@@ -17,44 +15,74 @@
         app:navigationIcon="@drawable/ic_arrow_back"
         app:tint="?attr/colorOnPrimary"
         app:title="@string/workplace_option"
+        app:titleTextAppearance="@style/TitleMedium22"
         app:titleTextColor="?attr/colorOnPrimary" />
 
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/country"
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/countryLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:gravity="center_vertical"
-        android:hint="@string/workplace"
-        app:hintTextColor="@color/black"
         app:layout_constraintTop_toBottomOf="@+id/toolbar">
 
-        <ImageButton
-            android:id="@+id/country_arrow"
-            android:layout_width="wrap_content"
-            android:layout_height="@dimen/sixty_four"
-            android:backgroundTint="@color/white"
-            android:src="@drawable/ic_arrow_forward"
-            app:layout_constraintEnd_toEndOf="@id/workplace"
-            tools:ignore="MissingConstraints,SpeakableTextPresentCheck" />
-    </com.google.android.material.textfield.TextInputLayout>
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/countryInputLayout"
+            style="@style/TextInputLayoutStyle"
+            android:hint="@string/country"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/country_icon"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
 
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/region"
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/countryEditText"
+                style="@style/TextInputEditTextStyle" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <ImageButton
+            android:id="@+id/country_icon"
+            style="@style/FilterImageButton"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:gravity="center_vertical"
-        android:hint="@string/industry"
-        app:hintTextColor="@color/black"
-        app:layout_constraintTop_toBottomOf="@+id/country">
+        app:layout_constraintTop_toBottomOf="@+id/countryLayout">
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/regionInputLayout"
+            style="@style/TextInputLayoutStyle"
+            android:hint="@string/region"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/region_icon"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/regionEditText"
+                style="@style/TextInputEditTextStyle" />
+        </com.google.android.material.textfield.TextInputLayout>
 
         <ImageButton
-            android:id="@+id/region_arrow"
-            android:layout_width="wrap_content"
-            android:layout_height="@dimen/sixty_four"
-            android:backgroundTint="@color/white"
-            android:src="@drawable/ic_arrow_forward"
-            app:layout_constraintEnd_toEndOf="@id/industry"
-            tools:ignore="MissingConstraints,SpeakableTextPresentCheck" />
-    </com.google.android.material.textfield.TextInputLayout>
+            android:id="@+id/region_icon"
+            style="@style/FilterImageButton"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/chooseButton"
+        style="@style/Widget.Diploma.PrimaryButton"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/sixty_four"
+        android:layout_marginStart="@dimen/sixteen"
+        android:layout_marginEnd="@dimen/sixteen"
+        android:layout_marginBottom="@dimen/twenty_four"
+        android:text="@string/choose"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
