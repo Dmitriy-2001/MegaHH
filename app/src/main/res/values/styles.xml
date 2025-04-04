@@ -72,16 +72,6 @@
         <item name="android:padding">@dimen/sixteen</item>
     </style>
 
-    <style name="Widget.Diploma.SalaryInput" parent="Widget.Material3.TextInputLayout.OutlinedBox">
-        <item name="boxBackgroundColor">?attr/colorSurface</item>
-        <item name="iconTint">@color/black</item>
-        <item name="android:textColor">@color/black</item>
-        <item name="android:textColorHint">?attr/colorOnSurface</item>
-        <item name="android:textCursorDrawable">@drawable/edit_text_cursor</item>
-        <item name="android:fontFamily">@font/ys_regular</item>
-        <item name="android:radius">@dimen/radius</item>
-    </style>
-
     <style name="Widget.Diploma.PrimaryButton" parent="Widget.Material3.Button">
         <item name="android:backgroundTint">@color/blue</item>
         <item name="android:textColor">@color/white</item>
@@ -186,5 +176,13 @@
         <item name="android:maxLength">9</item>
         <item name="android:maxLines">1</item>
         <item name="android:textCursorDrawable">@drawable/edit_text_cursor</item>
+    </style>
+
+    <style name="click_overlay">
+        <item name="android:layout_width">@dimen/zero</item>
+        <item name="android:layout_height">@dimen/zero</item>
+        <item name="android:background">@android:color/transparent</item>
+        <item name="android:clickable">true</item>
+        <item name="android:focusable">true</item>
     </style>
 </resources>
