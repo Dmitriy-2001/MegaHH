@@ -65,13 +65,13 @@ class VacancyFragment : Fragment() {
         viewModel.getVacancyState().observe(viewLifecycleOwner) { state ->
             errorPlaceholders.gone()
             contentFields.gone()
+            binding.progressBar.gone()
 
             when (state) {
                 is VacancyState.Content -> {
                     currentVacancy = state.data
                     contentFields.show()
                     bindContent(state)
-                    binding.progressBar.gone()
                 }
 
                 is VacancyState.NothingFound -> binding.placeholderVacancyNotFound.root.show()
