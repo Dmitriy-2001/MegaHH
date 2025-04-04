@@ -28,6 +28,7 @@ class VacancyViewModel(
     }
 
     fun getVacancyDetails() = viewModelScope.launch {
+        vacancyState.postValue(VacancyState.Loading)
         vacancyInteractor.getVacancyById(vacancyId).collect { resource ->
             vacancyState.postValue(
                 when (resource) {

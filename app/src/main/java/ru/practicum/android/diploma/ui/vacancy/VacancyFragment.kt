@@ -71,11 +71,13 @@ class VacancyFragment : Fragment() {
                     currentVacancy = state.data
                     contentFields.show()
                     bindContent(state)
+                    binding.progressBar.gone()
                 }
 
                 is VacancyState.NothingFound -> binding.placeholderVacancyNotFound.root.show()
                 is VacancyState.NoInternet -> binding.placeholderNoInternet.root.show()
                 is VacancyState.ServerError -> binding.placeholderServerError.root.show()
+                is VacancyState.Loading -> showLoading()
             }
         }
 
@@ -134,4 +136,9 @@ class VacancyFragment : Fragment() {
         super.onDestroyView()
         _binding = null
     }
+
+    private fun showLoading() {
+        binding.progressBar.show()
+    }
+
 }
