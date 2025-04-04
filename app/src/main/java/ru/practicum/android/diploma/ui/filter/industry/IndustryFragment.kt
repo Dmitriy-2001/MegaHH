@@ -74,7 +74,7 @@ class IndustryFragment : Fragment() {
         setupToolbar()
 
         viewModel.selectedIndustry.observe(viewLifecycleOwner) { selectedIndustry ->
-            adapter?.items?.let {
+            adapter?.itemsForAll?.let {
                 adapter?.updateItems(
                     it,
                     selectedIndustry

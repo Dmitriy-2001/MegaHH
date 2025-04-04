@@ -30,7 +30,7 @@ class IndustryViewModel(
         getIndustry()
     }
 
-    fun getIndustry() {
+    private fun getIndustry() {
         _state.value = IndustryScreenState.Loading
         viewModelScope.launch {
             filterDictionaryInteractor.getIndustries()
