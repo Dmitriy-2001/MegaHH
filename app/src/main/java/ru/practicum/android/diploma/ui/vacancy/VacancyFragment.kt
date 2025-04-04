@@ -63,6 +63,7 @@ class VacancyFragment : Fragment() {
         viewModel.getVacancyState().observe(viewLifecycleOwner) { state ->
             errorPlaceholders.gone()
             contentFields.gone()
+            binding.progressBar.gone()
 
             when (state) {
                 is VacancyState.Content -> {
@@ -74,6 +75,7 @@ class VacancyFragment : Fragment() {
                 is VacancyState.NothingFound -> binding.placeholderVacancyNotFound.root.show()
                 is VacancyState.NoInternet -> binding.placeholderNoInternet.root.show()
                 is VacancyState.ServerError -> binding.placeholderServerError.root.show()
+                is VacancyState.Loading -> showLoading()
             }
         }
 
@@ -138,4 +140,9 @@ class VacancyFragment : Fragment() {
         super.onDestroyView()
         _binding = null
     }
+
+    private fun showLoading() {
+        binding.progressBar.show()
+    }
+
 }
