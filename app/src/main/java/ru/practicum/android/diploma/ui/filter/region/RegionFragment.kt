@@ -1,9 +1,12 @@
 package ru.practicum.android.diploma.ui.filter.region
 
+import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.inputmethod.EditorInfo
+import android.view.inputmethod.InputMethodManager
 import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
@@ -84,6 +87,15 @@ class RegionFragment : Fragment() {
             }
         }
 
+        binding.searchEditText.setOnEditorActionListener { _, actionId, _ ->
+            if (actionId == EditorInfo.IME_ACTION_SEARCH) {
+                hideKeyboard()
+                true
+            } else {
+                false
+            }
+        }
+
         binding.toolbar.setOnClickListener { findNavController().navigateUp() }
     }
 
@@ -103,6 +115,14 @@ class RegionFragment : Fragment() {
             is RegionScreenState.NoInternet -> binding.placeholderRegionEmpty.root.show()
             is RegionScreenState.NothingFound -> binding.placeholderNoRegion.root.show()
             else -> {}
+        }
+    }
+
+    private fun hideKeyboard() {
+        val inputMethodManager = requireContext().getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+        val currentFocusedView = activity?.currentFocus
+        currentFocusedView?.let {
+            inputMethodManager.hideSoftInputFromWindow(it.windowToken, 0)
         }
     }
 

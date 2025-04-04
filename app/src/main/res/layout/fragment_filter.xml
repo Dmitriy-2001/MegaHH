@@ -118,20 +118,22 @@
         app:layout_constraintTop_toBottomOf="@id/salary" />
 
     <!-- Кнопки -->
-    <Button
+    <com.google.android.material.button.MaterialButton
         android:id="@+id/apply_filters"
+        style="@style/Widget.Diploma.PrimaryButton"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/sixteen"
-        android:layout_marginEnd="@dimen/sixteen"
+        android:layout_height="@dimen/fifty_six"
+        android:layout_marginHorizontal="@dimen/sixteen"
         android:layout_marginBottom="@dimen/eight"
-        android:backgroundTint="@color/blue"
-        android:paddingHorizontal="@dimen/eight"
-        android:paddingVertical="@dimen/twenty"
+        android:gravity="center"
+        android:insetTop="@dimen/zero"
+        android:insetBottom="@dimen/zero"
         android:text="@string/apply"
-        android:textColor="@color/white"
+        android:textAllCaps="false"
         android:visibility="gone"
-        app:layout_constraintBottom_toTopOf="@id/reset_filters" />
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/reset_filters"
+        app:layout_constraintEnd_toEndOf="parent" />
 
     <Button
         android:id="@+id/reset_filters"
