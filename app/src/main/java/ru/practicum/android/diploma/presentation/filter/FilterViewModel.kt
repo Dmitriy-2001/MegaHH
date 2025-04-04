@@ -15,6 +15,9 @@ class FilterViewModel(private val interactor: FilterInteractor) : ViewModel() {
     private val isApplyButtonVisible = MutableLiveData<Boolean>()
     fun getIsApplyButtonVisible(): LiveData<Boolean> = isApplyButtonVisible
 
+    private val isResetButtonVisible = MutableLiveData<Boolean>()
+    fun getIsResetButtonVisible(): LiveData<Boolean> = isResetButtonVisible
+
     private var startFilterParameters = FilterParams()
 
     init {
@@ -26,11 +29,10 @@ class FilterViewModel(private val interactor: FilterInteractor) : ViewModel() {
         updateFilterParameters()
     }
 
-    fun isFilterEmpty() = interactor.isFilterEmpty()
-
     fun saveSalaryToStorage(salary: String) = viewModelScope.launch {
         interactor.setSalaryToStorage(salary)
         isApplyButtonVisible.postValue(true)
+        if (salary.isNotEmpty()) isResetButtonVisible.postValue(true)
     }
 
     fun clearIndustry() = viewModelScope.launch {
@@ -47,12 +49,14 @@ class FilterViewModel(private val interactor: FilterInteractor) : ViewModel() {
     fun saveDoNotShowWithoutSalaryToStorage(doNotShowWithoutSalary: Boolean) = viewModelScope.launch {
         interactor.setDoNotShowWithoutSalaryToStorage(doNotShowWithoutSalary)
         isApplyButtonVisible.postValue(true)
+        if (doNotShowWithoutSalary) isResetButtonVisible.postValue(true)
     }
 
     fun resetFilters() = viewModelScope.launch {
         interactor.resetFilters()
         filterScreenState.postValue(FilterScreenState.NoFilterSelected)
         isApplyButtonVisible.postValue(true)
+        isResetButtonVisible.postValue(false)
     }
 
     fun updateFilterParameters() {
@@ -60,8 +64,10 @@ class FilterViewModel(private val interactor: FilterInteractor) : ViewModel() {
             val filterParams = interactor.getFilterParametersFromStorage()
             if (interactor.isFilterEmpty()) {
                 filterScreenState.postValue(FilterScreenState.NoFilterSelected)
+                isResetButtonVisible.postValue(false)
             } else {
                 filterScreenState.postValue(FilterScreenState.Content(filterParams))
+                isResetButtonVisible.postValue(true)
             }
         }
     }

@@ -22,7 +22,7 @@ class IndustryAdapter(
         val item = items[position]
         holder.bind(
             industry = item,
-            isSelected = item == selectedIndustry,
+            isSelected = item.id == selectedIndustry?.id,
             onClick = { selectedIndustry ->
                 this.selectedIndustry = selectedIndustry
                 onIndustrySelected(selectedIndustry)
@@ -35,7 +35,7 @@ class IndustryAdapter(
 
     fun updateItems(newItems: List<FilterParam>, selected: FilterParam?) {
         items = newItems
-        selectedIndustry = selected
+        selectedIndustry = items.find { it.id == selected?.id }
         notifyDataSetChanged()
     }
 }

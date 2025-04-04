@@ -15,15 +15,15 @@ val interactorModule = module {
         VacanciesInteractorImpl(get())
     }
 
-    single<FavoriteVacanciesInteractor> {
+    factory<FavoriteVacanciesInteractor> {
         FavoriteVacanciesInteractorImpl(get())
     }
 
-    single<FilterInteractor> {
+    factory<FilterInteractor> {
         FilterInteractorImpl(get())
     }
 
-    single<FilterDictionaryInteractor> {
+    factory<FilterDictionaryInteractor> {
         FilterDictionaryInteractorImpl(get())
     }
 }
