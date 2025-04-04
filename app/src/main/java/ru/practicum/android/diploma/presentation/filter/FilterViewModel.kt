@@ -18,7 +18,7 @@ class FilterViewModel(private val interactor: FilterInteractor) : ViewModel() {
     private val isResetButtonVisible = MutableLiveData<Boolean>()
     fun getIsResetButtonVisible(): LiveData<Boolean> = isResetButtonVisible
 
-    private var startFilterParameters = FilterParams()
+    private var startFilterParameters: FilterParams? = null
 
     init {
         viewModelScope.launch {

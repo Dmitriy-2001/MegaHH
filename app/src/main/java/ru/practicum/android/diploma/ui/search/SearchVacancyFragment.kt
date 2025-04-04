@@ -290,7 +290,7 @@ class SearchVacancyFragment : Fragment() {
 
     private fun setNothingFoundState() {
         hideVacancies()
-        showCountNotification(message = "Таких вакансий нет")
+        showCountNotification(message = resources.getString(R.string.vacancies_no_such))
         listOf(
             binding.progressBar,
             binding.placeholderNotSearched,
@@ -336,7 +336,6 @@ class SearchVacancyFragment : Fragment() {
 
     companion object {
         private const val DEBOUNCE_DELAY_MS = 2000L
-        private const val KEYBOARD_THRESHOLD_RATIO = 0.15
         private const val CENTER_OF_SCREEN_DP = 700
         private const val COUNT_OF_VACANCIES = 10
     }
