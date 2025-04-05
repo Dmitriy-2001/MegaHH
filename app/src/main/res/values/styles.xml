@@ -186,7 +186,7 @@
         <item name="android:textColorHint">@color/salary_hint_color</item>
         <item name="android:textAppearance">@style/TextRegula16</item>
         <item name="android:focusable">true</item>
-        <item name="android:background">#00000000</item>
+        <item name="android:background">@color/filter_salary_background</item>
         <item name="android:contextClickable">true</item>
         <item name="android:inputType">numberSigned</item>
         <item name="android:imeOptions">actionDone</item>
