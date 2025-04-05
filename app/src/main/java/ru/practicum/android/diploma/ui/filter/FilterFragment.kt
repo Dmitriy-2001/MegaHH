@@ -107,17 +107,27 @@ class FilterFragment : Fragment() {
         }
 
         binding.salaryEnter.doOnTextChanged { text, _, _, _ ->
-            val currentSalaryText = text?.toString() ?: ""
+            val currentSalaryText = text?.toString().orEmpty()
 
-            if (currentSalaryText.isNotEmpty()) {
-                binding.salary.endIconMode = END_ICON_CLEAR_TEXT
-                binding.salary.setEndIconDrawable(R.drawable.ic_clear)
-            } else {
-                binding.salary.endIconMode = END_ICON_NONE
-                binding.salary.endIconDrawable = null
-            }
+            binding.clearSalaryButton.isVisible = currentSalaryText.isNotEmpty()
 
             if (currentSalaryText != initSalary) viewModel.saveSalaryToStorage(currentSalaryText)
+        }
+
+        binding.salaryEnter.onFocusChangeListener = View.OnFocusChangeListener { _, hasFocus ->
+            binding.hintTitle.setTextColor(
+                if (hasFocus) {
+                    resources.getColor(R.color.blue, null)
+                } else resources.getColor(R.color.gray, null)
+            )
+        }
+
+        binding.clearSalaryButton.setOnClickListener {
+            binding.salaryEnter.text?.clear()
+            binding.salaryEnter.clearFocus()
+            binding.clearSalaryButton.isVisible = false
+            hideKeyboard()
+            viewModel.saveSalaryToStorage("")
         }
     }
 
