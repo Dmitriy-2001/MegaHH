@@ -13,14 +13,13 @@ import androidx.core.widget.doOnTextChanged
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.setFragmentResult
 import androidx.navigation.fragment.findNavController
-import com.google.android.material.textfield.TextInputLayout.END_ICON_CLEAR_TEXT
-import com.google.android.material.textfield.TextInputLayout.END_ICON_NONE
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import ru.practicum.android.diploma.R
 import ru.practicum.android.diploma.databinding.FragmentFilterBinding
 import ru.practicum.android.diploma.domain.filter.models.FilterParams
 import ru.practicum.android.diploma.presentation.filter.FilterScreenState
 import ru.practicum.android.diploma.presentation.filter.FilterViewModel
+import ru.practicum.android.diploma.util.gone
 
 class FilterFragment : Fragment() {
 
@@ -130,7 +129,7 @@ class FilterFragment : Fragment() {
         binding.clearSalaryButton.setOnClickListener {
             binding.salaryEnter.text?.clear()
             binding.salaryEnter.clearFocus()
-            binding.clearSalaryButton.isVisible = false
+            binding.clearSalaryButton.gone()
             hideKeyboard()
             viewModel.saveSalaryToStorage("")
         }
