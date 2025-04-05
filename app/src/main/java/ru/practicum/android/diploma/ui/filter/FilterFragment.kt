@@ -58,12 +58,20 @@ class FilterFragment : Fragment() {
     }
 
     private fun setupClickListeners() {
+        binding.industryClickOverlay.setOnClickListener {
+            openIndustry()
+        }
+
         binding.industryIcon.setOnClickListener {
             if (binding.industryEditText.text.toString().isNotEmpty()) {
                 clearIndustry()
             } else {
                 openIndustry()
             }
+        }
+
+        binding.workplaceClickOverlay.setOnClickListener {
+            openWorkplace()
         }
 
         binding.workplaceIcon.setOnClickListener {

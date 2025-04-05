@@ -38,6 +38,14 @@
                 style="@style/TextInputEditTextStyle" />
         </com.google.android.material.textfield.TextInputLayout>
 
+        <View
+            android:id="@+id/countryClickOverlay"
+            style="@style/click_overlay"
+            app:layout_constraintBottom_toBottomOf="@id/countryInputLayout"
+            app:layout_constraintEnd_toEndOf="@id/countryInputLayout"
+            app:layout_constraintStart_toStartOf="@id/countryInputLayout"
+            app:layout_constraintTop_toTopOf="@id/countryInputLayout" />
+
         <ImageButton
             android:id="@+id/country_icon"
             style="@style/FilterImageButton"
@@ -64,6 +72,14 @@
                 android:id="@+id/regionEditText"
                 style="@style/TextInputEditTextStyle" />
         </com.google.android.material.textfield.TextInputLayout>
+
+        <View
+            android:id="@+id/regionClickOverlay"
+            style="@style/click_overlay"
+            app:layout_constraintBottom_toBottomOf="@id/regionInputLayout"
+            app:layout_constraintEnd_toEndOf="@id/regionInputLayout"
+            app:layout_constraintStart_toStartOf="@id/regionInputLayout"
+            app:layout_constraintTop_toTopOf="@id/regionInputLayout" />
 
         <ImageButton
             android:id="@+id/region_icon"

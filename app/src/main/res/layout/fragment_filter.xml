@@ -38,6 +38,14 @@
                 style="@style/TextInputEditTextStyle" />
         </com.google.android.material.textfield.TextInputLayout>
 
+        <View
+            android:id="@+id/workplaceClickOverlay"
+            style="@style/click_overlay"
+            app:layout_constraintBottom_toBottomOf="@id/workplaceInputLayout"
+            app:layout_constraintEnd_toEndOf="@id/workplaceInputLayout"
+            app:layout_constraintStart_toStartOf="@id/workplaceInputLayout"
+            app:layout_constraintTop_toTopOf="@id/workplaceInputLayout" />
+
         <ImageButton
             android:id="@+id/workplaceIcon"
             style="@style/FilterImageButton"
@@ -65,6 +73,14 @@
                 android:id="@+id/industryEditText"
                 style="@style/TextInputEditTextStyle" />
         </com.google.android.material.textfield.TextInputLayout>
+
+        <View
+            android:id="@+id/industryClickOverlay"
+            style="@style/click_overlay"
+            app:layout_constraintBottom_toBottomOf="@id/industryInputLayout"
+            app:layout_constraintEnd_toEndOf="@id/industryInputLayout"
+            app:layout_constraintStart_toStartOf="@id/industryInputLayout"
+            app:layout_constraintTop_toTopOf="@id/industryInputLayout" />
 
         <ImageButton
             android:id="@+id/industryIcon"
