@@ -76,6 +76,7 @@ class SearchVacancyFragment : Fragment() {
         binding.searchOrClearIcon.setOnClickListener {
             if (binding.searchEditText.text.isNotBlank()) {
                 binding.searchEditText.text.clear()
+                query = ""
                 viewModel.clearSearchQuery()
             }
         }
@@ -97,8 +98,8 @@ class SearchVacancyFragment : Fragment() {
                 updateSearchIcon(queryString)
 
                 when {
-                    queryString.isNotBlank() && query != queryString -> debouncer?.debounce {
-                        if (binding.searchEditText.text.toString().isNotBlank()) {
+                    queryString.isNotBlank() -> debouncer?.debounce {
+                        if (binding.searchEditText.text.toString().isNotBlank() && query != queryString) {
                             query = queryString
                             startSearch()
                         }
