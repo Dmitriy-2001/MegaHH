@@ -178,11 +178,17 @@
 
     <style name="filter_salary_edit_text">
         <item name="hintTextAppearance">@style/TextRegular12</item>
+        <item name="android:layout_width">@dimen/zero</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginHorizontal">@dimen/sixteen</item>
         <item name="hintTextColor">@color/blue</item>
+        <item name="android:textColorHint">@color/salary_hint_color</item>
         <item name="android:textAppearance">@style/TextRegula16</item>
         <item name="android:focusable">true</item>
+        <item name="android:background">#00000000</item>
         <item name="android:contextClickable">true</item>
         <item name="android:inputType">numberSigned</item>
+        <item name="android:imeOptions">actionDone</item>
         <item name="android:maxLength">9</item>
         <item name="android:maxLines">1</item>
         <item name="android:textCursorDrawable">@drawable/edit_text_cursor</item>
@@ -194,5 +200,14 @@
         <item name="android:background">@android:color/transparent</item>
         <item name="android:clickable">true</item>
         <item name="android:focusable">true</item>
+    </style>
+
+    <style name="hint_title_style">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:paddingHorizontal">@dimen/sixteen</item>
+        <item name="android:textColor">@color/salary_hint_color</item>
+        <item name="android:textSize">@dimen/small_text</item>
+        <item name="android:fontFamily">@font/ys_medium</item>
     </style>
 </resources>

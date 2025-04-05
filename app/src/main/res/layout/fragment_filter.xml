@@ -105,12 +105,8 @@
 
         <TextView
             android:id="@+id/hint_title"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:paddingHorizontal="@dimen/sixteen"
+            style="@style/hint_title_style"
             android:text="@string/expected_salary"
-            android:textColor="@color/salary_hint_color"
-            android:textSize="@dimen/small_text"
             app:layout_constraintBottom_toTopOf="@id/salaryEnter"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
@@ -118,15 +114,7 @@
         <EditText
             android:id="@+id/salaryEnter"
             style="@style/filter_salary_edit_text"
-            android:layout_width="@dimen/zero"
-            android:layout_height="wrap_content"
-            android:layout_marginHorizontal="@dimen/sixteen"
-            android:background="#00000000"
-            android:textColorHint="@color/salary_hint_color"
             android:hint="@string/enter_amount"
-            android:imeOptions="actionDone"
-            android:inputType="number"
-            android:maxLength="9"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@id/clear_salary_button"
             app:layout_constraintStart_toStartOf="parent"
