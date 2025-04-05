@@ -2,8 +2,6 @@ package ru.practicum.android.diploma.ui.vacancy
 
 import android.content.Intent
 import android.os.Bundle
-import android.text.Html
-import android.text.Html.FROM_HTML_MODE_COMPACT
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -65,6 +63,7 @@ class VacancyFragment : Fragment() {
         viewModel.getVacancyState().observe(viewLifecycleOwner) { state ->
             errorPlaceholders.gone()
             contentFields.gone()
+            binding.progressBar.gone()
 
             when (state) {
                 is VacancyState.Content -> {
@@ -76,6 +75,7 @@ class VacancyFragment : Fragment() {
                 is VacancyState.NothingFound -> binding.placeholderVacancyNotFound.root.show()
                 is VacancyState.NoInternet -> binding.placeholderNoInternet.root.show()
                 is VacancyState.ServerError -> binding.placeholderServerError.root.show()
+                is VacancyState.Loading -> showLoading()
             }
         }
 
@@ -106,11 +106,17 @@ class VacancyFragment : Fragment() {
             append(state.data.workFormat)
         }
 
-        description.text = Html.fromHtml(state.data.description, FROM_HTML_MODE_COMPACT)
+        viewModel.formattedDescription.observe(viewLifecycleOwner) { formattedDescription ->
+            description.text = formattedDescription
+        }
 
-        if (state.data.keySkills.isNotEmpty()) keySkillsTitle.show() else keySkillsTitle.gone()
-        val listHtml = state.data.keySkills.joinToString(separator = "<br>• ") { it }
-        keySkills.text = Html.fromHtml("• $listHtml", FROM_HTML_MODE_COMPACT)
+        viewModel.isKeySkillsTitleVisible.observe(viewLifecycleOwner) { isVisible ->
+            if (isVisible) keySkillsTitle.show() else keySkillsTitle.gone()
+        }
+
+        viewModel.formattedKeySkills.observe(viewLifecycleOwner) { formattedSkills ->
+            keySkills.text = formattedSkills
+        }
 
         binding.ivShare.setOnClickListener {
             shareVacancyLink(state.data.alternateUrl)
@@ -134,4 +140,9 @@ class VacancyFragment : Fragment() {
         super.onDestroyView()
         _binding = null
     }
+
+    private fun showLoading() {
+        binding.progressBar.show()
+    }
+
 }

@@ -7,4 +7,5 @@ sealed interface VacancyState {
     data object NothingFound : VacancyState
     data object ServerError : VacancyState
     data object NoInternet : VacancyState
+    data object Loading : VacancyState
 }

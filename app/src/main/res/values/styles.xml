@@ -187,4 +187,12 @@
         <item name="android:maxLines">1</item>
         <item name="android:textCursorDrawable">@drawable/edit_text_cursor</item>
     </style>
+
+    <style name="click_overlay">
+        <item name="android:layout_width">@dimen/zero</item>
+        <item name="android:layout_height">@dimen/zero</item>
+        <item name="android:background">@android:color/transparent</item>
+        <item name="android:clickable">true</item>
+        <item name="android:focusable">true</item>
+    </style>
 </resources>

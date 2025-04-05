@@ -4,6 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 import ru.practicum.android.diploma.domain.filter.api.FilterInteractor
 import ru.practicum.android.diploma.domain.search.ErrorType
@@ -27,12 +28,16 @@ class SearchVacancyViewModel(
     private val isFilterEmptyState = MutableLiveData<Boolean>()
     fun getIsFilterEmptyState(): LiveData<Boolean> = isFilterEmptyState
 
+    private var currentJob: Job? = null
+
     init {
         updateFilters()
     }
 
     fun searchVacancies(text: String) {
-        viewModelScope.launch {
+        currentJob?.cancel()
+
+        currentJob = viewModelScope.launch {
             prepareForSearch(text)
             searchScreenState.postValue(SearchScreenState.Loading)
             val filter =

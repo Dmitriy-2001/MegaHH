@@ -1,4 +1,5 @@
 package ru.practicum.android.diploma.data.filter.impl
+
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 import ru.practicum.android.diploma.data.filter.dto.CountryDto
@@ -57,4 +58,3 @@ class FilterDictionaryRepositoryImpl(private val networkClient: NetworkClient) :
         }
     }
 }
-
