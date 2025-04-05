@@ -122,7 +122,7 @@ class FilterFragment : Fragment() {
                 if (hasFocus) {
                     resources.getColor(R.color.blue, null)
                 } else {
-                    resources.getColor(R.color.gray, null)
+                    resources.getColor(R.color.salary_hint_color, null)
                 }
             )
         }
