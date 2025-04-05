@@ -34,9 +34,7 @@ class FilterFragment : Fragment() {
     private var initCheckboxValue = false
 
     override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
+        inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View {
         _binding = FragmentFilterBinding.inflate(inflater, container, false)
         return binding.root
@@ -121,7 +119,9 @@ class FilterFragment : Fragment() {
             binding.hintTitle.setTextColor(
                 if (hasFocus) {
                     resources.getColor(R.color.blue, null)
-                } else resources.getColor(R.color.gray, null)
+                } else {
+                    resources.getColor(R.color.gray, null)
+                }
             )
         }
 
