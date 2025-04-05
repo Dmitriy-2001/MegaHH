@@ -13,14 +13,13 @@ import androidx.core.widget.doOnTextChanged
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.setFragmentResult
 import androidx.navigation.fragment.findNavController
-import com.google.android.material.textfield.TextInputLayout.END_ICON_CLEAR_TEXT
-import com.google.android.material.textfield.TextInputLayout.END_ICON_NONE
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import ru.practicum.android.diploma.R
 import ru.practicum.android.diploma.databinding.FragmentFilterBinding
 import ru.practicum.android.diploma.domain.filter.models.FilterParams
 import ru.practicum.android.diploma.presentation.filter.FilterScreenState
 import ru.practicum.android.diploma.presentation.filter.FilterViewModel
+import ru.practicum.android.diploma.util.gone
 
 class FilterFragment : Fragment() {
 
@@ -110,17 +109,29 @@ class FilterFragment : Fragment() {
         }
 
         binding.salaryEnter.doOnTextChanged { text, _, _, _ ->
-            val currentSalaryText = text?.toString() ?: ""
+            val currentSalaryText = text?.toString().orEmpty()
 
-            if (currentSalaryText.isNotEmpty()) {
-                binding.salary.endIconMode = END_ICON_CLEAR_TEXT
-                binding.salary.setEndIconDrawable(R.drawable.ic_clear)
-            } else {
-                binding.salary.endIconMode = END_ICON_NONE
-                binding.salary.endIconDrawable = null
-            }
+            binding.clearSalaryButton.isVisible = currentSalaryText.isNotEmpty()
 
             if (currentSalaryText != initSalary) viewModel.saveSalaryToStorage(currentSalaryText)
+        }
+
+        binding.salaryEnter.onFocusChangeListener = View.OnFocusChangeListener { _, hasFocus ->
+            binding.hintTitle.setTextColor(
+                if (hasFocus) {
+                    resources.getColor(R.color.blue, null)
+                } else {
+                    resources.getColor(R.color.salary_hint_color, null)
+                }
+            )
+        }
+
+        binding.clearSalaryButton.setOnClickListener {
+            binding.salaryEnter.text?.clear()
+            binding.salaryEnter.clearFocus()
+            binding.clearSalaryButton.gone()
+            hideKeyboard()
+            viewModel.saveSalaryToStorage("")
         }
     }
 
