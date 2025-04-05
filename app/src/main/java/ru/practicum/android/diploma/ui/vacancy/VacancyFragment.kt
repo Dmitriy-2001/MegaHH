@@ -9,6 +9,10 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.bumptech.glide.Glide
+import com.bumptech.glide.load.MultiTransformation
+import com.bumptech.glide.load.resource.bitmap.CenterCrop
+import com.bumptech.glide.load.resource.bitmap.RoundedCorners
+import com.bumptech.glide.request.RequestOptions
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import org.koin.core.parameter.parametersOf
 import ru.practicum.android.diploma.R
@@ -16,8 +20,11 @@ import ru.practicum.android.diploma.databinding.FragmentVacancyBinding
 import ru.practicum.android.diploma.domain.search.models.VacancyModel
 import ru.practicum.android.diploma.presentation.vacancy.VacancyState
 import ru.practicum.android.diploma.presentation.vacancy.VacancyViewModel
+import ru.practicum.android.diploma.util.dpToPx
 import ru.practicum.android.diploma.util.gone
 import ru.practicum.android.diploma.util.show
+
+private const val CORNER_RADIUS_DP = 12f
 
 class VacancyFragment : Fragment() {
     private var _binding: FragmentVacancyBinding? = null
@@ -94,9 +101,20 @@ class VacancyFragment : Fragment() {
         companyName.text = state.data.employer
         companyCity.text = state.data.city
 
+        val cornerRadiusPx = dpToPx(CORNER_RADIUS_DP, requireContext())
+
         Glide.with(this@VacancyFragment)
             .load(state.data.logoUrl)
             .placeholder(R.drawable.placeholder_rv)
+            .apply(
+                RequestOptions()
+                    .transform(
+                        MultiTransformation(
+                            CenterCrop(),
+                            RoundedCorners(cornerRadiusPx)
+                        )
+                    )
+            )
             .into(companyImage)
 
         experience.text = state.data.experience
