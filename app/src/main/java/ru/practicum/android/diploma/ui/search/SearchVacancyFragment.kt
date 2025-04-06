@@ -10,6 +10,7 @@ import android.view.ViewGroup.MarginLayoutParams
 import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputMethodManager
 import android.widget.Toast
+import androidx.core.view.updateLayoutParams
 import androidx.core.widget.doAfterTextChanged
 import androidx.core.widget.doBeforeTextChanged
 import androidx.core.widget.doOnTextChanged
@@ -165,13 +166,13 @@ class SearchVacancyFragment : Fragment() {
         val needToCenteringProgressBar = vacancyAdapter?.itemCount == 0
         if (needToCenteringProgressBar) {
             binding.recyclerViewVacancy.gone()
-            val layoutParams = binding.progressBar.layoutParams as MarginLayoutParams
-            layoutParams.topMargin = CENTER_OF_SCREEN_DP
-            binding.progressBar.layoutParams = layoutParams
+            binding.progressBar.updateLayoutParams<MarginLayoutParams> {
+                topMargin = CENTER_OF_SCREEN_DP
+            }
         } else {
-            val layoutParams = binding.progressBar.layoutParams as MarginLayoutParams
-            layoutParams.topMargin = 0
-            binding.progressBar.layoutParams = layoutParams
+            binding.progressBar.updateLayoutParams<MarginLayoutParams> {
+                topMargin = 0
+            }
         }
         hideAllPlaceholders()
         binding.progressBar.show()
@@ -303,7 +304,6 @@ class SearchVacancyFragment : Fragment() {
 
     private fun setContentState() {
         hideAllPlaceholders()
-        binding.progressBar.gone()
         binding.recyclerViewVacancy.show()
     }
 
