@@ -143,11 +143,12 @@ class SearchVacancyFragment : Fragment() {
             val view = binding.nestedScrollView.getChildAt(0)
             val diff = view.bottom - (binding.nestedScrollView.height + scrollY)
 
-            if (diff <= 0) viewModel.onLastItemReached(query)
+            if (diff <= 0 && binding.searchEditText.text.isNotBlank()) viewModel.onLastItemReached(query)
         }
 
         viewModel.getSearchScreenState().observe(viewLifecycleOwner) { state ->
             when (state) {
+                is SearchScreenState.DefaultEmptyState -> setDefaultEmptyState()
                 is SearchScreenState.Content -> if (!shouldClearOldData) {
                     showVacancies(state.data)
                 } else {
@@ -155,7 +156,6 @@ class SearchVacancyFragment : Fragment() {
                 }
 
                 is SearchScreenState.Loading -> showLoading()
-                is SearchScreenState.DefaultEmptyState -> setDefaultEmptyState()
                 else -> showError(state)
             }
         }
