@@ -223,8 +223,11 @@ class FilterFragment : Fragment() {
         with(binding) {
             industryEditText.setText("")
             workplaceEditText.setText("")
+
             salaryEnter.text?.clear()
+            binding.salaryEnter.clearFocus()
             binding.hintTitle.setTextColor(resources.getColor(R.color.salary_hint_color, null))
+
             hideWithoutSalary.isChecked = false
             setHintAndIconForWorkplaceText("")
             setHintAndIconForIndustryText("")
