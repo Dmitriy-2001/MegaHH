@@ -196,6 +196,7 @@ class SearchVacancyFragment : Fragment() {
     }
 
     private fun showError(state: SearchScreenState) {
+        binding.progressBar.gone()
         if (vacancyAdapter?.itemCount != 0) {
             Toast.makeText(
                 context,
