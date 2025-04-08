@@ -102,6 +102,7 @@ class FilterFragment : Fragment() {
             if (actionId == EditorInfo.IME_ACTION_DONE) {
                 hideKeyboard()
                 binding.salaryEnter.clearFocus()
+                checkIfSalaryIsNotEmptyAndChangeHintColor()
                 true
             } else {
                 false
@@ -112,10 +113,6 @@ class FilterFragment : Fragment() {
             val currentSalaryText = text?.toString().orEmpty()
             checkClearButtonVisibility(currentSalaryText)
             if (currentSalaryText != initSalary) viewModel.saveSalaryToStorage(currentSalaryText)
-
-            if (currentSalaryText.isNotEmpty()) {
-                binding.hintTitle.setTextColor(resources.getColor(R.color.black, null))
-            }
         }
 
         binding.salaryEnter.setOnFocusChangeListener { _, hasFocus ->
@@ -139,6 +136,12 @@ class FilterFragment : Fragment() {
 
     private fun checkClearButtonVisibility(text: String) {
         binding.clearSalaryButton.isVisible = text.isNotEmpty() && binding.salaryEnter.hasFocus()
+    }
+
+    private fun checkIfSalaryIsNotEmptyAndChangeHintColor() {
+        if (binding.salaryEnter.text.isNotEmpty()) {
+            binding.hintTitle.setTextColor(resources.getColor(R.color.black, null))
+        }
     }
 
     private fun hideKeyboard() {
@@ -195,6 +198,7 @@ class FilterFragment : Fragment() {
         setHintAndIconForWorkplaceText(workplaceText)
 
         binding.salaryEnter.setText(filterParams.salary ?: "")
+        checkIfSalaryIsNotEmptyAndChangeHintColor()
         binding.hideWithoutSalary.isChecked = filterParams.doNotShowWithoutSalary ?: false
     }
 

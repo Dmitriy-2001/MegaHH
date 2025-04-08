@@ -119,7 +119,6 @@ class IndustryFragment : Fragment() {
             else -> {}
         }
 
-
     private fun showContent(industries: List<FilterParam>) {
         binding.progressBar.gone()
         binding.industryList.show()
