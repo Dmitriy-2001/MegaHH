@@ -74,7 +74,7 @@ class IndustryFragment : Fragment() {
         setupToolbar()
 
         viewModel.selectedIndustry.observe(viewLifecycleOwner) { selectedIndustry ->
-            adapter?.items?.let {
+            adapter?.itemsForAll?.let {
                 adapter?.updateItems(
                     it,
                     selectedIndustry
@@ -111,21 +111,52 @@ class IndustryFragment : Fragment() {
         }
     }
 
-    private fun showError(screenState: IndustryScreenState) {
-        binding.industryList.gone()
+    private fun showError(screenState: IndustryScreenState) =
         when (screenState) {
-            is IndustryScreenState.Error -> binding.placeholderEmptyList.root.show()
-            is IndustryScreenState.NoInternet -> binding.placeholderNoInternet.root.show()
-            is IndustryScreenState.NothingFound -> binding.placeholderNotFound.root.show()
+            is IndustryScreenState.NoInternet -> setNoInternetState()
+            is IndustryScreenState.Error -> setServerErrorState()
+            is IndustryScreenState.NothingFound -> setNothingFoundState()
             else -> {}
         }
-    }
 
     private fun showContent(industries: List<FilterParam>) {
         binding.progressBar.gone()
         binding.industryList.show()
         adapter?.updateItems(industries, viewModel.selectedIndustry.value)
         adapter?.notifyDataSetChanged()
+    }
+
+    private fun setServerErrorState() {
+        listOf(
+            binding.searchContainer,
+            binding.progressBar,
+            binding.industryList,
+            binding.placeholderNotFound.root,
+            binding.placeholderNoInternet.root,
+        ).gone()
+        binding.placeholderEmptyList.root.show()
+    }
+
+    private fun setNoInternetState() {
+        listOf(
+            binding.searchContainer,
+            binding.progressBar,
+            binding.industryList,
+            binding.placeholderEmptyList.root,
+            binding.placeholderNotFound.root,
+        ).gone()
+        binding.placeholderNoInternet.root.show()
+    }
+
+    private fun setNothingFoundState() {
+        listOf(
+            binding.searchContainer,
+            binding.progressBar,
+            binding.industryList,
+            binding.placeholderEmptyList.root,
+            binding.placeholderNoInternet.root,
+        ).gone()
+        binding.placeholderNotFound.root.show()
     }
 
     private fun onIndustrySelected(industry: FilterParam) {

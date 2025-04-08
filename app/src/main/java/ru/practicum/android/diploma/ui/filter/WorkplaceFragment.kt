@@ -32,6 +32,14 @@ class WorkplaceFragment : Fragment() {
         binding.toolbar.setOnClickListener { findNavController().navigateUp() }
         binding.chooseButton.setOnClickListener { findNavController().navigateUp() }
 
+        binding.regionClickOverlay.setOnClickListener {
+            openRegion()
+        }
+
+        binding.countryClickOverlay.setOnClickListener {
+            openCountry()
+        }
+
         viewModel.getRegionFilter().observe(viewLifecycleOwner) { region ->
             val isEmpty = region.isEmpty()
             setColorForHint(requireContext(), binding.regionInputLayout, isEmpty)

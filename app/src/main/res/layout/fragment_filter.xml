@@ -38,6 +38,14 @@
                 style="@style/TextInputEditTextStyle" />
         </com.google.android.material.textfield.TextInputLayout>
 
+        <View
+            android:id="@+id/workplaceClickOverlay"
+            style="@style/click_overlay"
+            app:layout_constraintBottom_toBottomOf="@id/workplaceInputLayout"
+            app:layout_constraintEnd_toEndOf="@id/workplaceInputLayout"
+            app:layout_constraintStart_toStartOf="@id/workplaceInputLayout"
+            app:layout_constraintTop_toTopOf="@id/workplaceInputLayout" />
+
         <ImageButton
             android:id="@+id/workplaceIcon"
             style="@style/FilterImageButton"
@@ -66,6 +74,14 @@
                 style="@style/TextInputEditTextStyle" />
         </com.google.android.material.textfield.TextInputLayout>
 
+        <View
+            android:id="@+id/industryClickOverlay"
+            style="@style/click_overlay"
+            app:layout_constraintBottom_toBottomOf="@id/industryInputLayout"
+            app:layout_constraintEnd_toEndOf="@id/industryInputLayout"
+            app:layout_constraintStart_toStartOf="@id/industryInputLayout"
+            app:layout_constraintTop_toTopOf="@id/industryInputLayout" />
+
         <ImageButton
             android:id="@+id/industryIcon"
             style="@style/FilterImageButton"
@@ -74,31 +90,50 @@
             app:layout_constraintTop_toTopOf="parent" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
-    <com.google.android.material.textfield.TextInputLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/salary"
-        style="@style/filter_salary"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
+        android:layout_height="wrap_content"
         android:layout_marginHorizontal="@dimen/sixteen"
         android:layout_marginTop="@dimen/twenty_four"
-        android:hint="@string/expected_salary"
-        android:textColorHint="?attr/colorOnSurface"
-        app:boxBackgroundMode="filled"
-        app:endIconTint="@color/black"
-        app:expandedHintEnabled="false"
-        app:hintTextColor="@color/blue"
+        android:background="@drawable/bg_search_field"
+        android:orientation="vertical"
+        android:paddingVertical="@dimen/eight"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/industryLayout">
 
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/salary_enter"
+        <TextView
+            android:id="@+id/hint_title"
+            style="@style/hint_title_style"
+            android:text="@string/expected_salary"
+            app:layout_constraintBottom_toTopOf="@id/salaryEnter"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <EditText
+            android:id="@+id/salaryEnter"
             style="@style/filter_salary_edit_text"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
             android:hint="@string/enter_amount"
-            android:textColor="@color/black"
-            android:textColorHint="?attr/colorOnSurface" />
-    </com.google.android.material.textfield.TextInputLayout>
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/clear_salary_button"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/hint_title" />
+
+        <ImageView
+            android:id="@+id/clear_salary_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/twelve"
+            android:backgroundTint="@color/light_gray"
+            android:src="@drawable/ic_clear"
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/salaryEnter"
+            app:layout_constraintTop_toTopOf="parent" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
     <CheckedTextView
         android:id="@+id/hide_without_salary"
@@ -118,20 +153,22 @@
         app:layout_constraintTop_toBottomOf="@id/salary" />
 
     <!-- Кнопки -->
-    <Button
+    <com.google.android.material.button.MaterialButton
         android:id="@+id/apply_filters"
+        style="@style/Widget.Diploma.PrimaryButton"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/sixteen"
-        android:layout_marginEnd="@dimen/sixteen"
+        android:layout_height="@dimen/fifty_six"
+        android:layout_marginHorizontal="@dimen/sixteen"
         android:layout_marginBottom="@dimen/eight"
-        android:backgroundTint="@color/blue"
-        android:paddingHorizontal="@dimen/eight"
-        android:paddingVertical="@dimen/twenty"
+        android:gravity="center"
+        android:insetTop="@dimen/zero"
+        android:insetBottom="@dimen/zero"
         android:text="@string/apply"
-        android:textColor="@color/white"
+        android:textAllCaps="false"
         android:visibility="gone"
-        app:layout_constraintBottom_toTopOf="@id/reset_filters" />
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/reset_filters"
+        app:layout_constraintEnd_toEndOf="parent" />
 
     <Button
         android:id="@+id/reset_filters"

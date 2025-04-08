@@ -63,14 +63,14 @@ data class WorkFormat(
 )
 
 enum class Currency(val symbol: String) {
-    AZN("₼"),
-    BYR("Br"),
-    EUR("€"),
-    GEL("₾"),
-    KGS("с"),
-    KZT("₸"),
-    RUR("₽"),
-    UAH("₴"),
-    USD("$"),
-    UZS("лв")
+    AZN(" ₼"),
+    BYR(" Br"),
+    EUR(" €"),
+    GEL(" ₾"),
+    KGS(" с"),
+    KZT(" ₸"),
+    RUR(" ₽"),
+    UAH(" ₴"),
+    USD(" $"),
+    UZS(" лв")
 }

@@ -36,7 +36,7 @@ class FilterRepositoryImpl(
             .also { filterStorage.putFilterParams(it) }
     }
 
-    override fun isFilterEmpty() = filterStorage.getFilterParams() == FilterParams()
+    override fun isFilterEmpty() = filterStorage.getFilterParams() == FilterParams.Empty
 
     override fun getFilterParametersFromStorage(): FilterParams = filterStorage.getFilterParams()
     override fun resetFilters() = filterStorage.removeFilterParams()

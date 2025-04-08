@@ -15,7 +15,7 @@
         android:id="@+id/tv_option_name"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_weight="@dimen/one"
+        android:layout_weight="@dimen/one_integer"
         android:fontFamily="@font/ys_regular"
         android:text="@string/russia"
         android:textSize="@dimen/medium_text"

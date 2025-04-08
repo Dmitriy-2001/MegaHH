@@ -1,5 +1,7 @@
 package ru.practicum.android.diploma.data.search.network.utils
 
+import android.content.Context
+import ru.practicum.android.diploma.R
 import ru.practicum.android.diploma.data.filter.dto.CountryDto
 import ru.practicum.android.diploma.data.filter.dto.RegionDto
 import ru.practicum.android.diploma.data.search.dto.Salary
@@ -17,7 +19,7 @@ import java.util.Locale
 object Convertor {
     private const val hhLink = "https://hh.ru/vacancy"
 
-    fun SearchVacanciesResponse.convertToModel() = VacanciesModel(
+    fun SearchVacanciesResponse.convertToModel(context: Context) = VacanciesModel(
         pages = this.pages,
         itemsCount = this.found,
         currentPage = this.page,
@@ -28,7 +30,7 @@ object Convertor {
                 employer = it.employer.name,
                 logoUrl = it.employer.logoUrls?.url240,
                 city = it.area.name,
-                salary = getSalaryString(it.salary),
+                salary = getSalaryString(it.salary, context),
                 description = it.description ?: "",
                 employmentForm = it.employment?.name,
                 experience = it.experience.name,
@@ -39,13 +41,13 @@ object Convertor {
         }
     )
 
-    fun GetVacancyDetailsResponse.convertToModel() = VacancyModel(
+    fun GetVacancyDetailsResponse.convertToModel(context: Context) = VacancyModel(
         id = this.id,
         name = this.name,
         employer = this.employer.name,
         logoUrl = this.employer.logoUrls?.url240,
         city = this.area.name,
-        salary = getSalaryString(this.salary),
+        salary = getSalaryString(this.salary, context),
         description = this.description,
         employmentForm = this.employment?.name,
         experience = this.experience.name,
@@ -76,10 +78,19 @@ object Convertor {
         name = this.name
     )
 
-    private fun getSalaryString(salary: Salary?) = buildString {
-        salary?.from?.let { append("от ${formatSalary(it)} ") }
-        salary?.to?.let { append("до ${formatSalary(it)}") }
-        if (isEmpty()) append("Зарплата не указана") else append(" ${salary?.currency?.symbol}")
+    private fun getSalaryString(salary: Salary?, context: Context) = buildString {
+        salary?.from?.let { append(context.getString(R.string.salary_from, formatSalary(it))) }
+        salary?.to?.let { append(" " + context.getString(R.string.salary_to, formatSalary(it))) }
+        if (isEmpty()) {
+            append(context.getString(R.string.salary_not_specified))
+        } else {
+            append(
+                context.getString(
+                    R.string.salary_currency,
+                    salary?.currency?.symbol
+                )
+            )
+        }
     }
 
     private fun formatSalary(salary: Int): String {

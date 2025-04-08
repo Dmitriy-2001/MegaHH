@@ -6,7 +6,11 @@ data class FilterParams(
     val industry: FilterParam? = null,
     val salary: String? = null,
     val doNotShowWithoutSalary: Boolean? = null
-)
+) {
+    companion object {
+        val Empty = FilterParams()
+    }
+}
 
 data class FilterParam(
     val id: String,

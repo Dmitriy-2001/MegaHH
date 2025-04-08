@@ -1,5 +1,6 @@
 package ru.practicum.android.diploma.data.search.impl
 
+import android.content.Context
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 import ru.practicum.android.diploma.data.search.dto.request.GetVacancyDetailsRequest
@@ -15,7 +16,8 @@ import ru.practicum.android.diploma.domain.search.api.VacanciesRepository
 import ru.practicum.android.diploma.domain.search.models.VacanciesModel
 import ru.practicum.android.diploma.domain.search.models.VacancyModel
 
-class VacanciesRepositoryImpl(private val networkClient: NetworkClient) : VacanciesRepository {
+class VacanciesRepositoryImpl(private val networkClient: NetworkClient, private val context: Context) :
+    VacanciesRepository {
     override fun searchVacancies(text: String, page: Int?, filter: FilterParams?): Flow<Resource<VacanciesModel>> =
         networkClient.doRequest<SearchVacanciesRequest, SearchVacanciesResponse>(
             SearchVacanciesRequest(
@@ -23,12 +25,12 @@ class VacanciesRepositoryImpl(private val networkClient: NetworkClient) : Vacanc
                 page = page,
                 filter = filter?.convertToMap() ?: mapOf()
             )
-        ).mapResource { it.convertToModel() }
+        ).mapResource { it.convertToModel(context) }
 
     override fun getVacancyDetailsById(id: String): Flow<Resource<VacancyModel>> =
         networkClient.doRequest<GetVacancyDetailsRequest, GetVacancyDetailsResponse>(GetVacancyDetailsRequest(id))
             .mapResource {
-                it.convertToModel()
+                it.convertToModel(context)
             }
 
     private inline fun <R, reified T> NetworkClient.doRequest(dto: R): Flow<Resource<T>> {
