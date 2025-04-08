@@ -110,20 +110,22 @@ class FilterFragment : Fragment() {
 
         binding.salaryEnter.doOnTextChanged { text, _, _, _ ->
             val currentSalaryText = text?.toString().orEmpty()
-
-            binding.clearSalaryButton.isVisible = currentSalaryText.isNotEmpty()
-
+            checkClearButtonVisibility(currentSalaryText)
             if (currentSalaryText != initSalary) viewModel.saveSalaryToStorage(currentSalaryText)
+
+            if (currentSalaryText.isNotEmpty()) {
+                binding.hintTitle.setTextColor(resources.getColor(R.color.black, null))
+            }
         }
 
-        binding.salaryEnter.onFocusChangeListener = View.OnFocusChangeListener { _, hasFocus ->
-            binding.hintTitle.setTextColor(
-                if (hasFocus) {
-                    resources.getColor(R.color.blue, null)
-                } else {
-                    resources.getColor(R.color.salary_hint_color, null)
-                }
-            )
+        binding.salaryEnter.setOnFocusChangeListener { _, hasFocus ->
+            val colorRes = when {
+                hasFocus -> R.color.blue
+                binding.salaryEnter.text.isNotEmpty() -> R.color.black
+                else -> R.color.salary_hint_color
+            }
+            binding.hintTitle.setTextColor(resources.getColor(colorRes, null))
+            checkClearButtonVisibility(binding.salaryEnter.text.toString())
         }
 
         binding.clearSalaryButton.setOnClickListener {
@@ -133,6 +135,10 @@ class FilterFragment : Fragment() {
             hideKeyboard()
             viewModel.saveSalaryToStorage("")
         }
+    }
+
+    private fun checkClearButtonVisibility(text: String) {
+        binding.clearSalaryButton.isVisible = text.isNotEmpty() && binding.salaryEnter.hasFocus()
     }
 
     private fun hideKeyboard() {
@@ -217,7 +223,11 @@ class FilterFragment : Fragment() {
         with(binding) {
             industryEditText.setText("")
             workplaceEditText.setText("")
+
             salaryEnter.text?.clear()
+            binding.salaryEnter.clearFocus()
+            binding.hintTitle.setTextColor(resources.getColor(R.color.salary_hint_color, null))
+
             hideWithoutSalary.isChecked = false
             setHintAndIconForWorkplaceText("")
             setHintAndIconForIndustryText("")
