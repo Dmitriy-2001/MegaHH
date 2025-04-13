@@ -60,6 +60,9 @@ class VacancyViewModel(
                                 favoriteVacanciesInteractor.getVacancyFavoriteById(vacancyId).firstOrNull()
                                     ?.let { localVacancy ->
                                         checkFavoriteStatus(vacancyId)
+                                        _isKeySkillsTitleVisible.value = localVacancy.keySkills.isNotEmpty()
+                                        formatKeySkills(localVacancy.keySkills)
+                                        formatDescription(localVacancy.description)
                                         VacancyState.Content(localVacancy)
                                     } ?: VacancyState.NoInternet
                             }
