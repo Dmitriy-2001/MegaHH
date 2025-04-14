@@ -1,17 +1,16 @@
 package ru.practicum.android.diploma.ui.search
 
 import android.content.Context
-import android.graphics.Rect
 import android.os.Bundle
 import android.view.KeyEvent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.ViewGroup.MarginLayoutParams
-import android.view.ViewTreeObserver
 import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputMethodManager
 import android.widget.Toast
+import androidx.core.view.updateLayoutParams
 import androidx.core.widget.doAfterTextChanged
 import androidx.core.widget.doBeforeTextChanged
 import androidx.core.widget.doOnTextChanged
@@ -41,8 +40,6 @@ class SearchVacancyFragment : Fragment() {
     private var debouncer: Debouncer? = null
 
     private var vacancyAdapter: VacancyAdapter? = null
-    private var isKeyboardVisible = false
-    private var keyboardListener: ViewTreeObserver.OnGlobalLayoutListener? = null
 
     private var query = ""
 
@@ -71,8 +68,6 @@ class SearchVacancyFragment : Fragment() {
             }
         }
 
-        observeKeyboardVisibility()
-
         binding.parameters.setOnClickListener {
             openFilter()
         }
@@ -82,6 +77,7 @@ class SearchVacancyFragment : Fragment() {
         binding.searchOrClearIcon.setOnClickListener {
             if (binding.searchEditText.text.isNotBlank()) {
                 binding.searchEditText.text.clear()
+                query = ""
                 viewModel.clearSearchQuery()
             }
         }
@@ -103,8 +99,8 @@ class SearchVacancyFragment : Fragment() {
                 updateSearchIcon(queryString)
 
                 when {
-                    queryString.isNotBlank() && query != queryString -> debouncer?.debounce {
-                        if (binding.searchEditText.text.toString().isNotBlank()) {
+                    queryString.isNotBlank() -> debouncer?.debounce {
+                        if (binding.searchEditText.text.toString().isNotBlank() && query != queryString) {
                             query = queryString
                             startSearch()
                         }
@@ -147,11 +143,12 @@ class SearchVacancyFragment : Fragment() {
             val view = binding.nestedScrollView.getChildAt(0)
             val diff = view.bottom - (binding.nestedScrollView.height + scrollY)
 
-            if (diff <= 0) viewModel.onLastItemReached(query)
+            if (diff <= 0 && binding.searchEditText.text.isNotBlank()) viewModel.onLastItemReached(query)
         }
 
         viewModel.getSearchScreenState().observe(viewLifecycleOwner) { state ->
             when (state) {
+                is SearchScreenState.DefaultEmptyState -> setDefaultEmptyState()
                 is SearchScreenState.Content -> if (!shouldClearOldData) {
                     showVacancies(state.data)
                 } else {
@@ -159,7 +156,6 @@ class SearchVacancyFragment : Fragment() {
                 }
 
                 is SearchScreenState.Loading -> showLoading()
-                is SearchScreenState.DefaultEmptyState -> setDefaultEmptyState()
                 else -> showError(state)
             }
         }
@@ -170,13 +166,13 @@ class SearchVacancyFragment : Fragment() {
         val needToCenteringProgressBar = vacancyAdapter?.itemCount == 0
         if (needToCenteringProgressBar) {
             binding.recyclerViewVacancy.gone()
-            val layoutParams = binding.progressBar.layoutParams as MarginLayoutParams
-            layoutParams.topMargin = CENTER_OF_SCREEN_DP
-            binding.progressBar.layoutParams = layoutParams
+            binding.progressBar.updateLayoutParams<MarginLayoutParams> {
+                topMargin = CENTER_OF_SCREEN_DP
+            }
         } else {
-            val layoutParams = binding.progressBar.layoutParams as MarginLayoutParams
-            layoutParams.topMargin = 0
-            binding.progressBar.layoutParams = layoutParams
+            binding.progressBar.updateLayoutParams<MarginLayoutParams> {
+                topMargin = 0
+            }
         }
         hideAllPlaceholders()
         binding.progressBar.show()
@@ -191,7 +187,8 @@ class SearchVacancyFragment : Fragment() {
         val vacanciesCount = vacanciesModel.itemsCount
 
         if (vacanciesCount != 0) {
-            showCountNotification(message = "Найдено $vacanciesCount вакансий")
+            val message = requireContext().getString(R.string.vacancies_count_found, vacanciesCount)
+            showCountNotification(message = message)
             setContentState()
         } else {
             setNothingFoundState()
@@ -199,6 +196,7 @@ class SearchVacancyFragment : Fragment() {
     }
 
     private fun showError(state: SearchScreenState) {
+        binding.progressBar.gone()
         if (vacancyAdapter?.itemCount != 0) {
             Toast.makeText(
                 context,
@@ -295,7 +293,7 @@ class SearchVacancyFragment : Fragment() {
 
     private fun setNothingFoundState() {
         hideVacancies()
-        showCountNotification(message = "Таких вакансий нет")
+        showCountNotification(message = resources.getString(R.string.vacancies_no_such))
         listOf(
             binding.progressBar,
             binding.placeholderNotSearched,
@@ -307,7 +305,6 @@ class SearchVacancyFragment : Fragment() {
 
     private fun setContentState() {
         hideAllPlaceholders()
-        binding.progressBar.gone()
         binding.recyclerViewVacancy.show()
     }
 
@@ -316,35 +313,6 @@ class SearchVacancyFragment : Fragment() {
         val inputMethodManager =
             requireContext().getSystemService(Context.INPUT_METHOD_SERVICE) as? InputMethodManager
         inputMethodManager?.hideSoftInputFromWindow(binding.searchEditText.windowToken, 0)
-    }
-
-    private fun observeKeyboardVisibility() {
-        keyboardListener = ViewTreeObserver.OnGlobalLayoutListener {
-            _binding?.let { safeBinding ->
-                val rect = Rect()
-                safeBinding.root.getWindowVisibleDisplayFrame(rect)
-                val screenHeight = safeBinding.root.rootView.height
-                val keypadHeight = screenHeight - rect.bottom
-
-                val keyboardNowVisible = keypadHeight > screenHeight * KEYBOARD_THRESHOLD_RATIO
-                if (keyboardNowVisible != isKeyboardVisible) {
-                    isKeyboardVisible = keyboardNowVisible
-
-                    val bottomNav = requireActivity().findViewById<View>(R.id.bottomNavigationView)
-                    val bottomNavDivider = requireActivity().findViewById<View>(R.id.bottomNavDivider)
-
-                    if (isKeyboardVisible) {
-                        bottomNav.gone()
-                        bottomNavDivider.gone()
-                    } else {
-                        bottomNav.show()
-                        bottomNavDivider.show()
-                    }
-                }
-            }
-        }
-
-        binding.root.viewTreeObserver.addOnGlobalLayoutListener(keyboardListener)
     }
 
     // Навигация
@@ -358,25 +326,18 @@ class SearchVacancyFragment : Fragment() {
         findNavController().navigate(directions)
     }
 
-    // Методы фрагмента
-    override fun onDestroyView() {
-        super.onDestroyView()
-
-        keyboardListener?.let {
-            _binding?.root?.viewTreeObserver?.removeOnGlobalLayoutListener(it)
-        }
-        keyboardListener = null
-        _binding = null
-    }
-
     override fun onResume() {
         super.onResume()
         viewModel.updateFilters()
     }
 
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
+    }
+
     companion object {
         private const val DEBOUNCE_DELAY_MS = 2000L
-        private const val KEYBOARD_THRESHOLD_RATIO = 0.15
         private const val CENTER_OF_SCREEN_DP = 700
         private const val COUNT_OF_VACANCIES = 10
     }

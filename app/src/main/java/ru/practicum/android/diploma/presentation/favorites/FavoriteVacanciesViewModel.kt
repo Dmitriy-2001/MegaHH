@@ -20,8 +20,8 @@ class FavoriteVacanciesViewModel(
         loadFavorites()
     }
 
-    fun loadFavorites() {
-        _favoriteVacancyState.value = FavoriteVacancyState.Loading
+    fun loadFavorites(silent: Boolean = false) {
+        if (!silent) _favoriteVacancyState.value = FavoriteVacancyState.Loading
         viewModelScope.launch {
             favoriteVacanciesInteractor.getVacanciesFavorite().catch {
                 _favoriteVacancyState.postValue(FavoriteVacancyState.Error)

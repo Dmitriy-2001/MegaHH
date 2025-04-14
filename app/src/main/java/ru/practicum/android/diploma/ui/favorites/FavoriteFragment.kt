@@ -90,6 +90,6 @@ class FavoriteFragment : Fragment() {
 
     override fun onResume() {
         super.onResume()
-        viewModel.loadFavorites()
+        viewModel.loadFavorites(silent = true)
     }
 }
