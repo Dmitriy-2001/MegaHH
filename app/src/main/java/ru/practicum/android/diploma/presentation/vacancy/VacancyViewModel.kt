@@ -49,7 +49,7 @@ class VacancyViewModel(
                         is Resource.Success -> {
                             checkFavoriteStatus(resource.data.id)
                             _isKeySkillsTitleVisible.value = resource.data.keySkills.isNotEmpty()
-                            formatKeySkills(resource.data.keySkills)
+                            if (resource.data.keySkills.isNotEmpty()) formatKeySkills(resource.data.keySkills)
                             formatDescription(resource.data.description)
                             VacancyState.Content(resource.data)
                         }
@@ -61,7 +61,7 @@ class VacancyViewModel(
                                     ?.let { localVacancy ->
                                         checkFavoriteStatus(vacancyId)
                                         _isKeySkillsTitleVisible.value = localVacancy.keySkills.isNotEmpty()
-                                        formatKeySkills(localVacancy.keySkills)
+                                        if (localVacancy.keySkills.isNotEmpty()) formatKeySkills(localVacancy.keySkills)
                                         formatDescription(localVacancy.description)
                                         VacancyState.Content(localVacancy)
                                     } ?: VacancyState.NoInternet
