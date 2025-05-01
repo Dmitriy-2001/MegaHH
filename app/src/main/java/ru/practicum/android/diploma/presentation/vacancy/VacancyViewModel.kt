@@ -12,6 +12,7 @@ import ru.practicum.android.diploma.domain.favorites.api.FavoriteVacanciesIntera
 import ru.practicum.android.diploma.domain.search.ErrorType
 import ru.practicum.android.diploma.domain.search.Resource
 import ru.practicum.android.diploma.domain.search.api.VacanciesInteractor
+import ru.practicum.android.diploma.domain.search.models.VacancyModel
 
 class VacancyViewModel(
     private val vacancyId: String,
@@ -44,35 +45,39 @@ class VacancyViewModel(
         viewModelScope.launch {
             vacancyState.postValue(VacancyState.Loading)
             vacancyInteractor.getVacancyById(vacancyId).collect { resource ->
-                vacancyState.postValue(
-                    when (resource) {
-                        is Resource.Success -> {
-                            checkFavoriteStatus(resource.data.id)
-                            _isKeySkillsTitleVisible.value = resource.data.keySkills.isNotEmpty()
-                            if (resource.data.keySkills.isNotEmpty()) formatKeySkills(resource.data.keySkills)
-                            formatDescription(resource.data.description)
-                            VacancyState.Content(resource.data)
-                        }
-
-                        is Resource.Error -> when (resource.errorType) {
-                            ErrorType.NOT_FOUND -> VacancyState.NothingFound
-                            ErrorType.NO_INTERNET -> {
-                                favoriteVacanciesInteractor.getVacancyFavoriteById(vacancyId).firstOrNull()
-                                    ?.let { localVacancy ->
-                                        checkFavoriteStatus(vacancyId)
-                                        _isKeySkillsTitleVisible.value = localVacancy.keySkills.isNotEmpty()
-                                        if (localVacancy.keySkills.isNotEmpty()) formatKeySkills(localVacancy.keySkills)
-                                        formatDescription(localVacancy.description)
-                                        VacancyState.Content(localVacancy)
-                                    } ?: VacancyState.NoInternet
-                            }
-
-                            else -> VacancyState.ServerError
-                        }
-                    }
-                )
+                processVacancy(resource)
             }
         }
+    }
+
+    private suspend fun processVacancy(resource: Resource<VacancyModel>) {
+        vacancyState.postValue(
+            when (resource) {
+                is Resource.Success -> {
+                    checkFavoriteStatus(resource.data.id)
+                    _isKeySkillsTitleVisible.value = resource.data.keySkills.isNotEmpty()
+                    if (resource.data.keySkills.isNotEmpty()) formatKeySkills(resource.data.keySkills)
+                    formatDescription(resource.data.description)
+                    VacancyState.Content(resource.data)
+                }
+
+                is Resource.Error -> when (resource.errorType) {
+                    ErrorType.NOT_FOUND -> VacancyState.NothingFound
+                    ErrorType.NO_INTERNET -> {
+                        favoriteVacanciesInteractor.getVacancyFavoriteById(vacancyId).firstOrNull()
+                            ?.let { localVacancy ->
+                                checkFavoriteStatus(vacancyId)
+                                _isKeySkillsTitleVisible.value = localVacancy.keySkills.isNotEmpty()
+                                if (localVacancy.keySkills.isNotEmpty()) formatKeySkills(localVacancy.keySkills)
+                                formatDescription(localVacancy.description)
+                                VacancyState.Content(localVacancy)
+                            } ?: VacancyState.NoInternet
+                    }
+
+                    else -> VacancyState.ServerError
+                }
+            }
+        )
     }
 
     private fun formatDescription(description: String) {
