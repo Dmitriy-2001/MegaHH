@@ -30,7 +30,7 @@ class IndustryViewModel(
         getIndustry()
     }
 
-    fun getIndustry() {
+    private fun getIndustry() {
         _state.value = IndustryScreenState.Loading
         viewModelScope.launch {
             filterDictionaryInteractor.getIndustries()
@@ -70,6 +70,8 @@ class IndustryViewModel(
         } else {
             allIndustries.filter { it.name.contains(query, ignoreCase = true) }
         }
+        val selectedInFilteredList = filteredList.find { it.id == tempSelectedIndustry?.id }
         _state.postValue(IndustryScreenState.Content(filteredList))
+        _selectedIndustry.postValue(selectedInFilteredList)
     }
 }
